@@ -1,22 +1,22 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { createClient } from "redis";
+import { RedisChronicleRepository } from "./infrastructure/redis_repository.js";
+import { TITANHandlers } from "./presentation/handlers.js";
 
-// 1. Inicializar TITAN MCP Server
+// 1. Initialize TITAN Architecture Layers
+const repository = new RedisChronicleRepository();
+await repository.connect();
+const handlers = new TITANHandlers(repository);
+
 const server = new Server({
-  name: "Prometeo-TITAN-MCP",
+  name: "Prometeo-TITAN-MCP-v4-TS",
   version: "4.0.0"
 }, {
   capabilities: { tools: {} }
 });
 
-// 2. Conectar a ChronicleKeeper (Redis en Docker)
-const redisClient = createClient({ url: 'redis://localhost:6379' });
-redisClient.on('error', err => console.error('❌ Redis Error:', err));
-await redisClient.connect();
-
-// 3. Registrar las Herramientas (Tools) de TITAN
+// 2. Register TITAN Tools Blueprint
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
@@ -63,39 +63,32 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   };
 });
 
-// 4. Lógica de Ejecución de Herramientas
+// 3. Command Dispatching with Port/Adapter Logic
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
   try {
-    if (name === "nexus_check_health") {
-      const ping = await redisClient.ping();
-      return { content: [{ type: "text", text: `✅ TITAN STATUS: NOMINAL. Redis: ${ping}.` }] };
-    } 
-    
-    else if (name === "nexus_remember") {
-      await redisClient.set(args.key, args.value);
-      return { content: [{ type: "text", text: `🧠 Memoria cristalizada: [${args.key}] guardado exitosamente.` }] };
-    } 
-    
-    else if (name === "nexus_recall") {
-      const data = await redisClient.get(args.key);
-      if (!data) return { content: [{ type: "text", text: `⚠️ Memoria vacía: No se encontró contexto para [${args.key}].` }] };
-      return { content: [{ type: "text", text: `🧠 Recuerdo extraído: ${data}` }] };
+    switch (name) {
+      case "nexus_check_health":
+        return await handlers.handleHealthCheck();
+      case "nexus_remember":
+        return await handlers.handleRemember(args);
+      case "nexus_recall":
+        return await handlers.handleRecall(args);
+      case "nexus_compare_blueprint":
+        return await handlers.handleCompareBlueprint(args);
+      default:
+        throw new Error(`Tool '${name}' not found`);
     }
-
-    else if (name === "nexus_compare_blueprint") {
-      // Stub para la funcionalidad propuesta en el Whitepaper
-      return { content: [{ type: "text", text: `🔍 TITAN: Validando contra Blueprint '${args.blueprint_name}'. Análisis estructural iniciado.` }] };
-    }
-
-    throw new Error("Tool no encontrada");
-  } catch (error) {
-    return { content: [{ type: "text", text: `❌ Error interno de TITAN: ${error.message}` }] };
+  } catch (error: any) {
+    return {
+      content: [{ type: "text", text: `❌ TITAN Auto-Reparación Violation: ${error.message}` }],
+      isError: true
+    };
   }
 });
 
-// 5. Iniciar la conexión por STDIO (Estándar MCP)
+// 4. Start STDIO Transport
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error("🔥 TITAN MCP Server v4.0 inicializado y conectado a ChronicleKeeper (Redis).");
+console.error("🔥 TITAN MCP (TS Edition) v4.0.0 Online.");
