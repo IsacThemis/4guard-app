@@ -118,6 +118,14 @@ Si en algún momento necesitas verificar exactamente qué habilidades se están 
    python C:\Users\TU_USUARIO\.opencode\antigravity-integration.py read WORKFLOW
    ```
 
+### F. ¿Qué hacer si cambian las reglas del Puente?
+Si el equipo central de TITAN realiza modificaciones en la arquitectura del puente (por ejemplo, si actualizamos el script `sync-skills-to-opencode.ps1` o el archivo `config.yaml` dentro del repositorio), tus colegas solo necesitan hacer esto para estar al día:
+
+1.  Hacer un `git pull` (o descargar la última versión del código fuente) para traer los cambios más recientes.
+2.  Volver a copiar el contenido de la carpeta `Configuracion_OpenCode\.opencode`.
+3.  Pegarlo en su carpeta de usuario de Windows (`C:\Users\TU_USUARIO\`), reemplazando los archivos viejos por los nuevos.
+   *(Nota: Esto no borrará sus configuraciones personales de OpenCode, solo actualizará el motor de sincronización interno).*
+
 ---
 
 ## 🧠 6. El Arsenal de Habilidades (TITAN Skills)
