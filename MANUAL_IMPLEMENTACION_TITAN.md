@@ -10,6 +10,7 @@ TITAN no es solo una carpeta con código, es una arquitectura de gobierno para I
 1.  **El Cerebro (`core`)**: El servidor principal escrito en TypeScript (Clean Architecture) donde TITAN piensa y procesa la información.
 2.  **La Mochila de Habilidades (`skills`)**: Herramientas integradas que TITAN usa para tareas especializadas (leyes, diseño estructural, organización de tareas).
 3.  **El Puente (`.opencode`)**: Un túnel de comunicación que permite a TITAN compartir su inteligencia con IAs externas como OpenCode o Claude Desktop.
+4.  **El Espacio de Trabajo (`proyects`)**: Una carpeta dedicada para alojar y organizar los diferentes proyectos y desarrollos en los que trabaje Prometeo.
 
 ---
 
@@ -147,7 +148,14 @@ Para asegurar que todo se mantenga limpio *(NOMINAL)*, hay comandos que deberás
 
 ---
 
-## 🤝 8. ¿Necesitas Diagnóstico?
+## 📁 8. Espacio de Trabajo: La Carpeta `proyects`
+Para mantener el repositorio del cerebro y los recursos de TITAN libres de ruido, hemos creado la carpeta **`proyects`** en la raíz. 
+
+Todo el trabajo que le pidas a Prometeo TITAN, nuevas aplicaciones, repositorios externos o código que genere para ti, deberá alojarse dentro de esta carpeta. De este modo, mantienes organizado el `core` y los `skills` intactos, facilitando enormemente el aislamiento de entornos.
+
+---
+
+## 🤝 9. ¿Necesitas Diagnóstico?
 Si el sistema deja de responderte o las habilidades no cargan:
 1. Ejecuta de nuevo `Sync-Skills.bat`.
 2. O pregúntale al chat: *¿TITAN, estás operativo?* Él sabe cómo auto-diagnosticarse.
