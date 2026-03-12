@@ -80,9 +80,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       default:
         throw new Error(`Tool '${name}' not found`);
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return {
-      content: [{ type: "text", text: `❌ TITAN Auto-Reparación Violation: ${error.message}` }],
+      content: [{ type: "text", text: `❌ TITAN Auto-Reparación Violation: ${errorMessage}` }],
       isError: true
     };
   }

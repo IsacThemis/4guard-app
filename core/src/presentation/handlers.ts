@@ -11,7 +11,7 @@ export class TITANHandlers {
     };
   }
 
-  async handleRemember(args: any) {
+  async handleRemember(args: unknown) {
     const validated = RememberSchema.parse(args);
     await this.repository.save({ key: validated.key, value: validated.value });
     return {
@@ -19,7 +19,7 @@ export class TITANHandlers {
     };
   }
 
-  async handleRecall(args: any) {
+  async handleRecall(args: unknown) {
     const validated = RecallSchema.parse(args);
     const data = await this.repository.get(validated.key);
     if (!data) {
@@ -32,7 +32,7 @@ export class TITANHandlers {
     };
   }
 
-  async handleCompareBlueprint(args: any) {
+  async handleCompareBlueprint(args: unknown) {
     const validated = CompareBlueprintSchema.parse(args);
     return {
       content: [{ type: "text", text: `🔍 TITAN: Validando contra Blueprint '${validated.blueprint_name}'. Análisis estructural iniciado.` }]
