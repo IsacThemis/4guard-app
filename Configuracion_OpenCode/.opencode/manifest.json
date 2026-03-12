@@ -1,0 +1,117 @@
+﻿{
+    "skills_count":  22,
+    "last_sync":  "2026-03-11 18:40:43",
+    "version":  "1.1.0",
+    "skills":  [
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\BLUEPRINTS",
+                       "name":  "BLUEPRINTS",
+                       "has_definition":  false
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\brainstorming",
+                       "name":  "brainstorming",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\dispatching-parallel-agents",
+                       "name":  "dispatching-parallel-agents",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\executing-plans",
+                       "name":  "executing-plans",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\finishing-a-development-branch",
+                       "name":  "finishing-a-development-branch",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\notebooklm",
+                       "name":  "notebooklm",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\notebooklm-skill",
+                       "name":  "notebooklm-skill",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\pi-planning-with-files",
+                       "name":  "pi-planning-with-files",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\planning-with-files",
+                       "name":  "planning-with-files",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\receiving-code-review",
+                       "name":  "receiving-code-review",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\requesting-code-review",
+                       "name":  "requesting-code-review",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\skill-creator",
+                       "name":  "skill-creator",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\skillx",
+                       "name":  "skillx",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\subagent-driven-development",
+                       "name":  "subagent-driven-development",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\systematic-debugging",
+                       "name":  "systematic-debugging",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\test-driven-development",
+                       "name":  "test-driven-development",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\using-git-worktrees",
+                       "name":  "using-git-worktrees",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\using-superpowers",
+                       "name":  "using-superpowers",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\verification-before-completion",
+                       "name":  "verification-before-completion",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\WORKFLOW",
+                       "name":  "WORKFLOW",
+                       "has_definition":  false
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\writing-plans",
+                       "name":  "writing-plans",
+                       "has_definition":  true
+                   },
+                   {
+                       "path":  "C:\\Users\\USUARIO\\.opencode\\shared-skills\\writing-skills",
+                       "name":  "writing-skills",
+                       "has_definition":  true
+                   }
+               ]
+}

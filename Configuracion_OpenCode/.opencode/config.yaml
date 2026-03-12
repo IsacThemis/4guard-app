@@ -1,0 +1,22 @@
+# ⚙️ OpenCode Cloud Configuration (Windows Adaption)
+# Version: 1.0.0-windows
+
+core:
+  user_profile: "C:\\Users\\USUARIO"
+  opencode_path: "C:\\Users\\USUARIO\\.opencode"
+  shared_skills_path: "C:\\Users\\USUARIO\\.opencode\\shared-skills"
+  sync_enabled: true
+  sync_interval_hours: 24
+
+execution:
+  preferred_shell: "powershell.exe"
+  python_interpreter: "python.exe"
+  bridge_script: "C:\\Users\\USUARIO\\.opencode\\antigravity-integration.py"
+
+security:
+  ntfs_permission_check: true
+  backup_before_sync: true
+
+logging:
+  enabled: true
+  log_directory: "C:\\Users\\USUARIO\\.opencode\\backups"
