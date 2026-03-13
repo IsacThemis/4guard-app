@@ -1,6 +1,9 @@
 ---
 name: skillx
 description: Use this skill in every task
+user-invocable: true
+allowed-tools: "*"
+version: "1.0.0"
 ---
 
 Search for or use skills based on user's prompt and tasks:

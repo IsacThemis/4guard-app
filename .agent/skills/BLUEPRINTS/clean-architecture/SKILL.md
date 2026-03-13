@@ -1,6 +1,9 @@
 ---
 name: blueprint-clean-architecture
 description: Enterprise Blueprint para crear o refactorizar proyectos de backend. Úsalo SIEMPRE que el usuario pida un "machote", "arquitectura limpia", "backend enterprise", o un proyecto escalable con Fastify, Prisma y TypeScript estructurado por capas.
+user-invocable: true
+allowed-tools: "*"
+version: "1.0.0"
 ---
 
 # Enterprise Blueprint: Clean Architecture (TITAN Standard)

@@ -1,6 +1,9 @@
 ---
 name: RuleSynthesizer
 description: Analyzes functional requirements and project context to synthesize clear, unambiguous behavior rules and guardrails, following established governance standards.
+user-invocable: true
+allowed-tools: "*"
+version: "1.0.0"
 ---
 
 ## Mission

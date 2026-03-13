@@ -1,6 +1,9 @@
 ---
 name: PolicyAuditDoc
 description: Audits policy-as-code files (Rego/Cedar) and generates human-readable documentation matrices with risk analysis.
+user-invocable: true
+allowed-tools: "*"
+version: "1.0.0"
 ---
 
 # PolicyAuditDoc Skill
