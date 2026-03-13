@@ -1,0 +1,30 @@
+[
+    {
+        "id": "RS-001",
+        "scenario": "Restricting API access by IP range",
+        "input": {
+            "project_context": "Internal corporate API.",
+            "functional_requirement": "API should only be accessible from 10.0.0.0/8 range.",
+            "risk_factors": "Exposure to public internet, data exfiltration."
+        },
+        "evaluation_criteria": [
+            "output contains 'trigger_audit_payload'",
+            "policy mentions IP range or CIDR notation",
+            "risk analysis identifies network exposure"
+        ]
+    },
+    {
+        "id": "RS-002",
+        "scenario": "Mandatory 2FA for admin actions",
+        "input": {
+            "project_context": "Customer management dashboard.",
+            "functional_requirement": "Any 'delete_user' action must have 2FA verified in the session.",
+            "risk_factors": "Account takeover leading to mass data deletion."
+        },
+        "evaluation_criteria": [
+            "policy check for 2FA or 'multi_factor_auth' flag",
+            "targets 'delete_user' action specifically",
+            "logic restricts non-2FA sessions"
+        ]
+    }
+]

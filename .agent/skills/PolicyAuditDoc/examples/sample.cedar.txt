@@ -1,0 +1,7 @@
+permit(
+  principal == User::"alice",
+  action == Action::"ViewDocument",
+  resource == Document::"doc123"
+) when {
+  resource.owner == principal
+};

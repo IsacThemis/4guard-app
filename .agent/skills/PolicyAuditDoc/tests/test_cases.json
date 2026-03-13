@@ -1,0 +1,147 @@
+[
+  {
+    "name": "single_rego_policy_basic",
+    "description": "Caso básico: una política Rego con default deny y rol editor",
+    "input": {
+      "project_name": "SistemaDocumentos",
+      "domain_context": "Sistema interno de gestión de documentos para equipos de desarrollo.",
+      "policy_language": "rego",
+      "policies": [
+        {
+          "id": "P1",
+          "file_name": "editor_access.rego",
+          "language": "rego",
+          "content": "package example.authz\n\ndefault allow = false\n\nallow {\n  input.principal.role == \"editor\"\n  input.action == \"edit_document\"\n  input.resource.owner == input.principal.id\n}"
+        }
+      ],
+      "agent_risk_notes": "El agente puede editar contenido, pero no borrar archivos."
+    },
+    "expected": {
+      "must_contain_sections": [
+        "Contexto del sistema y alcance",
+        "Glosario básico",
+        "Modelo de evaluación de políticas",
+        "Resumen de políticas",
+        "Matriz de permisos",
+        "Análisis de riesgos y acciones sensibles",
+        "Checklist para auditoría humana"
+      ],
+      "must_mention": ["editor", "edit_document", "default deny"],
+      "must_not_contain": ["{{", "}}", "(… usar plantilla …)"]
+    }
+  },
+  {
+    "name": "cedar_policy_with_owner_condition",
+    "description": "Política Cedar con condición de propietario y permit explícito",
+    "input": {
+      "project_name": "PortalDocumentos",
+      "domain_context": "Portal web de gestión de documentos corporativos para clientes.",
+      "policy_language": "cedar",
+      "policies": [
+        {
+          "id": "P1",
+          "file_name": "alice_view.cedar",
+          "language": "cedar",
+          "content": "permit(\n  principal == User::\"alice\",\n  action == Action::\"ViewDocument\",\n  resource == Document::\"doc123\"\n) when {\n  resource.owner == principal\n};"
+        }
+      ],
+      "agent_risk_notes": ""
+    },
+    "expected": {
+      "must_contain_sections": [
+        "Contexto del sistema y alcance",
+        "Glosario básico",
+        "Modelo de evaluación de políticas (Cedar)",
+        "Resumen de políticas",
+        "Matriz de permisos",
+        "Análisis de riesgos y acciones sensibles",
+        "Checklist para auditoría humana"
+      ],
+      "must_mention": ["alice", "ViewDocument", "permit", "forbid"],
+      "matrix_must_have_rows": 1
+    }
+  },
+  {
+    "name": "rego_multi_policy_with_sensitive_action",
+    "description": "Múltiples políticas Rego con una acción de borrado (debe ser marcada como sensible)",
+    "input": {
+      "project_name": "ArchivosCorporativos",
+      "domain_context": "Sistema de archivado corporativo con múltiples roles de usuario.",
+      "policy_language": "rego",
+      "policies": [
+        {
+          "id": "P1",
+          "file_name": "reader_access.rego",
+          "language": "rego",
+          "content": "package corp.authz\n\ndefault allow = false\n\nallow {\n  input.principal.role == \"reader\"\n  input.action == \"read_file\"\n}"
+        },
+        {
+          "id": "P2",
+          "file_name": "admin_delete.rego",
+          "language": "rego",
+          "content": "package corp.authz\n\nallow {\n  input.principal.role == \"admin\"\n  input.action == \"delete_file\"\n}"
+        }
+      ],
+      "agent_risk_notes": "El agente puede ejecutar borrados masivos de archivos."
+    },
+    "expected": {
+      "must_contain_sections": [
+        "Contexto del sistema y alcance",
+        "Glosario básico",
+        "Resumen de políticas",
+        "Matriz de permisos",
+        "Análisis de riesgos y acciones sensibles",
+        "Checklist para auditoría humana"
+      ],
+      "must_mention": ["delete_file", "⚠️", "sensible", "admin"],
+      "matrix_must_have_rows": 2,
+      "risk_section_must_mention_deletion": true
+    }
+  },
+  {
+    "name": "cedar_forbid_overrides_permit",
+    "description": "Política Cedar con forbid que anula un permit — debe documentar el conflicto",
+    "input": {
+      "project_name": "SistemaSeguro",
+      "domain_context": "Sistema bancario con políticas de denegación explícita.",
+      "policy_language": "cedar",
+      "policies": [
+        {
+          "id": "P1",
+          "file_name": "general_access.cedar",
+          "language": "cedar",
+          "content": "permit(\n  principal,\n  action == Action::\"ReadBalance\",\n  resource\n);"
+        },
+        {
+          "id": "P2",
+          "file_name": "suspended_deny.cedar",
+          "language": "cedar",
+          "content": "forbid(\n  principal,\n  action,\n  resource\n) when {\n  principal.status == \"suspended\"\n};"
+        }
+      ],
+      "agent_risk_notes": "Usuarios suspendidos no deben tener acceso a ningún recurso."
+    },
+    "expected": {
+      "must_mention": ["forbid", "precedencia", "suspended", "conflicto"],
+      "must_contain_sections": [
+        "Modelo de evaluación de políticas (Cedar)",
+        "Análisis de riesgos y acciones sensibles"
+      ]
+    }
+  },
+  {
+    "name": "empty_policies_edge_case",
+    "description": "Edge case: input con lista de políticas vacía",
+    "input": {
+      "project_name": "ProyectoSinPoliticas",
+      "domain_context": "Sistema en construcción sin políticas aún definidas.",
+      "policy_language": "rego",
+      "policies": [],
+      "agent_risk_notes": ""
+    },
+    "expected": {
+      "should_return_error": true,
+      "error_must_mention": ["políticas", "vacío", "No se encontraron"]
+    }
+  }
+]

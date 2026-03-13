@@ -136,6 +136,7 @@ Una vez conectado, TITAN tiene 5 clusters de "súper poderes" operativos:
 3.  **SUPERPOWERS**: Módulos de automatización avanzada (como el puente).
 4.  **NOTEBOOKLM**: Sabe buscar en cuadernos externos para darte respuestas precisas.
 5.  **PLANNING**: Analiza problemas difusos y genera hojas de ruta claras.
+6.  **GOVERNANCE**: Nuevas skills de auditoría de políticas (`PolicyAuditDoc`) y síntesis de reglas (`RuleSynthesizer`).
 
 ---
 

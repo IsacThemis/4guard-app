@@ -1,0 +1,40 @@
+[
+    {
+        "name": "Session Limit Rule",
+        "description": "Scenario where a business wants to limit concurrent sessions per user to 3.",
+        "input": {
+            "project_context": "B2B SaaS with high security requirements. Using Auth0 for authentication.",
+            "functional_requirement": "Limit each user to a maximum of 3 concurrent active sessions to prevent account sharing.",
+            "risk_factors": "Account sharing leads to revenue loss and security exposure. High-profile clients sensitive to data leaks."
+        },
+        "thought_process": "1. Risk: Unauthorized session growth and credential sharing. 2. Governance: Security baseline requires explicit limits. 3. Syntax: Policy should check 'session_count' against constant '3'.",
+        "expected_output": {
+            "trigger_audit_payload": {
+                "project_name": "B2B SaaS Security Suite",
+                "domain_context": "Authentication Governance - Risk: Unauthorized session sharing and revenue leakage.",
+                "policies": [
+                    "permit(principal, action, resource) when { principal.active_sessions.count() <= 3 };"
+                ]
+            }
+        }
+    },
+    {
+        "name": "Refund Authorization",
+        "description": "Scenario for financial limits on refund operations.",
+        "input": {
+            "project_context": "E-commerce platform backend. Payment gateway integration.",
+            "functional_requirement": "Only users with the 'SupportManager' role can authorize refunds greater than $500.",
+            "risk_factors": "Financial fraud, internal theft, unauthorized large payouts."
+        },
+        "thought_process": "1. Risk: Non-managerial users issuing large refunds. 2. Governance: Principle of least privilege for financial transactions. 3. Logic: If amount > 500, check for 'SupportManager' role.",
+        "expected_output": {
+            "trigger_audit_payload": {
+                "project_name": "E-commerce Payment Hub",
+                "domain_context": "Financial Governance - Risk: Fraud and unauthorized high-value refunds.",
+                "policies": [
+                    "permit(principal, action, resource) when { principal.role == 'SupportManager' || resource.amount <= 500 };"
+                ]
+            }
+        }
+    }
+]

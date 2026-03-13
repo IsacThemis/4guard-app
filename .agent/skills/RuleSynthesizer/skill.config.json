@@ -1,0 +1,24 @@
+{
+  "name": "RuleSynthesizer",
+  "description": "Analiza documentos funcionales y contexto del proyecto para sintetizar nuevas reglas de comportamiento y guardarraíles (Policy-as-Code/Prompt).",
+  "entrypoint": "prompts/system.md",
+  "inputs": {
+    "schema": "json",
+    "required_fields": [
+      "project_context",
+      "functional_requirement",
+      "risk_factors"
+    ]
+  },
+  "outputs": {
+    "format": "json",
+    "fields": [
+      "proposed_rule_name",
+      "rule_logic",
+      "target_language",
+      "trigger_audit_payload"
+    ]
+  },
+  "templates_path": "templates",
+  "examples_path": "examples"
+}

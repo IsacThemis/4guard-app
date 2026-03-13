@@ -1,0 +1,9 @@
+package example.authz
+
+default allow = false
+
+allow {
+  input.principal.role == "editor"
+  input.action == "edit_document"
+  input.resource.owner == input.principal.id
+}

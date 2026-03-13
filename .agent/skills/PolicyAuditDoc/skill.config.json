@@ -1,0 +1,24 @@
+{
+  "name": "PolicyAuditDoc",
+  "description": "Genera documentación pedagógica para auditoría humana de políticas Rego y Cedar.",
+  "entrypoint": "prompts/system.md",
+  "inputs": {
+    "schema": "json",
+    "required_fields": [
+      "project_name",
+      "domain_context",
+      "policies"
+    ]
+  },
+  "outputs": {
+    "format": "markdown",
+    "fields": [
+      "doc_title",
+      "sections",
+      "full_markdown"
+    ]
+  },
+  "templates_path": "templates",
+  "examples_path": "examples",
+  "tests_path": "tests"
+}
