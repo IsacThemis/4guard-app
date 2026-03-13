@@ -1,0 +1,9 @@
+{
+  "name": "legacy-spaghetti-app",
+  "version": "0.0.1",
+  "description": "Repo sucio para pruebas de integración",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
