@@ -1,13 +1,23 @@
+import 'reflect-metadata';
+import { container } from 'tsyringe';
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { RedisChronicleRepository } from "./infrastructure/redis_repository.js";
 import { TITANHandlers } from "./presentation/handlers.js";
+import { IChronicleRepository } from "./domain/interfaces.js";
 
-// 1. Initialize TITAN Architecture Layers
-const repository = new RedisChronicleRepository();
+// ── 1. Register dependencies in the DI container ─────────────────────────────
+container.register<IChronicleRepository>('IChronicleRepository', {
+  useClass: RedisChronicleRepository
+});
+
+// ── 2. Resolve the repository and connect ─────────────────────────────────────
+const repository = container.resolve(RedisChronicleRepository);
 await repository.connect();
-const handlers = new TITANHandlers(repository);
+
+// ── 3. Resolve the handler (repository is injected automatically) ─────────────
+const handlers = container.resolve(TITANHandlers);
 
 const server = new Server({
   name: "Prometeo-TITAN-MCP-v4-TS",
@@ -16,7 +26,7 @@ const server = new Server({
   capabilities: { tools: {} }
 });
 
-// 2. Register TITAN Tools Blueprint
+// ── 4. Register TITAN Tools Blueprint ─────────────────────────────────────────
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
@@ -63,7 +73,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   };
 });
 
-// 3. Command Dispatching with Port/Adapter Logic
+// ── 5. Command Dispatching ────────────────────────────────────────────────────
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
 
@@ -89,7 +99,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-// 4. Start STDIO Transport
+// ── 6. Start STDIO Transport ──────────────────────────────────────────────────
 const transport = new StdioServerTransport();
 await server.connect(transport);
 console.error("🔥 TITAN MCP (TS Edition) v4.0.0 Online.");
