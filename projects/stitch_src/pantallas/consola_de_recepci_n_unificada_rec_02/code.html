@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>4-GUARD WMS - Consola de Recepción REC-02</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, .font-headline {
+            font-family: 'Work Sans', sans-serif;
+        }
+        .vault-gradient {
+            background: linear-gradient(135deg, #000666 0%, #1a237e 100%);
+        }
+        .gauge-track {
+            stroke: #e5e9eb;
+        }
+        .gauge-fill {
+            stroke: #f57009; /* on-tertiary-container */
+            stroke-dasharray: 289.027; /* 2 * PI * R where R is 46 */
+            stroke-dashoffset: 23.122; /* 92% fill -> (1 - 0.92) * 289.027 */
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-background": "#181c1e",
+                "surface-bright": "#f7fafc",
+                "primary": "#000666",
+                "surface-container-high": "#e5e9eb",
+                "outline-variant": "#c6c5d4",
+                "error": "#ba1a1a",
+                "surface-variant": "#e0e3e5",
+                "on-error": "#ffffff",
+                "surface-dim": "#d7dadc",
+                "secondary-fixed": "#ffdad6",
+                "surface-container-lowest": "#ffffff",
+                "surface": "#f7fafc",
+                "primary-fixed": "#e0e0ff",
+                "on-surface-variant": "#454652",
+                "surface-container-low": "#f1f4f6",
+                "on-tertiary": "#ffffff",
+                "on-secondary-fixed-variant": "#93000b",
+                "on-error-container": "#93000a",
+                "inverse-primary": "#bdc2ff",
+                "on-primary-fixed-variant": "#343d96",
+                "surface-container-highest": "#e0e3e5",
+                "on-tertiary-fixed": "#331200",
+                "error-container": "#ffdad6",
+                "primary-container": "#1a237e",
+                "on-surface": "#181c1e",
+                "tertiary-container": "#532100",
+                "on-tertiary-container": "#f57009",
+                "on-secondary": "#ffffff",
+                "on-primary-fixed": "#000767",
+                "inverse-surface": "#2d3133",
+                "secondary-container": "#e02928",
+                "on-primary": "#ffffff",
+                "tertiary-fixed": "#ffdbca",
+                "on-secondary-fixed": "#410002",
+                "surface-container": "#ebeef0",
+                "on-secondary-container": "#fffbff",
+                "background": "#f7fafc",
+                "on-tertiary-fixed-variant": "#773200",
+                "tertiary-fixed-dim": "#ffb68f",
+                "tertiary": "#321100",
+                "surface-tint": "#4c56af",
+                "secondary": "#bb0112",
+                "inverse-on-surface": "#eef1f3",
+                "primary-fixed-dim": "#bdc2ff",
+                "on-primary-container": "#8690ee",
+                "outline": "#767683",
+                "secondary-fixed-dim": "#ffb4ab"
+              },
+              fontFamily: {
+                "headline": ["Work Sans"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-hidden h-screen flex">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 flex flex-col bg-[#1a237e] dark:bg-slate-950">
+<div class="p-6">
+<h1 class="text-xl font-bold text-white tracking-tighter uppercase font-headline">4-GUARD</h1>
+<p class="text-[10px] text-blue-300 font-label tracking-widest uppercase mt-1">Warehouse Management</p>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200 hover:bg-blue-800/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[11px] uppercase tracking-wider font-headline font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#000666] to-[#1a237e] text-white border-l-4 border-orange-500 rounded-r shadow-lg" href="#">
+<span class="material-symbols-outlined" data-icon="barcode_scanner" style="font-variation-settings: 'FILL' 1;">barcode_scanner</span>
+<span class="text-[11px] uppercase tracking-wider font-headline font-semibold">Recepción</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200 hover:bg-blue-800/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="text-[11px] uppercase tracking-wider font-headline font-semibold">Inventario</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200 hover:bg-blue-800/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="text-[11px] uppercase tracking-wider font-headline font-semibold">Despacho</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200 hover:bg-blue-800/50 transition-colors rounded" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[11px] uppercase tracking-wider font-headline font-semibold">Configuración</span>
+</a>
+</nav>
+<div class="p-4 bg-blue-900/30">
+<button class="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-3 rounded text-[11px] uppercase tracking-widest flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Nuevo Escaneo
+            </button>
+</div>
+<div class="p-4 mt-auto">
+<div class="flex items-center gap-3 p-3 bg-blue-900/50 rounded-lg mb-4">
+<div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-primary font-bold">UO</div>
+<div>
+<p class="text-xs text-white font-bold">Usuario Operador</p>
+<p class="text-[10px] text-blue-300">Nivel 2</p>
+</div>
+</div>
+<a class="flex items-center gap-3 px-4 py-2 text-blue-200 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-[11px] uppercase tracking-wider font-headline font-semibold">Cerrar Sesión</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 flex flex-col h-full bg-surface">
+<!-- TopNavBar -->
+<header class="h-16 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/15 z-30">
+<div class="flex items-center gap-8">
+<div class="flex flex-col">
+<nav class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-slate-500 font-headline font-semibold">
+<span>Recepción</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">Consola de Recepción</span>
+</nav>
+<h2 class="font-black text-primary tracking-tight font-headline">PASO 2: CUADRATURA</h2>
+</div>
+<div class="relative ml-4">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-xs w-64 focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400" placeholder="Buscar SSCC o SKU..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Op. Martinez</p>
+<p class="text-[10px] text-slate-500 uppercase tracking-tighter">Zona Norte 01</p>
+</div>
+<div class="w-10 h-10 rounded-lg overflow-hidden border border-outline-variant/30">
+<img alt="Operator Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0spOqq-hlKP94jqVUhWdGJdmDbHguHaQvuSrEzgngehZ9nZKLE9mN44BTOdb-O0TodENn4Fx127VHwJYH2_mk0MX7Ei8DcvXvIYPh_v7EYSrr80srFqUemnMQhyTqMxOT-lex-v8Ha1Ya4oxeFuG3hrmF7WbwA5oswr18MWGGyP_CgyTIMOC2r6-NfKrTM2OG2Nf6lJ5cBnCtoMh4oLLoj9-ZRJ4MvUguwESFcMxbxP3THMdkSG-V92SUzAarz2_42LQXsWn5Sj3Y"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Dynamic Content Canvas -->
+<div class="flex-1 p-8 overflow-y-auto space-y-6">
+<!-- Inactivity Alert Banner -->
+<div class="bg-[#fff8e1] border-l-8 border-on-tertiary-container p-4 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<div class="bg-on-tertiary-container p-2 rounded-full flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl" data-icon="timer">timer</span>
+</div>
+<div>
+<h4 class="font-bold text-on-tertiary-fixed text-sm font-headline">INACTIVIDAD: 15 min detectados</h4>
+<p class="text-on-tertiary-fixed-variant text-xs font-label">Se recomienda realizar el cierre de recepción para liberar el andén 04.</p>
+</div>
+</div>
+<button class="bg-on-tertiary-container text-white px-6 py-2 rounded font-bold text-[10px] uppercase tracking-widest hover:opacity-90 transition-all font-headline">
+                    Reactivar Consola
+                </button>
+</div>
+<!-- Operational Header Section -->
+<div class="bg-[#000666] rounded overflow-hidden shadow-lg border border-blue-900/50">
+<div class="vault-gradient p-6 flex justify-between items-center">
+<div>
+<span class="text-blue-300 text-[10px] font-label uppercase tracking-[0.2em] font-semibold">Muelle Activo</span>
+<h3 class="text-white text-2xl font-black tracking-tight leading-none mt-1 font-headline">CONSOLA DE CUADRATURA <span class="text-orange-500">REC-02</span></h3>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-white/10 px-4 py-2 rounded border border-white/20">
+<p class="text-blue-200 text-[10px] font-label uppercase font-semibold">Andén Asignado</p>
+<p class="text-white font-bold text-sm tracking-widest font-headline">DOCK-04A</p>
+</div>
+<div class="bg-white/10 px-4 py-2 rounded border border-white/20">
+<p class="text-blue-200 text-[10px] font-label uppercase font-semibold">Orden Compra</p>
+<p class="text-white font-bold text-sm tracking-widest font-headline">#PO-99210-24</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Balanced Layout Grid -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Progress Gauge -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-8 rounded shadow-sm flex flex-col items-center justify-center relative overflow-hidden border border-outline-variant/10">
+<h4 class="text-slate-400 font-headline font-bold text-[10px] uppercase tracking-[0.2em] mb-8">Indicador de Cuadratura</h4>
+<div class="relative w-56 h-56 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
+<circle class="gauge-track" cx="50" cy="50" fill="transparent" r="46" stroke-width="8"></circle>
+<circle class="gauge-fill" cx="50" cy="50" fill="transparent" r="46" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-5xl font-black text-primary leading-none font-headline">92%</span>
+<span class="text-[10px] font-bold text-slate-500 mt-2 uppercase tracking-widest">Completado</span>
+</div>
+</div>
+<div class="mt-10 grid grid-cols-2 gap-4 w-full border-t border-slate-50 pt-8">
+<div class="text-center">
+<p class="text-3xl font-black text-primary font-headline">22</p>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Escaneados</p>
+</div>
+<div class="text-center border-l border-slate-100">
+<p class="text-3xl font-black text-slate-300 font-headline">24</p>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Esperados</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Scanned Items Table -->
+<div class="col-span-12 lg:col-span-8 flex flex-col">
+<div class="bg-surface-container-lowest rounded shadow-sm flex flex-col overflow-hidden border border-outline-variant/10 flex-1">
+<div class="px-6 py-4 bg-primary-container flex justify-between items-center">
+<h4 class="font-bold text-[11px] uppercase tracking-[0.15em] text-white font-headline">Buffer de Recepción (Scanned Items)</h4>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-on-tertiary-container rounded-full animate-pulse"></div>
+<span class="text-[10px] font-bold text-white uppercase tracking-widest">REC-02 Activo</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant font-headline text-[10px] uppercase tracking-widest border-b border-surface-container">
+<tr>
+<th class="px-6 py-4">ID SSCC (GS1-128)</th>
+<th class="px-6 py-4">SKU Code</th>
+<th class="px-6 py-4">Client</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4 text-right">Scan Time</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-xs">
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-mono font-bold text-primary">(00) 3 7612345 000000001 8</td>
+<td class="px-6 py-4 font-semibold text-slate-600 uppercase">NEST-CHOCO-XL</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-slate-100 rounded text-[9px] flex items-center justify-center font-bold text-slate-400">N</div>
+<span class="font-bold text-slate-700">Nestlé</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-black uppercase tracking-tighter border border-on-tertiary-container/10">
+<span class="w-1.5 h-1.5 bg-on-tertiary-container rounded-full"></span>
+                                                BOLSA (20)
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right text-slate-500 font-label font-medium">14:22:10</td>
+</tr>
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-mono font-bold text-primary">(00) 3 7612345 000000002 5</td>
+<td class="px-6 py-4 font-semibold text-slate-600 uppercase">NEST-MILK-LG</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-slate-100 rounded text-[9px] flex items-center justify-center font-bold text-slate-400">N</div>
+<span class="font-bold text-slate-700">Nestlé</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-black uppercase tracking-tighter border border-on-tertiary-container/10">
+<span class="w-1.5 h-1.5 bg-on-tertiary-container rounded-full"></span>
+                                                BOLSA (20)
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right text-slate-500 font-label font-medium">14:20:45</td>
+</tr>
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-mono font-bold text-primary">(00) 3 7612345 000000003 2</td>
+<td class="px-6 py-4 font-semibold text-slate-600 uppercase">NEST-WATR-500</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-slate-100 rounded text-[9px] flex items-center justify-center font-bold text-slate-400">N</div>
+<span class="font-bold text-slate-700">Nestlé</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-surface-container-high text-on-surface-variant rounded text-[10px] font-black uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span>
+                                                ANDÉN (10)
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right text-slate-500 font-label font-medium">14:15:22</td>
+</tr>
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/50 transition-colors">
+<td class="px-6 py-4 font-mono font-bold text-primary">(00) 3 7612345 000000004 9</td>
+<td class="px-6 py-4 font-semibold text-slate-600 uppercase">NEST-CRUNCH-SM</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-slate-100 rounded text-[9px] flex items-center justify-center font-bold text-slate-400">N</div>
+<span class="font-bold text-slate-700">Nestlé</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 bg-surface-container-high text-on-surface-variant rounded text-[10px] font-black uppercase tracking-tighter">
+<span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span>
+                                                ANDÉN (10)
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right text-slate-500 font-label font-medium">14:12:01</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-surface-container-low flex justify-between items-center border-t border-surface-container">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-headline">Mostrando 4 de 22 registros</p>
+<div class="flex gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-400 hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-[10px] font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-600 text-[10px] font-bold hover:bg-white">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded border border-slate-200 text-slate-400 hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RF Terminal Connection & Global Actions Section -->
+<div class="grid grid-cols-12 gap-6 items-stretch">
+<!-- RF Terminal Connection -->
+<div class="col-span-12 lg:col-span-4 bg-primary-container p-6 rounded shadow-lg text-white flex flex-col justify-between border border-blue-900/50">
+<div class="flex items-center justify-between mb-4">
+<span class="text-[10px] font-headline font-bold uppercase tracking-widest text-blue-300">Terminal de Captura RF</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-[10px] font-bold uppercase text-green-400">En línea</span>
+</div>
+</div>
+<div class="bg-[#000666] border border-blue-800 rounded p-4 font-mono text-lg text-blue-400 flex justify-between items-center shadow-inner">
+<span>SSCC: 377229100021</span>
+<span class="material-symbols-outlined text-blue-400 animate-pulse" data-icon="sensors">sensors</span>
+</div>
+<p class="text-[10px] text-blue-400/80 italic mt-4 font-medium uppercase tracking-wider">Esperando lectura de SSCC faltantes (2)...</p>
+</div>
+<!-- Global Actions -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center gap-2 p-6 bg-white border-2 border-primary text-primary rounded shadow-sm hover:bg-surface-container-low transition-all font-headline font-bold group">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform" data-icon="pause_circle">pause_circle</span>
+<span class="text-xs uppercase tracking-[0.2em]">Pausar Recepción</span>
+<span class="text-[9px] text-slate-400 font-medium">SUSPENSIÓN TEMPORAL</span>
+</button>
+<div class="relative group">
+<button class="w-full h-full flex flex-col items-center justify-center gap-2 p-6 bg-slate-200 text-slate-400 rounded cursor-not-allowed opacity-75 font-headline font-bold">
+<span class="material-symbols-outlined text-3xl" data-icon="lock_clock">lock_clock</span>
+<span class="text-xs uppercase tracking-[0.2em]">Cerrar Recepción Definitiva</span>
+<span class="text-[9px] text-slate-500 font-medium">92% - FALTAN 2 SSCC</span>
+</button>
+<!-- Tooltip -->
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 px-4 py-2 bg-secondary text-white text-[10px] font-black rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap uppercase tracking-[0.1em] pointer-events-none shadow-xl z-50">
+                            Cuadratura incompleta (faltan 2 bultos)
+                        </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Help Anchor -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform border-4 border-white/10">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+</button>
+</div>
+</body></html>

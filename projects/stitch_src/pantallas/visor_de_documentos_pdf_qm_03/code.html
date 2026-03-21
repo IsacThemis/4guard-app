@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QM-03: Visor de Documentos | Vault WMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.03);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 10;
+        }
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#ffb4ab",
+                        "tertiary-container": "#532100",
+                        "on-primary-container": "#8690ee",
+                        "on-secondary-fixed-variant": "#93000b",
+                        "outline": "#767683",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e5e9eb",
+                        "on-surface-variant": "#454652",
+                        "on-background": "#181c1e",
+                        "surface-variant": "#e0e3e5",
+                        "surface-bright": "#f7fafc",
+                        "surface-dim": "#d7dadc",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-primary-fixed": "#000767",
+                        "surface": "#f7fafc",
+                        "on-secondary-fixed": "#410002",
+                        "surface-container-low": "#f1f4f6",
+                        "primary-fixed": "#e0e0ff",
+                        "on-primary-fixed-variant": "#343d96",
+                        "on-error": "#ffffff",
+                        "tertiary": "#321100",
+                        "surface-tint": "#4c56af",
+                        "outline-variant": "#c6c5d4",
+                        "inverse-primary": "#bdc2ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#773200",
+                        "on-tertiary-fixed": "#331200",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#f57009",
+                        "primary-container": "#1a237e",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eef1f3",
+                        "tertiary-fixed": "#ffdbca",
+                        "secondary-fixed": "#ffdad6",
+                        "secondary": "#bb0112",
+                        "background": "#f7fafc",
+                        "surface-container": "#ebeef0",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#ffb68f",
+                        "primary": "#000666",
+                        "on-surface": "#181c1e",
+                        "secondary-container": "#e02928",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#2d3133"
+                    },
+                    fontFamily: {
+                        "headline": ["Work Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex overflow-hidden">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-blue-900 dark:bg-slate-950 flex flex-col py-6 shadow-2xl no-print">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h2 class="font-headline font-bold text-white text-sm tracking-tight leading-none">Warehouse 01</h2>
+<p class="text-blue-200/60 text-[10px] uppercase tracking-widest mt-1">High-Security Zone</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<div class="flex items-center gap-3 px-3 py-3 text-blue-200/70 hover:bg-blue-800/50 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">verified_user</span>
+<span class="font-headline text-sm tracking-wide">Security Vault</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 bg-gradient-to-r from-blue-800 to-blue-700 text-white border-l-4 border-blue-400 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">report_problem</span>
+<span class="font-headline text-sm tracking-wide">Incident Logs</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 text-blue-200/70 hover:bg-blue-800/50 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">high_quality</span>
+<span class="font-headline text-sm tracking-wide">Quality Control</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 text-blue-200/70 hover:bg-blue-800/50 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">inventory_2</span>
+<span class="font-headline text-sm tracking-wide">Asset Tracking</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-3 text-blue-200/70 hover:bg-blue-800/50 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">gavel</span>
+<span class="font-headline text-sm tracking-wide">Audit Trail</span>
+</div>
+</nav>
+<div class="mt-auto px-4 pt-4 border-t border-blue-800/50 space-y-1">
+<div class="flex items-center gap-3 px-3 py-2 text-blue-200/70 hover:bg-blue-800/50 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="font-headline text-sm tracking-wide text-xs">Settings</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-blue-200/70 hover:bg-blue-800/50 cursor-pointer transition-all duration-200 rounded-md">
+<span class="material-symbols-outlined text-lg">help_center</span>
+<span class="font-headline text-sm tracking-wide text-xs">Support</span>
+</div>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="flex-1 ml-64 flex flex-col relative min-w-0">
+<!-- TopNavBar -->
+<header class="bg-white/80 backdrop-blur-md border-b border-slate-200/15 flex justify-between items-center w-full px-8 py-3 sticky top-0 z-50 shadow-sm no-print">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-blue-900 uppercase tracking-tighter font-headline">Vault WMS</span>
+<nav class="flex gap-6 items-baseline">
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-headline font-semibold text-sm" href="#">Dashboard</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-headline font-semibold text-sm" href="#">Inventory</a>
+<a class="text-slate-500 hover:text-blue-800 transition-colors font-headline font-semibold text-sm" href="#">Reports</a>
+<a class="text-blue-700 border-b-2 border-blue-800 pb-1 font-headline font-semibold text-sm" href="#">Incidents</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-slate-100 rounded-md transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500">download</span>
+</button>
+<button class="p-2 hover:bg-slate-100 rounded-md transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500">share</span>
+</button>
+<button class="p-2 hover:bg-slate-100 rounded-md transition-transform active:scale-95">
+<span class="material-symbols-outlined text-slate-500">history</span>
+</button>
+</div>
+<div class="h-6 w-[1px] bg-slate-200 mx-2"></div>
+<button class="px-5 py-2 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-semibold text-sm rounded shadow-lg hover:shadow-primary/20 transition-all active:scale-95">
+                    Notify Client
+                </button>
+<div class="flex items-center gap-3 ml-4">
+<img class="w-8 h-8 rounded-full border-2 border-slate-100 shadow-sm object-cover" data-alt="Security Officer Profile Photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHE9rJ0ntPqLW8SLryFN5X78BueNhOD3zeF2ajbdi3litded0XzaCH2LBG0K_dIh5CiFSUlVoHsk4CmrDMbJ92ssB3gY4HI7S1omH8Scjzrvy8kxC7vmsW0Nv522XCL3qKAcW1M3mLTMC6R7aAJF9ZkhmQKek0iihn5E-ZKp6PaA4i6_mxArZjnpZDQAi3CPjSXCwqehiYmDG2ZTLDOEk2T1C_xEtP0bD4aDWRMq87mubtm61SgBO9ctbLeJ06is3tKuS3o27nD0Bk"/>
+</div>
+</div>
+</header>
+<!-- Document Viewer Body -->
+<div class="flex-1 bg-surface-container overflow-y-auto p-12 flex justify-center">
+<!-- PDF Container Shell -->
+<div class="max-w-4xl w-full flex flex-col gap-6">
+<!-- PDF Controls (Floating Tool) -->
+<div class="bg-primary-container text-white flex items-center justify-between px-6 py-3 rounded-lg shadow-xl sticky top-4 z-40 no-print">
+<div class="flex items-center gap-4">
+<span class="text-xs font-headline font-bold uppercase tracking-widest text-on-primary-container">Viewing Document</span>
+<div class="h-4 w-[1px] bg-white/20"></div>
+<span class="text-sm font-medium">INC-2026-000123.pdf</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-white/10 rounded transition-colors flex items-center gap-2 text-sm" onclick="window.print()">
+<span class="material-symbols-outlined text-lg">print</span>
+                            Print
+                        </button>
+<button class="p-2 hover:bg-white/10 rounded transition-colors flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-lg">download</span>
+                            Download
+                        </button>
+<div class="w-[1px] h-6 bg-white/20 mx-2"></div>
+<div class="flex items-center bg-white/10 rounded-md overflow-hidden">
+<button class="p-2 hover:bg-white/20"><span class="material-symbols-outlined text-sm">zoom_out</span></button>
+<span class="px-3 text-xs font-mono">100%</span>
+<button class="p-2 hover:bg-white/20"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
+</div>
+</div>
+</div>
+<!-- The Actual Paper Document -->
+<article class="bg-white shadow-2xl relative min-h-[1100px] p-16 overflow-hidden flex flex-col border border-slate-200">
+<div class="watermark uppercase">DOCUMENTO OFICIAL - NO ALTERABLE</div>
+<!-- Document Header -->
+<div class="flex justify-between items-start mb-12 relative z-20">
+<div class="flex items-center gap-4">
+<div class="h-14 w-14 bg-blue-900 rounded flex items-center justify-center p-2">
+<span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h1 class="font-headline font-black text-2xl text-primary leading-none">4-GUARD</h1>
+<p class="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-400">Vault Security Systems</p>
+</div>
+</div>
+<div class="text-right">
+<div class="h-10 w-24 bg-slate-100 flex items-center justify-center mb-2">
+<span class="text-[10px] font-black text-slate-300">3PL PARTNER</span>
+</div>
+<p class="text-[11px] font-mono text-slate-500">REF: QR-MD-09-VER.2</p>
+</div>
+</div>
+<div class="border-y-2 border-slate-900 py-6 mb-10 relative z-20">
+<h2 class="font-headline font-extrabold text-3xl text-center text-slate-900 tracking-tight">ACTA DE INCIDENTE DE CALIDAD</h2>
+</div>
+<!-- Metadata Grid -->
+<div class="grid grid-cols-2 gap-y-8 mb-12 relative z-20">
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Folio Number</label>
+<p class="font-mono font-bold text-lg text-slate-900">INC-2026-000123</p>
+</div>
+<div class="space-y-1 text-right">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Report Date</label>
+<p class="font-mono font-bold text-lg text-slate-900">19 / 03 / 2026</p>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Incident Type</label>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-secondary rounded-full"></span>
+<p class="font-bold text-slate-900">Frasco Roto</p>
+</div>
+</div>
+<div class="space-y-1 text-right">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Responsibility</label>
+<p class="font-bold text-slate-900">Daño Interno (Manipulación)</p>
+</div>
+</div>
+<!-- Product Information -->
+<div class="bg-slate-50 p-6 mb-12 relative z-20 border-l-4 border-blue-900">
+<h3 class="font-headline font-bold text-xs uppercase tracking-widest text-blue-900 mb-4">Product Details</h3>
+<div class="grid grid-cols-3 gap-6">
+<div>
+<label class="text-[9px] font-bold text-slate-500 uppercase">Client</label>
+<p class="text-sm font-bold">Nestlé México S.A.</p>
+</div>
+<div>
+<label class="text-[9px] font-bold text-slate-500 uppercase">Batch / Lote</label>
+<p class="text-sm font-mono">L-2026-03-001</p>
+</div>
+<div>
+<label class="text-[9px] font-bold text-slate-500 uppercase">SSCC Identifier</label>
+<p class="text-sm font-mono tracking-tight">00175010543200012345</p>
+</div>
+</div>
+</div>
+<!-- Evidence Section -->
+<div class="mb-12 relative z-20">
+<h3 class="font-headline font-bold text-xs uppercase tracking-widest text-slate-900 mb-4">Photographic Evidence</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-video bg-slate-100 rounded overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="Damaged glass bottle in warehouse environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxFoZnwuHwILjm4SeGDqWFQY-CUOtnw0x-LhCQXDgot92WwgcMX27xcTg0Ujk0B2Sa0VBg7nQpq23WESif9pkx2OI4bWAH9wcgENGVjb67wFiCl2z_TFk4q9oXPA8qxAYYrL0jkgFlXt7Gzw1tsEQGswAypl2-MTAf21m1vxuKqZMJFz0sYJMzoJi6nliGnNgWxW3JXZuJBULTb0U0a_PytRzSdvxx84UrM2IMj7JFD2JBZ9ZKyuXXvI8YOYVut0jTZUwuentYkmC5"/>
+</div>
+<div class="aspect-video bg-slate-100 rounded overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="Spilled liquid contents on warehouse floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6SWWBqHXTZT-v2w9CbkqzZpBawMECQ5crckHp-uwAeI7tmAHO4Z_IHTDOmNV4jRdl2L0a9Bx0ZDYPqPC7Hq9v-MBsIYKabZ3OwXF9JM-ACftH27LY3nvVR1JeL9Wuivhf1dMa58zfyZzsuGV5oK25cdJIY8cXmKuwqVQrB2YJHbZVrGPqcGunD_s_ZnSqs2PTABX_iRpEjtbsCBCRUFwvXVIeiHSS20C0Aib8d91IBCxoNoZFUKIgUlrXpH3-3u5wL-vVjG9qN25R"/>
+</div>
+</div>
+<div class="mt-4 text-[10px] text-slate-500 italic">
+                            Captura automática vía Guard-Vision System Cam #04.
+                        </div>
+</div>
+<!-- Inspector Observations -->
+<div class="mb-12 relative z-20">
+<h3 class="font-headline font-bold text-xs uppercase tracking-widest text-slate-900 mb-2">Inspector Observations</h3>
+<p class="text-sm text-slate-700 leading-relaxed text-justify">
+                            Se detecta merma física durante el proceso de picking en el rack B-04. El frasco de vidrio presenta fractura total en la base con derrame de contenido. El empaque secundario se encontraba previamente comprometido. Se procede a segregación inmediata en área de cuarentena para dictamen final. No se reportan daños a otros productos de la misma tarima.
+                        </p>
+</div>
+<!-- Footer & Signature -->
+<div class="mt-auto grid grid-cols-2 gap-12 relative z-20 pt-12 border-t border-slate-100">
+<div class="text-center">
+<div class="h-24 w-full flex items-center justify-center mb-2">
+<img class="h-16 opacity-80 mix-blend-multiply" data-alt="Abstract handwritten digital signature" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhQlcbUnarMjxYbzPAd91goyxBGddxD2k3B6woIo6Yb3hNSDkzZ09ThMnlpC06CDs3Fdhy5YgtTvRwLIeXS2IJnmOqvVoeb7HFIpQHR9EJMjFDj3SnrxrSnguzO8UJW2sjv_-iIb7Ty9K4Qvv2k9edNQBFjoPPO49tE7Ok-6CyuCGGDHQB3CvWpBwkTU7FjbDZOd0Yz3U4fERkLYxVSLameCS0cK_2icN2WsNhjFOGjtObqwuC-FZnHSLqyHmUrSkgMOGHmuROu5rx"/>
+</div>
+<div class="border-t border-slate-900 pt-2">
+<p class="text-[11px] font-bold text-slate-900 uppercase">Oficial de Calidad</p>
+<p class="text-[10px] text-slate-500">ID: 4G-9921 / Ricardo M.</p>
+</div>
+</div>
+<div class="flex flex-col justify-end text-right">
+<div class="space-y-1 mb-4">
+<p class="text-[9px] font-bold text-slate-400 uppercase">Verification Hash</p>
+<p class="text-[9px] font-mono text-slate-600 truncate">SHA-256: 8a93e1f0c23d4e...</p>
+</div>
+<div class="bg-slate-900 text-white p-2 inline-block ml-auto rounded">
+<p class="text-[9px] font-bold tracking-widest uppercase">Validated Vault Doc</p>
+</div>
+</div>
+</div>
+</article>
+<!-- Related Actions -->
+<div class="grid grid-cols-3 gap-4 mb-20 no-print">
+<div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
+<h4 class="text-xs font-bold text-slate-400 uppercase mb-4 tracking-tighter">Timeline</h4>
+<ul class="space-y-4">
+<li class="flex gap-3">
+<div class="w-1 bg-green-500 rounded-full"></div>
+<div>
+<p class="text-xs font-bold">Generated</p>
+<p class="text-[10px] text-slate-500">19/03/26 08:12</p>
+</div>
+</li>
+<li class="flex gap-3">
+<div class="w-1 bg-blue-500 rounded-full"></div>
+<div>
+<p class="text-xs font-bold">Supervisor Review</p>
+<p class="text-[10px] text-slate-500">19/03/26 09:45</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="col-span-2 bg-white p-6 rounded-lg shadow-sm border border-slate-200 flex flex-col justify-between">
+<div>
+<h4 class="text-xs font-bold text-slate-400 uppercase mb-2 tracking-tighter">Vault Encryption</h4>
+<p class="text-sm text-slate-600">This document is cryptographically sealed. Any alteration will void the insurance compliance certificate for this lot.</p>
+</div>
+<div class="flex gap-3 mt-4">
+<button class="flex-1 border border-outline-variant/30 px-4 py-2 text-xs font-bold uppercase rounded hover:bg-slate-50 transition-colors">Audit History</button>
+<button class="flex-1 border border-outline-variant/30 px-4 py-2 text-xs font-bold uppercase rounded hover:bg-slate-50 transition-colors">Compliance Log</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

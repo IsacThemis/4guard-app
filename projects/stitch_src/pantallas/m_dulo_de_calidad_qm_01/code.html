@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quality Control Module - 4-GUARD WMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed-variant": "#93000b",
+              "on-tertiary-container": "#f57009",
+              "secondary": "#bb0112",
+              "outline": "#767683",
+              "on-surface-variant": "#454652",
+              "tertiary-fixed-dim": "#ffb68f",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#343d96",
+              "tertiary": "#321100",
+              "inverse-primary": "#bdc2ff",
+              "on-tertiary-fixed": "#331200",
+              "on-primary-fixed": "#000767",
+              "surface": "#f7fafc",
+              "primary-container": "#1a237e",
+              "inverse-on-surface": "#eef1f3",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#773200",
+              "on-surface": "#181c1e",
+              "on-primary-container": "#8690ee",
+              "secondary-fixed-dim": "#ffb4ab",
+              "surface-dim": "#d7dadc",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "surface-container-high": "#e5e9eb",
+              "primary": "#000666",
+              "on-error-container": "#93000a",
+              "surface-variant": "#e0e3e5",
+              "secondary-container": "#e02928",
+              "outline-variant": "#c6c5d4",
+              "on-secondary": "#ffffff",
+              "on-secondary-fixed": "#410002",
+              "on-secondary-container": "#fffbff",
+              "on-background": "#181c1e",
+              "error": "#ba1a1a",
+              "background": "#f7fafc",
+              "surface-bright": "#f7fafc",
+              "primary-fixed-dim": "#bdc2ff",
+              "secondary-fixed": "#ffdad6",
+              "surface-container-low": "#f1f4f6",
+              "tertiary-fixed": "#ffdbca",
+              "tertiary-container": "#532100",
+              "primary-fixed": "#e0e0ff",
+              "surface-tint": "#4c56af",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container": "#ebeef0"
+            },
+            fontFamily: {
+              "headline": ["Work Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Work Sans', sans-serif; }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface text-on-surface">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r-0 bg-[#1a237e] shadow-[4px_0_24px_rgba(0,0,0,0.1)] z-50">
+<div class="p-6 flex flex-col gap-1">
+<span class="text-xl font-bold text-white tracking-widest uppercase">4-GUARD WMS</span>
+<span class="text-xs text-blue-200/60 font-medium uppercase tracking-widest">Vault Administrator</span>
+</div>
+<nav class="flex-1 mt-4 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out hover:pl-2 text-blue-200/70 hover:text-white hover:bg-white/10 rounded-sm" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Work_Sans'] font-semibold tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out hover:pl-2 text-blue-200/70 hover:text-white hover:bg-white/10 rounded-sm" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Work_Sans'] font-semibold tracking-tight">Inventory</span>
+</a>
+<!-- Active Navigation State: Quality Control (Semantic Match) -->
+<a class="flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out hover:pl-2 bg-gradient-to-r from-[#000666] to-[#1a237e] text-white border-l-4 border-secondary translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-['Work_Sans'] font-semibold tracking-tight">Quality Control</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out hover:pl-2 text-blue-200/70 hover:text-white hover:bg-white/10 rounded-sm" href="#">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+<span class="font-['Work_Sans'] font-semibold tracking-tight">Incidents</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out hover:pl-2 text-blue-200/70 hover:text-white hover:bg-white/10 rounded-sm" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Work_Sans'] font-semibold tracking-tight">Settings</span>
+</a>
+</nav>
+<div class="p-4 mt-auto">
+<button class="w-full py-3 bg-secondary text-white font-bold rounded-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                New Incident Report
+            </button>
+</div>
+</aside>
+<!-- TopNavBar (Execution from JSON) -->
+<header class="fixed top-0 right-0 left-64 z-40 flex justify-between items-center px-8 bg-white/80 backdrop-blur-md h-16 border-b border-slate-200/15 shadow-sm">
+<div class="flex items-center gap-8">
+<h1 class="font-black text-[#1a237e] text-lg uppercase tracking-wider">Quality Control Module</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-500 hover:text-[#1a237e] font-['Work_Sans'] text-sm font-medium uppercase tracking-wider" href="#">Overview</a>
+<a class="text-[#1a237e] border-b-2 border-[#1a237e] pb-1 font-['Work_Sans'] text-sm font-medium uppercase tracking-wider" href="#">Reports</a>
+<a class="text-slate-500 hover:text-[#1a237e] font-['Work_Sans'] text-sm font-medium uppercase tracking-wider" href="#">Blocked Items</a>
+<a class="text-slate-500 hover:text-[#1a237e] font-['Work_Sans'] text-sm font-medium uppercase tracking-wider" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded-md text-sm w-64 focus:ring-1 focus:ring-primary-container" placeholder="Search Vault..." type="text"/>
+</div>
+<div class="flex items-center gap-4 text-slate-500">
+<button class="hover:bg-slate-50 p-2 rounded-md"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="hover:bg-slate-50 p-2 rounded-md"><span class="material-symbols-outlined" data-icon="help_outline">help_outline</span></button>
+<button class="hover:bg-slate-50 p-2 rounded-md"><span class="material-symbols-outlined" data-icon="account_circle">account_circle</span></button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-10 pb-12 min-h-screen">
+<!-- Dashboard Intelligence Header -->
+<div class="mb-10 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-black text-primary-container tracking-tighter mb-1">Incident Registry</h2>
+<p class="text-on-surface-variant font-medium text-sm">Real-time quality surveillance for Warehouse Zone Alpha</p>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2 bg-surface-container-highest text-primary-container font-bold text-xs uppercase tracking-widest rounded-md hover:bg-surface-container-high transition-colors">
+                    Export CSV
+                </button>
+<button class="px-5 py-2 bg-primary-container text-white font-bold text-xs uppercase tracking-widest rounded-md hover:shadow-lg transition-all">
+                    System Audit
+                </button>
+</div>
+</div>
+<!-- Filter Arsenal (Architectural Fortitude) -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container p-4 rounded-lg flex flex-col gap-2">
+<label class="text-[0.6875rem] font-bold uppercase tracking-[0.15em] text-on-surface-variant">Client Entity</label>
+<select class="bg-surface-container-lowest border-none text-sm font-semibold text-primary py-2 rounded">
+<option>All Clients</option>
+<option selected="">Nestlé Global</option>
+<option>Unilever Inc.</option>
+<option>P&amp;G Logistics</option>
+</select>
+</div>
+<div class="bg-surface-container p-4 rounded-lg flex flex-col gap-2">
+<label class="text-[0.6875rem] font-bold uppercase tracking-[0.15em] text-on-surface-variant">Anomaly Type</label>
+<select class="bg-surface-container-lowest border-none text-sm font-semibold text-primary py-2 rounded">
+<option>All Anomalies</option>
+<option>Critical Failure</option>
+<option>Damaged Packaging</option>
+<option>Temperature Violation</option>
+</select>
+</div>
+<div class="bg-surface-container p-4 rounded-lg flex flex-col gap-2">
+<label class="text-[0.6875rem] font-bold uppercase tracking-[0.15em] text-on-surface-variant">Process Status</label>
+<select class="bg-surface-container-lowest border-none text-sm font-semibold text-primary py-2 rounded">
+<option>All States</option>
+<option>En revisión</option>
+<option>Clasificada</option>
+<option>Cerrada</option>
+</select>
+</div>
+<div class="bg-surface-container p-4 rounded-lg flex flex-col justify-end">
+<button class="w-full py-2 bg-outline-variant/20 border border-outline-variant/30 text-primary font-bold text-xs uppercase tracking-widest rounded hover:bg-outline-variant/40 transition-colors">
+                    Clear Filters
+                </button>
+</div>
+</section>
+<!-- Incident Vault (Data Table) -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-2xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary-container text-on-primary font-headline text-[0.6875rem] uppercase tracking-[0.2em]">
+<th class="px-6 py-4">Folio ID</th>
+<th class="px-6 py-4">Timestamp</th>
+<th class="px-6 py-4">SSCC / Lote</th>
+<th class="px-6 py-4">Anomaly</th>
+<th class="px-6 py-4">Responsibility</th>
+<th class="px-6 py-4">State</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200/10">
+<!-- Critical / Blocked Row -->
+<tr class="bg-secondary/5 hover:bg-secondary/10 transition-colors">
+<td class="px-6 py-4 font-bold text-secondary text-sm">INC-9402</td>
+<td class="px-6 py-4">
+<div class="text-xs font-semibold text-on-surface">2023-10-24</div>
+<div class="text-[10px] text-on-surface-variant">14:22:10</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm font-mono tracking-wider text-primary">003719283740112</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">LT-X9822</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-secondary font-bold text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="dangerous" style="font-variation-settings: 'FILL' 1;">dangerous</span>
+                                    CRITICAL LEAK
+                                </div>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Logistics / Inbound</td>
+<td class="px-6 py-4">
+<span class="bg-secondary text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">En revisión</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="description">description</span></button>
+</div>
+</td>
+</tr>
+<!-- Standard Row -->
+<tr class="bg-white hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-bold text-primary-container text-sm">INC-9398</td>
+<td class="px-6 py-4">
+<div class="text-xs font-semibold text-on-surface">2023-10-24</div>
+<div class="text-[10px] text-on-surface-variant">11:05:45</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm font-mono tracking-wider text-primary">003719283740294</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">LT-Z1102</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-on-tertiary-container font-bold text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+                                    MINOR DENT
+                                </div>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Supplier / External</td>
+<td class="px-6 py-4">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Clasificada</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="description">description</span></button>
+</div>
+</td>
+</tr>
+<!-- Standard Row -->
+<tr class="bg-surface-container-low hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-bold text-primary-container text-sm">INC-9395</td>
+<td class="px-6 py-4">
+<div class="text-xs font-semibold text-on-surface">2023-10-23</div>
+<div class="text-[10px] text-on-surface-variant">16:40:12</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm font-mono tracking-wider text-primary">003719283740331</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">LT-A0045</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-on-tertiary-container font-bold text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="report" style="font-variation-settings: 'FILL' 1;">report</span>
+                                    LABEL MISPRINT
+                                </div>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">Warehouse / Picker</td>
+<td class="px-6 py-4">
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Notificada</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="description">description</span></button>
+</div>
+</td>
+</tr>
+<!-- Resolved Row -->
+<tr class="bg-white hover:bg-surface-container transition-colors opacity-70">
+<td class="px-6 py-4 font-bold text-slate-400 text-sm">INC-9390</td>
+<td class="px-6 py-4">
+<div class="text-xs font-semibold text-on-surface">2023-10-23</div>
+<div class="text-[10px] text-on-surface-variant">09:12:33</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm font-mono tracking-wider text-slate-400">003719283740882</div>
+<div class="text-[10px] uppercase font-bold text-on-surface-variant">LT-B9901</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-slate-400 font-bold text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                    CLEARED
+                                </div>
+</td>
+<td class="px-6 py-4 text-xs font-medium text-on-surface-variant">System / Auto</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">Cerrada</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-3">
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button>
+<button class="text-primary-container hover:scale-110 transition-transform"><span class="material-symbols-outlined" data-icon="description">description</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Alphanumeric Stats -->
+<div class="p-6 bg-surface-container flex justify-between items-center border-t border-slate-200/10">
+<div class="flex gap-8">
+<div class="flex flex-col">
+<span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Total Incidents</span>
+<span class="text-lg font-bold text-primary-container">1,482</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Active Blocks</span>
+<span class="text-lg font-bold text-secondary">24</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Resolution Rate</span>
+<span class="text-lg font-bold text-on-tertiary-container">98.2%</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container-highest rounded"><span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span></button>
+<span class="text-xs font-bold text-primary px-3">Page 1 of 74</span>
+<button class="p-2 hover:bg-surface-container-highest rounded"><span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Metric Grid (Vault Style) -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
+<div class="bg-primary-container p-6 rounded-lg text-white shadow-xl relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="text-xs font-black uppercase tracking-[0.2em] mb-4 text-blue-200">Critical Heatmap</h3>
+<div class="text-3xl font-bold mb-2">Zone Delta</div>
+<div class="h-2 w-full bg-blue-900 rounded-full overflow-hidden mb-4">
+<div class="h-full bg-secondary w-3/4 rounded-full"></div>
+</div>
+<p class="text-[10px] text-blue-200/80 font-medium">85% saturation in cold storage anomaly detection.</p>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-white/5 group-hover:rotate-12 transition-transform duration-500" data-icon="security">security</span>
+</div>
+<div class="bg-white p-6 rounded-lg shadow-sm border border-outline-variant/10">
+<h3 class="text-xs font-black uppercase tracking-[0.2em] mb-4 text-on-surface-variant">Average Resolution Time</h3>
+<div class="flex items-end gap-3">
+<span class="text-4xl font-bold text-primary-container">1.4</span>
+<span class="text-lg font-bold text-primary-container/60 mb-1">hrs</span>
+<span class="mb-2 ml-auto text-on-tertiary-container flex items-center gap-1 font-bold text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span> 12%
+                    </span>
+</div>
+<p class="mt-4 text-[10px] text-on-surface-variant font-medium">Performance benchmark exceeded for Nestlé protocols.</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between">
+<div>
+<h3 class="text-xs font-black uppercase tracking-[0.2em] mb-2 text-on-surface-variant">System Integrity</h3>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+<span class="text-xs font-bold text-primary uppercase">Vault Secure</span>
+</div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-slate-300 overflow-hidden">
+<img alt="QA Team Member 1" data-alt="Portrait of a female warehouse QA specialist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA39b5aBg8sZdm5Z_1pFf_9kFq0IlbUpQ3lcubSwQsUYz_nz24SE07hnSIquiQS4VL7n9kHvGH-55Xm7TY4tL6KxjY7j77ZsZrXfZv1oM2eGDbh_x37k-5fxtspDf_eX4f_O9BPvmti6vbsLOW0EmHhZO6QXqvj9KCuiGIkZpfu082rno9zZT4V5DbkkLqK7OwDLIOk5p1CBxKuCiLQwYGGzggCNE9mMawlZwtaNL7VQvZGBJYU7BauNUA7mVVQMvUmuOkaJvZsEgX4"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-slate-400 overflow-hidden">
+<img alt="QA Team Member 2" data-alt="Portrait of a male logistics supervisor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaRhMCdaUYZNE1nDmGnWK7_-DBoYT43PVjTBTqzT5m_hAbWGwWO9l75ap-GWrClVnnCO70-f0W5xPHk-2Thpou6xkKHYLMIMwg-npMUt18nDsp83CDUiMXy_Hr8SB6MkMPaUch5tpiTC-eEo3Byr2Cttx6kHNZStXRiR9VawU5TyoiIz6OgGhMiwgMw_cFP-XkQEIMPAUcxaExpsjFZhumtJsEBmrJBUrpTY2eve5zgMwK5H55JZ3xvvKHAPsHViYODG2Aj9QwGhOa"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-low bg-slate-500 flex items-center justify-center text-[10px] font-bold text-white uppercase">
+                            +4
+                        </div>
+</div>
+<button class="text-[10px] font-black uppercase text-secondary border-b-2 border-secondary pb-0.5">Live Audit View</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual FAB (Suppressed on Details, but valid here for creating new entries) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="emergency_home">emergency_home</span>
+</button>
+</body></html>

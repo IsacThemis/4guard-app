@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vault WMS - Quality Incidence QM-02</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-fixed": "#410002",
+                        "on-tertiary-container": "#f57009",
+                        "inverse-on-surface": "#eef1f3",
+                        "on-background": "#181c1e",
+                        "surface-dim": "#d7dadc",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#331200",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2d3133",
+                        "surface-container": "#ebeef0",
+                        "on-secondary-fixed-variant": "#93000b",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary": "#bb0112",
+                        "on-secondary-container": "#fffbff",
+                        "tertiary-fixed-dim": "#ffb68f",
+                        "on-primary-fixed": "#000767",
+                        "surface": "#f7fafc",
+                        "surface-bright": "#f7fafc",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdbca",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container-low": "#f1f4f6",
+                        "secondary-fixed": "#ffdad6",
+                        "primary": "#000666",
+                        "secondary-fixed-dim": "#ffb4ab",
+                        "primary-container": "#1a237e",
+                        "inverse-primary": "#bdc2ff",
+                        "on-tertiary-fixed-variant": "#773200",
+                        "background": "#f7fafc",
+                        "outline": "#767683",
+                        "tertiary": "#321100",
+                        "surface-container-high": "#e5e9eb",
+                        "on-primary-container": "#8690ee",
+                        "surface-tint": "#4c56af",
+                        "secondary-container": "#e02928",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "tertiary-container": "#532100",
+                        "outline-variant": "#c6c5d4",
+                        "on-surface": "#181c1e",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#e0e0ff",
+                        "on-surface-variant": "#454652",
+                        "on-primary-fixed-variant": "#343d96"
+                    },
+                    fontFamily: {
+                        "headline": ["Work Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-layering {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/15 dark:border-slate-800/15 shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-indigo-900 dark:text-indigo-100 font-headline tracking-tight">Vault WMS</span>
+<nav class="hidden md:flex gap-6 items-center h-full">
+<a class="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors font-headline font-semibold tracking-tight" href="#">Dashboard</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors font-headline font-semibold tracking-tight" href="#">Inventory</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors font-headline font-semibold tracking-tight" href="#">Shipments</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors font-headline font-semibold tracking-tight" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-surface-container-low px-3 py-1.5 rounded-md border border-outline-variant/15">
+<span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Search Vault..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-md transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-md transition-all active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-primary/10">
+<img alt="User Profile" class="object-cover h-full w-full" data-alt="User profile avatar showing professional male face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTIj2uh_G-QjxTKnzkn1jhwmoU73PcuNUO2cB3HzpZ5dpl9RJzJyXg7MEY0z4BBRxUVp1zMidE8d0jNARnjV-HRDPab33P-eUiaZNQGLjeneg8eaoO1Dh120JBfHG55kIlAl4NyuihNUTRLRvLpiy1hfxS-HuJWHpFhmDlXCa3-lozlTrPNZTIOkfvBjbHcHULTvtlqvjUNDtEJ-nbT7RB7AHSNm7KtdozadFhMuMtnmr3lKscGc3TCKm1w_p3NGjVwUJZUfgGwV5N"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-40 bg-indigo-900 dark:bg-slate-950 flex flex-col pt-20 pb-6 h-full shadow-2xl transition-all duration-200 ease-in-out">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">warehouse</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-white font-headline">Warehouse Alpha</h2>
+<p class="text-[10px] text-indigo-300 font-headline tracking-widest uppercase">Zone QC-02</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<a class="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-indigo-800 to-indigo-700 dark:from-indigo-950 dark:to-slate-900 text-white border-l-4 border-indigo-400 font-headline text-sm tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                Quality Control
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200/70 hover:text-white hover:bg-indigo-800/50 dark:hover:bg-slate-800/50 font-headline text-sm tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="archive">archive</span>
+                Inbound
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200/70 hover:text-white hover:bg-indigo-800/50 dark:hover:bg-slate-800/50 font-headline text-sm tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="unarchive">unarchive</span>
+                Outbound
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200/70 hover:text-white hover:bg-indigo-800/50 dark:hover:bg-slate-800/50 font-headline text-sm tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+                Stock Audit
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200/70 hover:text-white hover:bg-indigo-800/50 dark:hover:bg-slate-800/50 font-headline text-sm tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+                System Logs
+            </a>
+</nav>
+<div class="px-3 pt-4 border-t border-white/5 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 bg-indigo-400 hover:bg-indigo-300 text-indigo-950 font-bold py-2.5 rounded transition-all mb-4">
+<span class="material-symbols-outlined text-sm">add</span>
+                New Incidence
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-indigo-200/70 hover:text-white font-headline text-xs tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help">help</span>
+                Support
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-indigo-200/70 hover:text-white font-headline text-xs tracking-wide uppercase transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="pl-64 pt-16 min-h-screen bg-surface">
+<div class="p-8 max-w-7xl mx-auto">
+<!-- Header & Action Row -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<nav class="flex items-center gap-2 text-xs text-on-surface-variant font-label uppercase tracking-widest mb-2">
+<span>Quality Control</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-primary font-bold">Incidence Detail</span>
+</nav>
+<h1 class="text-4xl font-black font-headline text-primary-container tracking-tighter">QM-02: Incidence QM</h1>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 text-sm font-semibold border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                        Generar Acta PDF
+                    </button>
+<button class="px-4 py-2 text-sm font-semibold border border-outline-variant text-outline-variant cursor-not-allowed flex items-center gap-2" disabled="">
+<span class="material-symbols-outlined text-sm">mail</span>
+                        Notificar a Cliente
+                    </button>
+<button class="px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded shadow-lg transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">block</span>
+                        Aplicar Bloqueo Sanitario
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- Section 1 & 2: Main Info Grid -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- General Info Card -->
+<div class="bg-surface-container-lowest p-6 rounded shadow-sm border border-outline-variant/5">
+<div class="flex justify-between items-start mb-6">
+<h2 class="text-xs font-bold font-headline uppercase tracking-widest text-on-surface-variant">Section 1: General Info</h2>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-pulse"></span>
+                                En revisión
+                            </span>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div>
+<p class="text-[10px] font-label uppercase tracking-widest text-outline mb-1">Folio</p>
+<p class="font-headline font-bold text-lg text-primary-container">INC-2026-000123</p>
+</div>
+<div>
+<p class="text-[10px] font-label uppercase tracking-widest text-outline mb-1">Operator</p>
+<p class="font-headline font-bold text-lg text-primary-container">Juan Pérez</p>
+</div>
+<div>
+<p class="text-[10px] font-label uppercase tracking-widest text-outline mb-1">Fecha Reporte</p>
+<p class="font-headline font-bold text-lg text-primary-container">Oct 24, 2026</p>
+</div>
+</div>
+</div>
+<!-- Product Info Card -->
+<div class="bg-surface-container p-6 rounded border border-outline-variant/10">
+<h2 class="text-xs font-bold font-headline uppercase tracking-widest text-on-surface-variant mb-6">Section 2: Product Info</h2>
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-7 space-y-6">
+<div>
+<p class="text-[10px] font-label uppercase tracking-widest text-outline mb-1">SSCC Barcode</p>
+<p class="font-mono text-xl font-bold text-primary tracking-tight">00341234567890123456</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-[10px] font-label uppercase tracking-widest text-outline mb-1">Client</p>
+<p class="font-headline font-bold text-on-surface">Nestlé México</p>
+</div>
+<div>
+<p class="text-[10px] font-label uppercase tracking-widest text-outline mb-1">Location</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">location_on</span>
+<p class="font-headline font-bold text-on-surface">Bahía C-07</p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-5">
+<div class="relative w-full h-32 bg-surface-container-high rounded overflow-hidden border border-outline-variant/20">
+<img alt="Warehouse Map" class="w-full h-full object-cover opacity-60 grayscale" data-alt="Schematic 2D map of a warehouse showing bay C-07" data-location="Mexico City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb90LBIf3k1Sa5K7LRUvggXFmBh4t6bMDbQDVjGF8sYrOzERP4Ch9FwmX4aCvOyFl_xqDDL7OJOAe_z6VjHB8nxzxeFK3h8-RXBc28kr8L4W_N4tOCq88Gk4N4qgOKWlKUjDnoz0bzuQtA73eJN-pPZ7UdZeNob5_guU60Ck1I7za1lr_UQ4FQ6MdFt4aSRA9arlbtsTDl79MJ9E3oXVzjyRzY5V6MqrHUX50Zmiixt2w6eOafA1VKgHzerix_Car5ML4SFNaLg5HD"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-4 h-4 bg-secondary rounded-full ring-4 ring-secondary/20 animate-bounce"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Evidence Card -->
+<div class="bg-surface-container-lowest p-6 rounded shadow-sm border border-outline-variant/5">
+<h2 class="text-xs font-bold font-headline uppercase tracking-widest text-on-surface-variant mb-6">Section 3: Evidence</h2>
+<div class="mb-6">
+<span class="inline-block px-2 py-1 bg-error-container text-on-error-container text-[10px] font-bold uppercase tracking-widest rounded mb-2">
+                                Frasco/Envase roto
+                            </span>
+<p class="text-on-surface-variant italic text-sm leading-relaxed bg-surface px-4 py-3 border-l-4 border-outline-variant">
+                                "Durante el picking noté que 3 frascos del pallet tenían la tapa rota."
+                            </p>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="aspect-square bg-surface-container-low rounded overflow-hidden relative group">
+<img alt="Evidence 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Close up photo of broken glass jars on a wooden pallet" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvaW-vpSfd98R8KTwGkd9OiH4Yn14jl20F8rIhyP4ewOTwpuUDUXsoDVmhYVtSMiRUkJ9O2n3DWVsCFThe6-LWNZqYLo13Ed7LRXg-ThiqS3xOrdmgttr9yDl_WxmsL7heDTsHPs_l6rup9K2czGAx5RHwnWZ14L9_08AnK8gfbp3ja8-gSlfzgcWf5qEOPiH5-AWpk771QgL3-qweR_FbpZh7F17ZgI0hpcrruFrNqxaYek8tgROvz4G3UwsSZYcpNDbcNfk-KfZ-"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="aspect-square bg-surface-container-low rounded overflow-hidden relative group">
+<img alt="Evidence 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform" data-alt="Wider shot of a damaged industrial pallet in warehouse" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI3iwvaldPnLr_7z6qUAC8HHtzRw9C0j4M1IbKNxqnq87iQdQVN46ZJnI7lLqu-euRrd-mynnldUq3S7dMpRMux0vpohVH1g_qZjerqFIWcvc0_dmvlLeybTzFZsAgs7OR0zpkgg-2aeRSljJQeBTlOjcPFuGHtJAQxtdVgSL06OAeIgSKx0479cXr9evAGW1hT2ZqiPFNNWAjqtdZJTzi65xjmbWwpceDRVipZec995U0_bmQ5uIy2hXVHB8hsB0AsTiA7IZQ6LpR"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="flex items-center justify-center border-2 border-dashed border-outline-variant rounded hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="text-center">
+<span class="material-symbols-outlined text-outline">add_a_photo</span>
+<p class="text-[10px] font-label text-outline uppercase tracking-tighter mt-1">Upload Photo</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Classification Form -->
+<div class="col-span-12 lg:col-span-4">
+<div class="bg-primary-container p-6 rounded shadow-xl sticky top-24">
+<h2 class="text-xs font-bold font-headline uppercase tracking-widest text-on-primary-container mb-6">Section 4: Classification Form</h2>
+<form class="space-y-6">
+<div>
+<label class="block text-[10px] font-label uppercase tracking-widest text-on-primary-container mb-2">Clasificación final</label>
+<select class="w-full bg-primary text-white border-outline-variant/20 rounded focus:ring-primary focus:border-indigo-400 font-body text-sm py-3">
+<option>Seleccionar clasificación...</option>
+<option>Daño por maniobra</option>
+<option>Defecto de origen</option>
+<option>Contaminación</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] font-label uppercase tracking-widest text-on-primary-container mb-2">Destino del producto</label>
+<select class="w-full bg-primary text-white border-outline-variant/20 rounded focus:ring-primary focus:border-indigo-400 font-body text-sm py-3">
+<option>Seleccionar destino...</option>
+<option>Cuarentena</option>
+<option>Destrucción</option>
+<option>Devolución a proveedor</option>
+<option>Re-acondicionamiento</option>
+</select>
+</div>
+<div>
+<label class="block text-[10px] font-label uppercase tracking-widest text-on-primary-container mb-2">Observaciones</label>
+<textarea class="w-full bg-primary text-white border-outline-variant/20 rounded focus:ring-primary focus:border-indigo-400 font-body text-sm p-3 placeholder:text-on-primary-container/40" placeholder="Ingrese detalles técnicos adicionales..." rows="5"></textarea>
+</div>
+<div class="pt-4 border-t border-white/10">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">info</span>
+<p class="text-[10px] text-on-primary-container leading-tight">Esta acción registrará la resolución final y notificará al supervisor de turno de manera inmediata.</p>
+</div>
+<button class="w-full py-4 bg-white text-primary-container font-black uppercase tracking-widest text-xs rounded hover:bg-indigo-50 transition-all active:scale-95" type="button">
+                                    Guardar Resolución
+                                </button>
+</div>
+</form>
+</div>
+<!-- Technical Metadata -->
+<div class="mt-8 px-6">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between text-[10px] font-label uppercase tracking-widest text-outline">
+<span>System ID</span>
+<span class="text-on-surface font-mono">QMS-X99-2026</span>
+</div>
+<div class="flex justify-between text-[10px] font-label uppercase tracking-widest text-outline">
+<span>Last Sync</span>
+<span class="text-on-surface">14:23:01 GMT-6</span>
+</div>
+<div class="flex justify-between text-[10px] font-label uppercase tracking-widest text-outline">
+<span>Network</span>
+<span class="text-on-surface flex items-center gap-1">
+<span class="w-1 h-1 bg-green-500 rounded-full"></span> Secure Node
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

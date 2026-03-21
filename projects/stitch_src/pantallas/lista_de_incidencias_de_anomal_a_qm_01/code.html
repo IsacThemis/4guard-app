@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Módulo de Calidad - The Vault WMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#ffb4ab",
+              "secondary": "#bb0112",
+              "on-error": "#ffffff",
+              "on-secondary-fixed-variant": "#93000b",
+              "error": "#ba1a1a",
+              "outline": "#767683",
+              "inverse-primary": "#bdc2ff",
+              "surface-bright": "#f7fafc",
+              "surface-container-highest": "#e0e3e5",
+              "surface-tint": "#4c56af",
+              "surface": "#f7fafc",
+              "on-primary": "#ffffff",
+              "surface-variant": "#e0e3e5",
+              "inverse-on-surface": "#eef1f3",
+              "secondary-fixed": "#ffdad6",
+              "on-secondary-container": "#fffbff",
+              "on-primary-fixed": "#000767",
+              "tertiary": "#321100",
+              "outline-variant": "#c6c5d4",
+              "surface-container-high": "#e5e9eb",
+              "background": "#f7fafc",
+              "on-primary-container": "#8690ee",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#f57009",
+              "surface-container": "#ebeef0",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#181c1e",
+              "primary-fixed-dim": "#bdc2ff",
+              "on-error-container": "#93000a",
+              "primary": "#000666",
+              "primary-container": "#1a237e",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-fixed": "#331200",
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d7dadc",
+              "on-primary-fixed-variant": "#343d96",
+              "tertiary-fixed": "#ffdbca",
+              "tertiary-container": "#532100",
+              "surface-container-low": "#f1f4f6",
+              "on-background": "#181c1e",
+              "on-surface-variant": "#454652",
+              "secondary-container": "#e02928",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#773200",
+              "tertiary-fixed-dim": "#ffb68f",
+              "primary-fixed": "#e0e0ff",
+              "on-secondary-fixed": "#410002"
+            },
+            fontFamily: {
+              "headline": ["Work Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Work Sans', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface text-on-surface">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-64 z-50 bg-[#1a237e] dark:bg-[#000666] flex flex-col py-6 border-r border-white/10 shadow-2xl font-['Work_Sans'] font-medium antialiased">
+<div class="px-6 mb-10">
+<h1 class="text-2xl font-black tracking-tighter text-white uppercase">The Vault</h1>
+<p class="text-xs text-indigo-200/60 font-bold uppercase tracking-widest mt-1">WMS Quality Control</p>
+</div>
+<nav class="flex-1 space-y-1 px-3">
+<a class="flex items-center gap-3 px-4 py-3 rounded text-indigo-100/70 hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-indigo-100/70 hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Inventario</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded bg-gradient-to-r from-[#000666] to-[#1a237e] text-white font-bold border-l-4 border-[#bb0112] transition-all duration-200 transform translate-x-1 scale-102" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span>Calidad</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-indigo-100/70 hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span>Auditoría</span>
+</a>
+</nav>
+<div class="px-4 mb-6">
+<button class="w-full bg-secondary text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+                Nueva Incidencia
+            </button>
+</div>
+<div class="mt-auto px-3 space-y-1 border-t border-white/10 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 rounded text-indigo-100/70 hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Configuración</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded text-indigo-100/70 hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Cerrar Sesión</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-40 flex justify-between items-center h-16 px-8 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm font-['Work_Sans'] font-semibold">
+<div class="flex items-center gap-4">
+<span class="text-lg font-bold text-[#1a237e] dark:text-white">Módulo de Calidad - Incidencias</span>
+<span class="px-2 py-0.5 bg-surface-container text-[10px] tracking-tighter uppercase font-black rounded text-outline">QM-01</span>
+</div>
+<div class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#1a237e] border-b-2 border-[#1a237e] pb-1 transition-colors duration-200" href="#">Incidencias</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1a237e] transition-colors duration-200" href="#">Alertas CRIT</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-[#1a237e] transition-colors duration-200" href="#">Reportes</a>
+</nav>
+<div class="flex items-center gap-4 border-l border-slate-200 pl-8">
+<div class="relative">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+</div>
+<span class="material-symbols-outlined text-slate-500">help_outline</span>
+<div class="flex items-center gap-3 ml-2">
+<img alt="Inspector de Calidad" class="w-8 h-8 rounded-full border border-slate-200" data-alt="Avatar of quality control inspector profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChNKqHOpyM27P1xLvwAmMUgjTjp3Hr0rkgs6IChaUB05QHhOq7oyxdfSpNHm2qRv0T88JSMh3Y2_wcbhC3PiOvEExzAWH4S_h-yyECp6VVQ3wF9_jeUd4iPXG5XIC-2fIVja3Be_Mln-eefXtEAH16unGWsjgOTjrJpE6uBs1RzXLAkrMyGSUduGYZ9wuvLKYvBDioY5RgIbj96hQ31f5dljQkhKH4MP97eWs-MsBFzNvFbMARQ-AXOj8PuyVLzb7A-V4XslbeNP-p"/>
+<div class="text-xs">
+<p class="font-bold text-[#1a237e]">Inspector 042</p>
+<p class="text-slate-400 font-normal">Turno A</p>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Viewport Container -->
+<section class="p-8 space-y-8 bg-surface">
+<!-- Filters Bar (Vault Control) -->
+<div class="bg-surface-container-low p-6 rounded shadow-sm flex flex-wrap items-end gap-6 border-b-2 border-primary-container/10">
+<div class="flex-1 min-w-[200px] space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline">Estado de Incidencia</label>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-primary text-white text-xs font-bold rounded shadow-inner">Todos</button>
+<button class="px-4 py-2 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded hover:bg-white transition-colors">En Revisión</button>
+<button class="px-4 py-2 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded hover:bg-white transition-colors">Clasificada</button>
+<button class="px-4 py-2 bg-surface-container-lowest text-on-surface text-xs font-semibold rounded hover:bg-white transition-colors">Cerrada</button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline">Tipo Anomalía</label>
+<select class="block w-48 bg-surface-container-lowest border-none text-xs font-semibold rounded h-10 px-3 focus:ring-2 focus:ring-primary-container">
+<option>Cualquier Tipo</option>
+<option>Daño Físico</option>
+<option>Diferencia de Cantidad</option>
+<option>Error de Etiquetado</option>
+<option>Caducidad Vencida</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline">Origen</label>
+<select class="block w-40 bg-surface-container-lowest border-none text-xs font-semibold rounded h-10 px-3 focus:ring-2 focus:ring-primary-container">
+<option>Todos</option>
+<option>Montacarguista</option>
+<option>Sistema</option>
+<option>Auditoría</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-widest text-outline">Rango de Fecha</label>
+<div class="flex items-center bg-surface-container-lowest rounded h-10 px-3 gap-2">
+<span class="material-symbols-outlined text-sm text-outline">calendar_today</span>
+<input class="bg-transparent border-none text-xs font-semibold w-40 focus:ring-0" type="text" value="01/10/2023 - 15/10/2023"/>
+</div>
+</div>
+<button class="h-10 px-6 bg-primary-container text-white text-xs font-bold rounded flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">filter_alt</span>
+                    Aplicar Filtros
+                </button>
+</div>
+<!-- Dashboard Quick Stats (Bento Minimal) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-5 rounded border-l-4 border-secondary shadow-sm">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Alertas Críticas</p>
+<h3 class="text-3xl font-black text-secondary">12</h3>
+<p class="text-xs text-on-surface-variant mt-2">Requieren acción inmediata</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded border-l-4 border-on-tertiary-container shadow-sm">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">En Clasificación</p>
+<h3 class="text-3xl font-black text-primary">28</h3>
+<p class="text-xs text-on-surface-variant mt-2">Pendientes de resolución</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded border-l-4 border-primary shadow-sm">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Total Hoy</p>
+<h3 class="text-3xl font-black text-primary">45</h3>
+<p class="text-xs text-on-surface-variant mt-2">+5% respecto a ayer</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded border-l-4 border-outline shadow-sm">
+<p class="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Cerradas (24h)</p>
+<h3 class="text-3xl font-black text-primary">31</h3>
+<p class="text-xs text-on-surface-variant mt-2">Eficiencia del 68.8%</p>
+</div>
+</div>
+<!-- Unified Data Table -->
+<div class="bg-surface-container-lowest rounded shadow-xl overflow-hidden">
+<div class="bg-primary-container px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white">list_alt</span>
+<h2 class="text-white font-bold text-sm uppercase tracking-wider">Registro de Incidencias QM-01</h2>
+</div>
+<div class="flex gap-4">
+<span class="text-[10px] font-bold text-white/60 uppercase">Cliente Principal: Nestlé Logistics</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant/30">
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Folio</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Fecha / Hora</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">SSCC / Lote</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Tipo Anomalia</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Responsabilidad</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Estado</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Reportado Por</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Acción</th>
+</tr>
+</thead>
+<tbody class="text-xs font-medium">
+<!-- Critical Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 font-black text-primary tracking-tighter">INC-2026-000123</td>
+<td class="px-6 py-4 text-on-surface-variant">12/10/2023 14:32</td>
+<td class="px-6 py-4">
+<span class="font-mono text-xs block">003719284710293847</span>
+<span class="text-[10px] text-outline">LOTE: NE-9921-X</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-secondary">🔴</span>
+<span class="font-bold">Daño Físico Crítico</span>
+</div>
+</td>
+<td class="px-6 py-4">Transportista</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/20 rounded-full font-bold uppercase text-[9px]">En Revisión</span>
+</td>
+<td class="px-6 py-4 font-semibold italic text-outline">Montacarguista B. Rivas</td>
+<td class="px-6 py-4">
+<button class="px-4 py-1.5 bg-primary text-white font-bold rounded hover:shadow-lg transition-shadow">Revisar</button>
+</td>
+</tr>
+<!-- Warning Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-black text-primary tracking-tighter">INC-2026-000124</td>
+<td class="px-6 py-4 text-on-surface-variant">12/10/2023 15:10</td>
+<td class="px-6 py-4">
+<span class="font-mono text-xs block">003719284710294401</span>
+<span class="text-[10px] text-outline">LOTE: NE-8812-A</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-amber-500">🟡</span>
+<span class="font-bold">Discrepancia Cant.</span>
+</div>
+</td>
+<td class="px-6 py-4">Almacén (Picking)</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-on-tertiary-container/10 text-on-tertiary-container border border-on-tertiary-container/20 rounded-full font-bold uppercase text-[9px]">Clasificada</span>
+</td>
+<td class="px-6 py-4 font-semibold italic text-outline">Sistema (Conteo Cic)</td>
+<td class="px-6 py-4">
+<button class="px-4 py-1.5 bg-primary text-white font-bold rounded hover:shadow-lg transition-shadow">Revisar</button>
+</td>
+</tr>
+<!-- Standard Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-black text-primary tracking-tighter">INC-2026-000125</td>
+<td class="px-6 py-4 text-on-surface-variant">12/10/2023 16:45</td>
+<td class="px-6 py-4">
+<span class="font-mono text-xs block">003719284710295112</span>
+<span class="text-[10px] text-outline">LOTE: NE-4421-B</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-blue-500">🔵</span>
+<span class="font-bold">Error Etiquetado</span>
+</div>
+</td>
+<td class="px-6 py-4">Etiquetado</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-green-100 text-green-700 border border-green-200 rounded-full font-bold uppercase text-[9px]">Cerrada</span>
+</td>
+<td class="px-6 py-4 font-semibold italic text-outline">Auditoría R. Lopez</td>
+<td class="px-6 py-4">
+<button class="px-4 py-1.5 bg-primary text-white font-bold rounded hover:shadow-lg transition-shadow">Revisar</button>
+</td>
+</tr>
+<!-- Another Critical Row -->
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-4 font-black text-primary tracking-tighter">INC-2026-000126</td>
+<td class="px-6 py-4 text-on-surface-variant">13/10/2023 08:20</td>
+<td class="px-6 py-4">
+<span class="font-mono text-xs block">003719284710296772</span>
+<span class="text-[10px] text-outline">LOTE: NE-9921-X</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="text-secondary">🔴</span>
+<span class="font-bold">Contaminación</span>
+</div>
+</td>
+<td class="px-6 py-4">Almacén (Pasillo 4)</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary/10 text-secondary border border-secondary/20 rounded-full font-bold uppercase text-[9px]">Notificada</span>
+</td>
+<td class="px-6 py-4 font-semibold italic text-outline">Auditoría A. Pérez</td>
+<td class="px-6 py-4">
+<button class="px-4 py-1.5 bg-primary text-white font-bold rounded hover:shadow-lg transition-shadow">Revisar</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer -->
+<div class="px-6 py-4 bg-surface-container flex justify-between items-center text-[11px] font-bold text-outline">
+<div>MOSTRANDO 1-10 DE 124 REGISTROS</div>
+<div class="flex items-center gap-2">
+<button class="p-1 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="px-2 py-1 bg-primary text-white rounded">1</button>
+<button class="px-2 py-1 hover:bg-white rounded transition-colors">2</button>
+<button class="px-2 py-1 hover:bg-white rounded transition-colors">3</button>
+<button class="p-1 hover:bg-white rounded transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual FAB (Suppress if not primary, but here it's vital for QC flow) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">report</span>
+</button>
+</body></html>

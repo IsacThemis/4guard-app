@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalle de Picking (EXP-02) - The Vault WMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#ffdad6",
+              "primary-fixed-dim": "#bdc2ff",
+              "primary-container": "#1a237e",
+              "on-background": "#181c1e",
+              "surface-container": "#ebeef0",
+              "outline": "#767683",
+              "tertiary": "#321100",
+              "on-surface-variant": "#454652",
+              "on-secondary-fixed-variant": "#93000b",
+              "secondary-fixed-dim": "#ffb4ab",
+              "on-surface": "#181c1e",
+              "inverse-surface": "#2d3133",
+              "error": "#ba1a1a",
+              "surface-variant": "#e0e3e5",
+              "secondary": "#bb0112",
+              "on-tertiary-fixed": "#331200",
+              "on-primary-fixed": "#000767",
+              "surface-bright": "#f7fafc",
+              "on-secondary": "#ffffff",
+              "primary": "#000666",
+              "surface-tint": "#4c56af",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#ffb68f",
+              "secondary-container": "#e02928",
+              "on-secondary-container": "#fffbff",
+              "on-secondary-fixed": "#410002",
+              "surface-dim": "#d7dadc",
+              "primary-fixed": "#e0e0ff",
+              "surface-container-low": "#f1f4f6",
+              "inverse-on-surface": "#eef1f3",
+              "background": "#f7fafc",
+              "surface-container-high": "#e5e9eb",
+              "inverse-primary": "#bdc2ff",
+              "on-primary-fixed-variant": "#343d96",
+              "on-primary": "#ffffff",
+              "surface": "#f7fafc",
+              "tertiary-container": "#532100",
+              "on-tertiary-container": "#f57009",
+              "tertiary-fixed": "#ffdbca",
+              "on-primary-container": "#8690ee",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary": "#ffffff",
+              "on-error": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "outline-variant": "#c6c5d4",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#773200"
+            },
+            fontFamily: {
+              "headline": ["Work Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Inter', sans-serif; }
+      h1, h2, h3 { font-family: 'Work Sans', sans-serif; }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface text-on-surface">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 bg-[#1a237e] dark:bg-[#000666] flex flex-col py-6 px-4 shadow-2xl overflow-y-auto">
+<div class="mb-10 flex items-center gap-3 px-2">
+<div class="w-10 h-10 bg-white flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<h2 class="text-white font-black text-lg leading-none">The Vault WMS</h2>
+<p class="text-blue-100/60 text-[10px] uppercase tracking-widest mt-1">Consola de Control</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-blue-100/70 hover:bg-white/10 hover:text-white transition-all duration-200 font-['Work_Sans'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-100/70 hover:bg-white/10 hover:text-white transition-all duration-200 font-['Work_Sans'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Inventario</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-100/70 hover:bg-white/10 hover:text-white transition-all duration-200 font-['Work_Sans'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Calidad</span>
+</a>
+<a class="bg-gradient-to-r from-[#000666] to-[#1a237e] text-white font-bold border-l-4 border-white flex items-center gap-3 px-4 py-3 transition-all duration-200 font-['Work_Sans'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span>Expedición</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-100/70 hover:bg-white/10 hover:text-white transition-all duration-200 font-['Work_Sans'] text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Auditoría</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-white/10 space-y-2">
+<button class="w-full bg-white text-primary-container font-bold py-3 rounded-md shadow-lg flex items-center justify-center gap-2 hover:bg-blue-50 active:scale-95 transition-all text-sm uppercase tracking-wider mb-6">
+<span class="material-symbols-outlined text-sm">add_circle</span>
+                Nuevo Envío
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-blue-100/70 hover:text-white transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Soporte</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-blue-100/70 hover:text-white transition-colors text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Cerrar Sesión</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/15 h-16 flex justify-between items-center w-full px-8 shadow-sm">
+<div class="flex items-center gap-6">
+<h1 class="text-xl font-bold text-[#1a237e] dark:text-blue-500 uppercase tracking-wider font-['Work_Sans']">Expedición &amp; Ruteo</h1>
+<div class="h-6 w-px bg-slate-200"></div>
+<div class="flex items-center bg-surface-container-low px-3 py-1.5 rounded-sm">
+<span class="material-symbols-outlined text-slate-400 text-lg mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-64 text-on-surface" placeholder="Buscar folio o pallet..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-secondary rounded-full"></span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="flex items-center gap-3 ml-2 border-l pl-6 border-slate-200">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface leading-none uppercase">Supervisor_04</p>
+<p class="text-[10px] text-slate-500 mt-1">Terminal Este</p>
+</div>
+<img class="w-9 h-9 rounded-md object-cover border border-slate-200" data-alt="User profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBLephlRQJehVEvp9ZAb4s3mydzpf5-A7EJReMNGsFalMuXyDKTBZsH4oga5FWw08qT3QeyWNZ3hOk6DYkR5Fw3JUAJsMiKC7KD9TfIyIFwUcXZi4JA_WpJZ-SDMpzQgahMrMcphhgf_nW1VU2ccu80Eg6BzSvPCMYyBjuI-hKCMt4_3g64-IJPGflspAknCLrLnzmZiFcEVPlKt-BCUJ5ziR-h1eHHVfy9afrcF5K8BXP-9eS5hxD-xKN9Zo6G93uw-UgV3l-4KCV"/>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<div class="p-8 space-y-8 bg-surface">
+<!-- Header & Blueprint Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<!-- Title & Status -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center gap-4 mb-2">
+<span class="text-sm font-bold text-primary px-3 py-1 bg-primary-fixed rounded-sm uppercase tracking-widest">EXP-02</span>
+<div class="h-1 w-12 bg-outline-variant opacity-30"></div>
+<span class="text-sm font-medium text-slate-500">Logística de Salida</span>
+</div>
+<h2 class="text-4xl font-extrabold text-primary-container tracking-tight">NEST-OUT-2024-009</h2>
+<div class="flex items-center gap-6 pt-4">
+<div class="flex items-center gap-2 bg-on-tertiary-container/10 border border-on-tertiary-container/20 px-4 py-2 rounded-sm">
+<span class="w-2 h-2 bg-on-tertiary-container rounded-full animate-pulse"></span>
+<span class="text-on-tertiary-container font-bold text-sm uppercase tracking-wider">EN PROGRESO</span>
+</div>
+<div class="text-slate-500 flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Fecha de Carga: 24 Oct 2024</span>
+</div>
+<div class="text-slate-500 flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-sm">dock</span>
+<span>Muelle: D-08 (Norte)</span>
+</div>
+</div>
+<!-- Main Progress Card -->
+<div class="mt-10 bg-surface-container-lowest p-6 rounded shadow-sm border-l-4 border-on-tertiary-container">
+<div class="flex justify-between items-end mb-4">
+<div>
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Estado de Carga Real</p>
+<h3 class="text-3xl font-black text-primary-container">15 <span class="text-lg font-normal text-slate-400">/ 24 Pallets</span></h3>
+</div>
+<div class="text-right">
+<span class="text-3xl font-black text-on-tertiary-container">65%</span>
+</div>
+</div>
+<div class="w-full h-4 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-tertiary-container to-on-tertiary-container" style="width: 65%"></div>
+</div>
+<div class="flex justify-between mt-3 text-[10px] font-bold text-slate-500 uppercase">
+<span>Validación de Escaneo Inmediato</span>
+<span>Restan: 9 Unidades</span>
+</div>
+</div>
+</div>
+<!-- Assignment Blueprint (Asymmetric Section) -->
+<div class="bg-primary-container text-white p-6 rounded shadow-xl relative overflow-hidden group">
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-all"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-bold text-sm uppercase tracking-widest border-b border-white/20 pb-2">Assignment Blueprint</h3>
+<span class="material-symbols-outlined text-blue-300">hub</span>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-full border-2 border-blue-400 flex items-center justify-center text-xs font-bold bg-primary">1</div>
+<div>
+<p class="text-[10px] text-blue-200 uppercase font-medium">Origen</p>
+<p class="text-sm font-bold">ALMACÉN CENTRAL (WH-01)</p>
+</div>
+</div>
+<div class="ml-4 h-8 w-0.5 bg-blue-400/30"></div>
+<div class="flex items-start gap-4">
+<div class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold bg-white text-primary-container shadow-[0_0_15px_rgba(255,255,255,0.4)]">2</div>
+<div>
+<p class="text-[10px] text-blue-200 uppercase font-medium">Nodo Activo</p>
+<p class="text-sm font-bold text-white">CROSS-DOCKING HUB ESTE</p>
+<span class="inline-block mt-1 text-[9px] px-1.5 py-0.5 bg-blue-400/30 rounded text-blue-100 uppercase">En Tránsito</span>
+</div>
+</div>
+<div class="ml-4 h-8 w-0.5 bg-blue-400/10"></div>
+<div class="flex items-start gap-4 opacity-40">
+<div class="w-8 h-8 rounded-full border-2 border-blue-900 flex items-center justify-center text-xs font-bold">3</div>
+<div>
+<p class="text-[10px] text-blue-300 uppercase font-medium">Destino Final</p>
+<p class="text-sm font-bold">RETAIL STORE #452</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Picking Maestro Table -->
+<section class="bg-white rounded shadow-sm overflow-hidden border border-slate-200/50">
+<div class="bg-primary-container px-6 py-4 flex justify-between items-center">
+<h3 class="text-white font-bold text-sm uppercase tracking-widest">Picking Maestro - Control de Lotes</h3>
+<div class="flex gap-2">
+<button class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded transition-colors flex items-center gap-1 border border-white/20">
+<span class="material-symbols-outlined text-sm">filter_alt</span> Filtrar
+                        </button>
+<button class="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded transition-colors flex items-center gap-1 border border-white/20">
+<span class="material-symbols-outlined text-sm">file_download</span> Exportar
+                        </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high border-b border-slate-300">
+<th class="px-6 py-3 text-[10px] font-black text-slate-600 uppercase tracking-widest">SSCC / ID Pallet</th>
+<th class="px-6 py-3 text-[10px] font-black text-slate-600 uppercase tracking-widest">Código Producto</th>
+<th class="px-6 py-3 text-[10px] font-black text-slate-600 uppercase tracking-widest">Lote</th>
+<th class="px-6 py-3 text-[10px] font-black text-slate-600 uppercase tracking-widest">Fecha Exp. (FEFO)</th>
+<th class="px-6 py-3 text-[10px] font-black text-slate-600 uppercase tracking-widest">Ubicación</th>
+<th class="px-6 py-3 text-[10px] font-black text-slate-600 uppercase tracking-widest">Estado</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-mono text-xs font-bold text-primary">003748291048572101</td>
+<td class="px-6 py-4 text-sm text-slate-700">PRD-99-ALPHA</td>
+<td class="px-6 py-4 text-sm text-slate-600">L-2024-X99</td>
+<td class="px-6 py-4 text-sm text-slate-600">12/12/2025</td>
+<td class="px-6 py-4 text-sm font-bold text-slate-800">RACK-A-12-04</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded uppercase">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        ESCANEADO
+                                    </span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-mono text-xs font-bold text-primary">003748291048572102</td>
+<td class="px-6 py-4 text-sm text-slate-700">PRD-99-ALPHA</td>
+<td class="px-6 py-4 text-sm text-slate-600">L-2024-X99</td>
+<td class="px-6 py-4 text-sm text-slate-600">12/12/2025</td>
+<td class="px-6 py-4 text-sm font-bold text-slate-800">RACK-A-12-05</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded uppercase">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                        ESCANEADO
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-mono text-xs font-bold text-primary">003748291048572103</td>
+<td class="px-6 py-4 text-sm text-slate-700">PRD-102-BETA</td>
+<td class="px-6 py-4 text-sm text-slate-600">L-2024-Z42</td>
+<td class="px-6 py-4 text-sm text-slate-600">08/10/2025</td>
+<td class="px-6 py-4 text-sm font-bold text-slate-800">RACK-B-02-01</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded uppercase">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                        PENDIENTE
+                                    </span>
+</td>
+</tr>
+<tr class="bg-surface-container-low/30 hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-mono text-xs font-bold text-primary">003748291048572104</td>
+<td class="px-6 py-4 text-sm text-slate-700">PRD-102-BETA</td>
+<td class="px-6 py-4 text-sm text-slate-600">L-2024-Z42</td>
+<td class="px-6 py-4 text-sm text-slate-600">08/10/2025</td>
+<td class="px-6 py-4 text-sm font-bold text-slate-800">RACK-B-02-02</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded uppercase">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                        PENDIENTE
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4 font-mono text-xs font-bold text-primary">003748291048572105</td>
+<td class="px-6 py-4 text-sm text-slate-700">PRD-55-OMEGA</td>
+<td class="px-6 py-4 text-sm text-slate-600">L-2024-K01</td>
+<td class="px-6 py-4 text-sm text-slate-600">20/01/2026</td>
+<td class="px-6 py-4 text-sm font-bold text-slate-800">RACK-D-05-10</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded uppercase">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                                        PENDIENTE
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Final Actions -->
+<div class="flex justify-end items-center gap-4 pt-4">
+<button class="px-6 py-3 border border-outline text-on-surface font-bold text-xs uppercase tracking-widest rounded-md hover:bg-surface-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                    Generar ASN / Remisión PDF
+                </button>
+<button class="px-10 py-3 bg-gradient-to-r from-primary to-primary-container text-white font-bold text-sm uppercase tracking-widest rounded-md shadow-xl hover:shadow-2xl active:scale-[0.98] transition-all flex items-center gap-2">
+                    FINALIZAR EXPEDICIÓN
+                    <span class="material-symbols-outlined">double_arrow</span>
+</button>
+</div>
+</div>
+<!-- Footer Metric / Background Branding -->
+<footer class="mt-auto py-6 px-8 border-t border-slate-200 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+<span>Audit Node: VALT-SYS-09</span>
+<div class="flex items-center gap-4">
+<span class="text-on-tertiary-container">Latency: 24ms</span>
+<span class="text-slate-200">|</span>
+<span>The Vault Industrial OS v4.2.0</span>
+</div>
+</footer>
+</main>
+</body></html>

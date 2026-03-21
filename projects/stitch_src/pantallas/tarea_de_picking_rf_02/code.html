@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>4-GUARD WMS - TAREA DE PICKING</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#410002",
+              "surface-variant": "#e0e3e5",
+              "surface-dim": "#d7dadc",
+              "on-background": "#181c1e",
+              "inverse-on-surface": "#eef1f3",
+              "on-tertiary-container": "#f57009",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed": "#331200",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#93000b",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface-container": "#ebeef0",
+              "inverse-surface": "#2d3133",
+              "secondary": "#bb0112",
+              "on-secondary-container": "#fffbff",
+              "surface-bright": "#f7fafc",
+              "surface": "#f7fafc",
+              "tertiary-fixed-dim": "#ffb68f",
+              "on-primary-fixed": "#000767",
+              "tertiary-fixed": "#ffdbca",
+              "on-tertiary": "#ffffff",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-fixed": "#ffdad6",
+              "primary": "#000666",
+              "surface-container-low": "#f1f4f6",
+              "background": "#f7fafc",
+              "on-tertiary-fixed-variant": "#773200",
+              "secondary-fixed-dim": "#ffb4ab",
+              "primary-container": "#1a237e",
+              "inverse-primary": "#bdc2ff",
+              "tertiary": "#321100",
+              "surface-container-high": "#e5e9eb",
+              "on-primary-container": "#8690ee",
+              "outline": "#767683",
+              "secondary-container": "#e02928",
+              "surface-tint": "#4c56af",
+              "on-error": "#ffffff",
+              "tertiary-container": "#532100",
+              "outline-variant": "#c6c5d4",
+              "primary-fixed-dim": "#bdc2ff",
+              "primary-fixed": "#e0e0ff",
+              "on-surface-variant": "#454652",
+              "on-primary-fixed-variant": "#343d96",
+              "on-secondary": "#ffffff",
+              "on-surface": "#181c1e"
+            },
+            fontFamily: {
+              "headline": ["Work Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .font-vault { font-family: 'Work Sans', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface text-on-surface antialiased pb-24">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-md border-b border-indigo-100/15 shadow-sm flex items-center justify-between px-4 h-14">
+<div class="flex items-center gap-3">
+<button class="text-indigo-900 active:scale-95 duration-150 p-1">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-lg font-black uppercase tracking-widest text-indigo-950 font-vault">TAREA DE PICKING: EXP-02</h1>
+</div>
+<div class="relative">
+<button class="text-indigo-900 active:scale-95 duration-150 p-1">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<!-- Notification Badge -->
+<span class="absolute top-1 right-1 w-2 h-2 bg-secondary rounded-full border border-white"></span>
+</div>
+</header>
+<main class="mt-20 px-4 space-y-6 max-w-lg mx-auto">
+<!-- Progress Indicator Section -->
+<section class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="text-xs font-vault font-bold uppercase tracking-wider text-on-surface-variant">Progreso de Orden</span>
+<span class="text-lg font-vault font-black text-primary">1/15 <span class="text-xs font-normal text-on-surface-variant">Pallets</span></span>
+</div>
+<div class="h-3 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-primary-container" style="width: 7%"></div>
+</div>
+</section>
+<!-- Current Item Card (Hero) -->
+<section class="bg-surface-container-lowest shadow-sm rounded-lg overflow-hidden border-l-4 border-primary">
+<div class="p-5 space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-[10px] font-vault font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-1">Código de Unidad</p>
+<h2 class="text-3xl font-vault font-black text-primary tracking-tight">SSCC-8901</h2>
+</div>
+<div class="bg-primary-container text-white px-3 py-1 rounded text-xs font-bold font-vault">
+                        FEFO OK
+                    </div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg flex items-center gap-4">
+<div class="bg-primary text-white p-2 rounded">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="text-[10px] font-vault font-bold text-on-surface-variant uppercase tracking-widest">Ubicación de Origen</p>
+<p class="text-xl font-vault font-extrabold text-indigo-950 uppercase">BAHÍA B-12 - NIVEL 2</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="border-l-2 border-surface-container-highest pl-3">
+<p class="text-[10px] font-vault font-bold text-on-surface-variant uppercase tracking-widest">Producto</p>
+<p class="font-bold text-on-surface">LECHE NIDO 800G</p>
+</div>
+<div class="border-l-2 border-surface-container-highest pl-3 text-right">
+<p class="text-[10px] font-vault font-bold text-on-surface-variant uppercase tracking-widest">Cantidad</p>
+<p class="text-2xl font-vault font-black text-primary">24 <span class="text-xs font-normal">Unds</span></p>
+</div>
+</div>
+<button class="w-full bg-secondary-container hover:bg-secondary active:scale-[0.98] transition-all text-white py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-secondary/20 group">
+<span class="material-symbols-outlined text-3xl group-active:rotate-12 transition-transform">barcode_scanner</span>
+<span class="font-vault font-black text-xl tracking-widest">ESCANEAR</span>
+</button>
+</div>
+</section>
+<!-- Upcoming Items List -->
+<section class="space-y-4">
+<h3 class="text-xs font-vault font-bold text-on-surface-variant uppercase tracking-[0.2em] px-1">Próximos en Ruta (FEFO)</h3>
+<div class="space-y-3">
+<!-- Task Row 1 -->
+<div class="bg-surface-container-low p-4 rounded-lg flex justify-between items-center transition-all hover:bg-surface-container border border-transparent active:border-primary-container/20">
+<div class="flex gap-4 items-center">
+<div class="text-primary-container opacity-40">
+<span class="material-symbols-outlined">label</span>
+</div>
+<div>
+<p class="text-sm font-vault font-extrabold text-primary tracking-tight">SSCC-9012</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Bahía A-04 | 12 Unds</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</div>
+<!-- Task Row 2 -->
+<div class="bg-surface-container-low p-4 rounded-lg flex justify-between items-center transition-all hover:bg-surface-container border border-transparent">
+<div class="flex gap-4 items-center">
+<div class="text-primary-container opacity-40">
+<span class="material-symbols-outlined">label</span>
+</div>
+<div>
+<p class="text-sm font-vault font-extrabold text-primary tracking-tight">SSCC-8845</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase">Bahía B-01 | 48 Unds</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Anomaly Action -->
+<div class="pt-4">
+<button class="w-full flex items-center justify-center gap-2 py-3 px-4 border-2 border-dashed border-secondary/30 text-secondary hover:bg-secondary/5 rounded-lg transition-colors active:scale-95">
+<span class="material-symbols-outlined text-xl">report_problem</span>
+<span class="font-vault font-bold text-sm tracking-wide uppercase">Reportar Anomalía en Sitio</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-16 px-2 pb-safe bg-indigo-900 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-50">
+<!-- Tasks Tab (Active) -->
+<a class="flex flex-col items-center justify-center bg-gradient-to-b from-indigo-800 to-indigo-950 text-white rounded-lg py-1 px-4 mb-1 transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="font-vault font-semibold tracking-wide text-[10px] uppercase mt-0.5">Tareas</span>
+</a>
+<!-- Scan Tab -->
+<a class="flex flex-col items-center justify-center text-indigo-300/70 hover:text-white py-1 transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">barcode_scanner</span>
+<span class="font-vault font-semibold tracking-wide text-[10px] uppercase mt-0.5">Scan</span>
+</a>
+<!-- Anomalies Tab -->
+<a class="flex flex-col items-center justify-center text-indigo-300/70 hover:text-white py-1 transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">report_problem</span>
+<span class="font-vault font-semibold tracking-wide text-[10px] uppercase mt-0.5">Anomalías</span>
+</a>
+<!-- Profile Tab -->
+<a class="flex flex-col items-center justify-center text-indigo-300/70 hover:text-white py-1 transition-all active:opacity-80" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-vault font-semibold tracking-wide text-[10px] uppercase mt-0.5">Perfil</span>
+</a>
+</nav>
+<!-- Floating Security Icon (Visual Cue) -->
+<div class="fixed bottom-20 right-4 pointer-events-none opacity-20">
+<img alt="WMS Security Logo Overlay" class="w-16 h-16 object-contain" data-alt="Monochrome security shield icon with architectural lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDahvE7RX20hcGRK-zhE0clS1-5SM7M6VwF9iO9qeupHKufuFKC9gA5tnsuAL2dMSByz4U8RVyZGVJ51wwOmbLOxyszH4NVrrtF4HSthZcJbHvccQZb30Wldt3-eMkTfWZk29L4jj7vItNxVLqWoIfBbOvHLPmRrolHRDt8xGW7XtVcMKPIpt9hqvFe3o-nx1XmuxatgbR21z-99y_mZAUnpPndwrcTg5n60JhltIp_FizP7owW65VVZON7H5nVP-jqvAVEp4x0rkjr"/>
+</div>
+</body></html>

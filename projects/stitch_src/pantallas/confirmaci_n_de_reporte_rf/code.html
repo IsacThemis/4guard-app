@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-container": "#fffbff",
+                        "on-tertiary-fixed-variant": "#773200",
+                        "inverse-primary": "#bdc2ff",
+                        "on-primary-fixed-variant": "#343d96",
+                        "surface": "#f7fafc",
+                        "tertiary": "#321100",
+                        "primary": "#000666",
+                        "outline-variant": "#c6c5d4",
+                        "surface-tint": "#4c56af",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ffb68f",
+                        "on-secondary-fixed-variant": "#93000b",
+                        "on-primary-fixed": "#000767",
+                        "on-surface-variant": "#454652",
+                        "on-secondary-fixed": "#410002",
+                        "on-background": "#181c1e",
+                        "on-tertiary-container": "#f57009",
+                        "tertiary-fixed": "#ffdbca",
+                        "primary-container": "#1a237e",
+                        "surface-variant": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#eef1f3",
+                        "surface-container-low": "#f1f4f6",
+                        "secondary-container": "#e02928",
+                        "tertiary-container": "#532100",
+                        "primary-fixed": "#e0e0ff",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e5e9eb",
+                        "on-tertiary-fixed": "#331200",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-bright": "#f7fafc",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "outline": "#767683",
+                        "surface-container": "#ebeef0",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d7dadc",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#181c1e",
+                        "on-primary-container": "#8690ee",
+                        "secondary-fixed": "#ffdad6",
+                        "secondary": "#bb0112",
+                        "inverse-surface": "#2d3133",
+                        "background": "#f7fafc",
+                        "secondary-fixed-dim": "#ffb4ab",
+                        "success-industrial": "#2e7d32"
+                    },
+                    fontFamily: {
+                        "headline": ["Work Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .success-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- TopAppBar Shell (Suppressed based on Transactional Context Rule, however, using basic structural frame for identity as per system guidance) -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-md border-b border-indigo-900/10 shadow-sm flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-indigo-900" data-icon="warning">warning</span>
+<h1 class="font-['Work_Sans'] font-bold tracking-tight uppercase text-indigo-900 text-lg">Anomaly Reported</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="min-h-screen flex flex-col items-center justify-center p-6 pt-24 pb-28">
+<!-- The Vault Confirmation Card (Asymmetric Architectural Fortitude) -->
+<div class="w-full max-w-md bg-surface-container-lowest shadow-sm rounded-lg overflow-hidden relative border-l-8 border-success-industrial">
+<div class="p-8 flex flex-col items-center text-center">
+<!-- Large Success State Icon -->
+<div class="mb-8 p-4 rounded-full bg-emerald-50">
+<span class="material-symbols-outlined text-success-industrial text-8xl success-fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Headline -->
+<h2 class="font-headline font-black text-3xl text-primary-container leading-none tracking-tight mb-4">
+                    INCIDENTE REGISTRADO
+                </h2>
+<!-- Folio Metadata (Editorial Alphanumeric Precision) -->
+<div class="bg-surface-container px-4 py-2 rounded mb-6 w-full">
+<span class="font-label text-[10px] font-bold uppercase tracking-widest text-outline block mb-1">FOLIO DE REGISTRO</span>
+<span class="font-headline font-bold text-xl tracking-wider text-primary">INC-2026-000123</span>
+</div>
+<!-- Message (Operational Data) -->
+<p class="text-on-surface-variant font-medium text-lg leading-relaxed mb-10 max-w-[280px]">
+                    Calidad revisará el producto. El <span class="text-primary font-bold">SSCC</span> ha sido bloqueado preventivamente.
+                </p>
+<!-- Primary Action (Large Full-Width Button) -->
+<button class="w-full py-5 bg-gradient-to-r from-primary to-primary-container text-white font-headline font-extrabold text-xl rounded shadow-lg active:scale-[0.98] transition-transform flex items-center justify-center gap-3">
+                    CONTINUAR
+                    <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<!-- Subtext/Status Indicator -->
+<div class="mt-8 flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-success-industrial animate-pulse"></div>
+<span class="font-label text-[11px] font-bold uppercase tracking-widest text-outline">
+                        Regresando al menú de tareas...
+                    </span>
+</div>
+</div>
+<!-- Visual Accent (Vault Texture) -->
+<div class="absolute top-0 right-0 w-24 h-24 opacity-[0.03] pointer-events-none">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<path d="M0 0 L100 100 M20 0 L100 80 M40 0 L100 60 M60 0 L100 40 M80 0 L100 20" stroke="currentColor" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- System Context Card (Saturation Gauge Logic) -->
+<div class="w-full max-w-md mt-6 grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-lg">
+<span class="font-label text-[9px] font-bold uppercase tracking-widest text-outline block mb-1">CAPACIDAD ZONA</span>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-tertiary-fixed to-on-tertiary-container w-3/4"></div>
+</div>
+<span class="font-headline font-bold text-sm text-primary-container mt-1 block text-right">75%</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg">
+<span class="font-label text-[9px] font-bold uppercase tracking-widest text-outline block mb-1">OPERADOR ID</span>
+<span class="font-headline font-bold text-sm text-primary-container">RF-OP-8821</span>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Relevance Check: Suppressed for Transactional screen) -->
+<!-- Although defined in JSON, the "Destination Rule" suggests suppression for transactional success screens. 
+         However, implementing the styles mapping as requested for the blueprint. -->
+<nav class="fixed bottom-0 w-full z-50 h-20 bg-indigo-900 border-t border-white/10 shadow-2xl flex justify-around items-center w-full px-2">
+<!-- Using Active State Logic: Mapping 'Tasks' as this is a task completion screen -->
+<a class="flex flex-col items-center justify-center text-indigo-300 opacity-70 hover:bg-indigo-800 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="font-['Inter'] text-[11px] font-bold tracking-widest uppercase mt-1">Scan</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-indigo-700 rounded-lg px-4 py-1 text-white active:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-['Inter'] text-[11px] font-bold tracking-widest uppercase mt-1">Tasks</span>
+</a>
+<a class="flex flex-col items-center justify-center text-indigo-300 opacity-70 hover:bg-indigo-800 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] text-[11px] font-bold tracking-widest uppercase mt-1">Inventory</span>
+</a>
+<a class="flex flex-col items-center justify-center text-indigo-300 opacity-70 hover:bg-indigo-800 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+<span class="font-['Inter'] text-[11px] font-bold tracking-widest uppercase mt-1">Menu</span>
+</a>
+</nav>
+</body></html>

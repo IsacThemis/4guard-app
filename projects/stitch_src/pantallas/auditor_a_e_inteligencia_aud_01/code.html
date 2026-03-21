@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AUD-01 | Auditoría e Inteligencia - The Vault WMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#ffffff",
+              "surface-dim": "#d7dadc",
+              "on-secondary-fixed": "#410002",
+              "on-error-container": "#93000a",
+              "surface-container-high": "#e5e9eb",
+              "on-surface": "#181c1e",
+              "tertiary-container": "#532100",
+              "on-surface-variant": "#454652",
+              "on-primary-fixed": "#000767",
+              "error-container": "#ffdad6",
+              "surface-container-highest": "#e0e3e5",
+              "on-tertiary-fixed": "#331200",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed-variant": "#343d96",
+              "on-primary": "#ffffff",
+              "surface-container": "#ebeef0",
+              "secondary": "#bb0112",
+              "primary-fixed-dim": "#bdc2ff",
+              "on-tertiary-fixed-variant": "#773200",
+              "secondary-fixed": "#ffdad6",
+              "on-tertiary-container": "#f57009",
+              "surface-variant": "#e0e3e5",
+              "outline": "#767683",
+              "on-secondary-container": "#fffbff",
+              "error": "#ba1a1a",
+              "primary": "#000666",
+              "on-tertiary": "#ffffff",
+              "outline-variant": "#c6c5d4",
+              "surface-bright": "#f7fafc",
+              "on-background": "#181c1e",
+              "inverse-primary": "#bdc2ff",
+              "primary-fixed": "#e0e0ff",
+              "primary-container": "#1a237e",
+              "surface-tint": "#4c56af",
+              "background": "#f7fafc",
+              "surface-container-low": "#f1f4f6",
+              "on-secondary-fixed-variant": "#93000b",
+              "tertiary": "#321100",
+              "surface": "#f7fafc",
+              "secondary-container": "#e02928",
+              "secondary-fixed-dim": "#ffb4ab",
+              "on-error": "#ffffff",
+              "tertiary-fixed": "#ffdbca",
+              "inverse-surface": "#2d3133",
+              "inverse-on-surface": "#eef1f3",
+              "tertiary-fixed-dim": "#ffb68f",
+              "on-primary-container": "#8690ee"
+            },
+            fontFamily: {
+              "headline": ["Work Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Work Sans', sans-serif; }
+        .vault-gradient { background: linear-gradient(90deg, #000666 0%, #1a237e 100%); }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed-dim selection:text-primary">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col h-full fixed left-0 top-0 z-40 bg-[#1a237e] dark:bg-slate-950 h-screen w-64 shadow-xl font-['Work_Sans'] font-medium antialiased">
+<div class="p-6">
+<h1 class="text-2xl font-bold tracking-tight text-white mb-1">AUD-01</h1>
+<p class="text-blue-200/60 text-xs uppercase tracking-widest">Auditoría e Inteligencia</p>
+</div>
+<nav class="flex-1 px-4 space-y-1 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200/70 hover:text-white hover:bg-white/10 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200/70 hover:text-white hover:bg-white/10 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="input">input</span>
+<span>Recepción</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200/70 hover:text-white hover:bg-white/10 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Inventario</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200/70 hover:text-white hover:bg-white/10 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span>Expedición</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-200/70 hover:text-white hover:bg-white/10 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>Calidad</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#000666] to-[#1a237e] text-white border-l-4 border-white transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Auditoría</span>
+</a>
+</nav>
+<div class="mt-auto p-6 space-y-4">
+<button class="w-full vault-gradient text-white py-2 rounded-lg font-bold text-sm tracking-wide shadow-lg hover:scale-[0.98] active:scale-95 transition-all">
+                Generar Reporte
+            </button>
+<div class="pt-4 border-t border-white/10 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 text-blue-200/70 hover:text-white text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Configuración</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-blue-200/70 hover:text-white text-sm" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Cerrar Sesión</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Shell -->
+<header class="flex justify-between items-center px-8 w-full z-30 fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-6 flex-1">
+<span class="font-black text-xl text-[#1a237e] dark:text-blue-500 uppercase tracking-tighter">The Vault WMS</span>
+<div class="relative w-96 ml-8">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-1.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-primary-container" placeholder="Buscar por SSCC o Lote..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-6 mr-6">
+<a class="text-slate-500 font-['Work_Sans'] text-xs tracking-wide uppercase hover:text-[#1a237e]" href="#">Global View</a>
+<a class="text-slate-500 font-['Work_Sans'] text-xs tracking-wide uppercase hover:text-[#1a237e]" href="#">Metrics</a>
+<a class="text-[#1a237e] font-bold border-b-2 border-[#1a237e] font-['Work_Sans'] text-xs tracking-wide uppercase" href="#">Logs</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="relative text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full border-2 border-white"></span>
+</button>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container/20">
+<img class="w-full h-full object-cover" data-alt="User profile avatar in the vault wms" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYk6X5llLKywy7yYdnvhk3lIPunMPH-wN6v8Du1YRz-vTdon079WttEdHoqDY8mMHMcCRaVz7W58LN1mnQ0qx_1veO-bSwhox9_e_XSpMqNNcVAFzwoI36q4Qt56vDdGfcUqVp4_EkucubEdhGjhk9R-V6FDDn-auWdStQbq-vjcFm7zvDPmyLwTH7RvBanwNacnr6rrLSKH6Np5ySV3yh96ctqN7W77_GoyAZXolpL-Zzeatm9OGmaOw-coDVDiZjeZteXyVYn9qM"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="pt-24 px-10 pb-12 space-y-8">
+<!-- Editorial Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-black text-primary-container tracking-tighter">Auditoría e Inteligencia</h2>
+<p class="text-slate-500 font-medium tracking-wide">Trazabilidad Inmutable de la Bóveda</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-lowest text-primary-container border border-outline-variant/15 font-bold text-sm rounded shadow-sm hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="picture_as_pdf">picture_as_pdf</span>
+                        Exportar Historial (PDF)
+                    </button>
+</div>
+</div>
+<!-- Filters Bar (High Utility Section) -->
+<div class="grid grid-cols-4 gap-4 p-4 bg-surface-container-low rounded-lg shadow-inner">
+<div class="space-y-1.5">
+<label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest pl-1">Entidad (SSCC/Lote)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="barcode_scanner">barcode_scanner</span>
+<input class="w-full bg-surface-container-lowest border-none rounded text-sm py-2 pl-10" type="text" value="INC-2026-000123"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest pl-1">Rango de Fechas</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="calendar_today">calendar_today</span>
+<input class="w-full bg-surface-container-lowest border-none rounded text-sm py-2 pl-10" placeholder="19/03/2026 - 20/03/2026" type="text"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest pl-1">Tipo de Evento</label>
+<select class="w-full bg-surface-container-lowest border-none rounded text-sm py-2 px-3">
+<option>Todos los Eventos</option>
+<option>Bloqueo</option>
+<option>Ajuste</option>
+<option>Despacho</option>
+</select>
+</div>
+<div class="space-y-1.5">
+<label class="text-[10px] uppercase font-bold text-slate-500 tracking-widest pl-1">Auditor Responsable</label>
+<select class="w-full bg-surface-container-lowest border-none rounded text-sm py-2 px-3">
+<option>Cualquier Usuario</option>
+<option>inspector.calidad@almacen.com</option>
+<option>admin.vault@almacen.com</option>
+</select>
+</div>
+</div>
+<!-- Main Layout: Timeline + Diff Visual -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Timeline Section -->
+<div class="col-span-7 space-y-6">
+<h3 class="text-xs uppercase font-black text-slate-400 tracking-[0.2em] mb-4">Registro Cronológico Inmutable</h3>
+<!-- Event Card: Active/Selected -->
+<div class="bg-surface-container-lowest p-5 shadow-[4px_12px_32px_rgba(26,35,126,0.08)] border-l-4 border-primary transition-all cursor-pointer">
+<div class="flex gap-5">
+<div class="w-12 h-12 rounded bg-primary-container text-white flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="lock">lock</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-primary-container text-lg">Lote Bloqueado por Calidad</h4>
+<span class="text-[10px] font-mono font-bold text-slate-400 bg-surface-container px-2 py-1 rounded">19/03/2026 15:42:35</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-tighter">Entidad</p>
+<p class="text-sm font-bold font-mono text-primary">INC-2026-000123</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-tighter">Usuario</p>
+<p class="text-sm font-medium text-slate-700">inspector.calidad@almacen.com</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Event Card 2 -->
+<div class="bg-surface-container-low p-5 hover:bg-surface-container-lowest transition-all cursor-pointer">
+<div class="flex gap-5 opacity-80">
+<div class="w-12 h-12 rounded bg-tertiary-container text-on-tertiary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="edit_note">edit_note</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-800 text-lg">Ajuste de Inventario Manual</h4>
+<span class="text-[10px] font-mono font-bold text-slate-400">19/03/2026 14:10:02</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-tighter">Entidad</p>
+<p class="text-sm font-bold font-mono text-slate-600">LOTE-77890-B</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-tighter">Usuario</p>
+<p class="text-sm font-medium text-slate-700">admin.vault@almacen.com</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Event Card 3 -->
+<div class="bg-surface-container-low p-5 hover:bg-surface-container-lowest transition-all cursor-pointer">
+<div class="flex gap-5 opacity-80">
+<div class="w-12 h-12 rounded bg-green-900 text-green-100 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-2xl" data-icon="local_shipping">local_shipping</span>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-800 text-lg">Despacho de Pedido Finalizado</h4>
+<span class="text-[10px] font-mono font-bold text-slate-400">19/03/2026 12:45:11</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-tighter">Entidad</p>
+<p class="text-sm font-bold font-mono text-slate-600">ORD-992331-X</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-slate-400 font-bold tracking-tighter">Usuario</p>
+<p class="text-sm font-medium text-slate-700">expedicion.team@almacen.com</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Alteration Detail Section (Side Panel Visual) -->
+<div class="col-span-5">
+<div class="sticky top-24 bg-surface-container p-6 rounded shadow-sm border border-outline-variant/10 space-y-6">
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-4">
+<h3 class="font-black text-primary-container text-xl uppercase tracking-tighter">Detalle de Alteración</h3>
+<span class="bg-primary text-white text-[9px] px-2 py-0.5 rounded-full font-bold">EVENT_ID: 99421</span>
+</div>
+<!-- Diff Visual Table -->
+<div class="space-y-4">
+<div class="grid grid-cols-2 gap-4 text-center">
+<div class="p-3 bg-red-50 rounded">
+<p class="text-[10px] font-bold text-red-700 uppercase mb-2">Valor Anterior</p>
+<p class="text-lg font-black text-red-900 line-through decoration-2">Status: 20</p>
+<span class="text-[10px] text-red-600 font-medium tracking-tight">EN PROCESAMIENTO</span>
+</div>
+<div class="p-3 bg-green-50 rounded border-2 border-green-200">
+<p class="text-[10px] font-bold text-green-700 uppercase mb-2">Valor Nuevo</p>
+<p class="text-lg font-black text-green-900">Status: BLOQUEADO</p>
+<span class="text-[10px] text-green-600 font-medium tracking-tight">CUARENTENA CALIDAD</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 space-y-3">
+<p class="text-[10px] uppercase font-bold text-slate-500 border-b border-slate-100 pb-2">Metadatos del Cambio</p>
+<div class="space-y-2">
+<div class="flex justify-between">
+<span class="text-xs text-slate-500">Hash de Bloque:</span>
+<span class="text-xs font-mono font-bold text-slate-800">0x77ae...991b</span>
+</div>
+<div class="flex justify-between">
+<span class="text-xs text-slate-500">Terminal ID:</span>
+<span class="text-xs font-mono font-bold text-slate-800">TERM-WH-04</span>
+</div>
+<div class="flex justify-between">
+<span class="text-xs text-slate-500">Motivo:</span>
+<span class="text-xs font-bold text-primary italic">"Humedad detectada en palet"</span>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-3 pt-4">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white font-bold rounded-md hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+                                Ver Objeto Asociado
+                            </button>
+<button class="w-full py-3 text-primary-container font-bold text-sm border-2 border-primary-container/10 hover:bg-white transition-all">
+                                Comparar con Historial Completo
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Only for Main Auditing Tasks) -->
+<div class="fixed bottom-8 right-8">
+<button class="w-16 h-16 rounded-full vault-gradient text-white shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+</button>
+</div>
+<!-- Image for Context Reference -->
+<div class="hidden">
+<img class="opacity-0" data-alt="Futuristic data server room representing the vault WMS storage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbKyyV6HhF-58WcEVEdBMpy9RHKKnqkbyYAXbDNVfnwSUQGyJTs9yxWd0C2SJA9BWvOKpeAPh4f1lVTV408Ubu_O2XIngc0jcUret-pHr1tmoWVV0fIL0RbkOf2sxYcXsi_NIRUftD2-URLF74o__4A4gxOEnw2Ge859MEVPZ_hYVMa07tyYR_juGWV5q1qGrMuxubEF_OOSGXmalV80xtOjRL3wpmy1WqTji5qXsSQKjGA8gR_GSEL7-odRPXmUoTfrqD4z_yVjb0"/>
+</div>
+</body></html>

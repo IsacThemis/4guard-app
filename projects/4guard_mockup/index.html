@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-GUARD | Índice de Flujos de Pantalla</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        surface: '#f7fafc',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(26, 35, 126, 0.1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .glass-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        
+        /* Front Platino: Liquid Glass & Spring Physics */
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(26, 35, 126, 0.6);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .activity-card {
+            transition: transform 350ms cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 350ms ease;
+            view-transition-name: activity-card;
+        }
+        .activity-card.hidden { display: none; opacity: 0; transform: scale(0.95) translateY(10px); }
+        .activity-card.visible { display: flex; opacity: 1; transform: scale(1) translateY(0); }
+    </style>
+</head>
+<body class="antialiased font-sans min-h-screen">
+    
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+    <!-- Topbar: Vault Core UI -->
+    <header class="bg-primary_container text-white px-8 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded bg-secondary flex items-center justify-center font-bold text-sm tracking-tighter">4G</div>
+            <h1 class="text-xl font-bold tracking-tight">4-GUARD WMS | <span class="text-blue-300 font-normal">Plataforma Front Platino</span></h1>
+        </div>
+        <div class="text-sm font-medium text-blue-200">
+            Índice de Navegación de Flujos
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-primary_container mb-3">Catálogo de Interfaces Renderizadas</h2>
+            <p class="text-slate-600 max-w-3xl">Bienvenido a la Bóveda. Este documento actúa como el índice central navegable de todas las interfaces del sistema generadas según las directrices del Multi-Paradigm Design System. Haz clic en las tarjetas para visualizar el renderizado interactivo (Stitch Mockup) de cada módulo funcional.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Global -->
+            <div class="glass-card rounded-xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-slate-200 text-slate-800 text-xs font-bold px-2 py-1 rounded">Global / Layout</span>
+                    <span class="text-slate-400 font-mono text-xs">LOGIN-01, DASH-01</span>
+                </div>
+                <h3 class="text-lg font-bold text-primary_container mb-2">Ingreso y Dashboard</h3>
+                <p class="text-sm text-slate-500 mb-4 h-10">Inicio de sesión corporativo y la Torre de Control principal (KPIs y alertas).</p>
+                <div class="space-y-2">
+                    <a href="../projects/stitch_src/pantallas/inicio_de_sesi_n_login_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ LOGIN-01: Inicio de Sesión</a>
+                    <a href="../projects/stitch_src/pantallas/dashboard_de_kpis_dash_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ DASH-01: Dashboard KPIs</a>
+                    <a href="../projects/stitch_src/pantallas/vault_core_ui/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ VAULT-00: Layour Base</a>
+                    <a href="../projects/stitch_src/pantallas/panel_de_alertas_glob_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ GLOB-01: Alertas y Notificaciones</a>
+                </div>
+            </div>
+
+            <!-- Recepción -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-info_blue">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded">Bóveda Entrada</span>
+                    <span class="text-slate-400 font-mono text-xs">REC-01, REC-02</span>
+                </div>
+                <h3 class="text-lg font-bold text-primary_container mb-2">Módulo Recepción</h3>
+                <p class="text-sm text-slate-500 mb-4 h-10">Flujo estricto de captura de camiones y cuadratura radial (Status 10/20).</p>
+                <div class="space-y-2">
+                    <a href="../projects/stitch_src/pantallas/consola_de_recepci_n_paso_1_metadatos_rec_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ REC-01: Captura de Metadatos</a>
+                    <a href="../projects/stitch_src/pantallas/consola_de_recepci_n_unificada_rec_02/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ REC-02: Escaneo y Cuadratura</a>
+                </div>
+            </div>
+
+            <!-- Expedición -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-purple-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2 py-1 rounded">Módulo Salidas</span>
+                    <span class="text-slate-400 font-mono text-xs">EXP-01, EXP-02</span>
+                </div>
+                <h3 class="text-lg font-bold text-primary_container mb-2">Expedición (PEPS/FEFO)</h3>
+                <p class="text-sm text-slate-500 mb-4 h-10">Consolas de salida y seguimiento algorítmico estricto del picking.</p>
+                <div class="space-y-2">
+                    <a href="../projects/stitch_src/pantallas/consola_de_expedici_n_y_ruteo_exp_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ EXP-01: Consola ASN / FEFO</a>
+                    <a href="../projects/stitch_src/pantallas/detalle_de_picking_exp_02/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ EXP-02: Detalle Picking</a>
+                </div>
+            </div>
+
+            <!-- Calidad -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-secondary">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded">Control Calidad</span>
+                    <span class="text-slate-400 font-mono text-xs">QM-01, QM-02</span>
+                </div>
+                <h3 class="text-lg font-bold text-primary_container mb-2">Incidencias y Bloqueos</h3>
+                <p class="text-sm text-slate-500 mb-4 h-10">Tablas de anomalías, generación de actas y bloqueos NOM-251.</p>
+                <div class="space-y-2">
+                    <a href="../projects/stitch_src/pantallas/lista_de_incidencias_de_anomal_a_qm_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ ANOM-01: Lista Anomalías</a>
+                    <a href="../projects/stitch_src/pantallas/detalle_de_incidencia_qm_02/code.html" class="block text-sm text-secondary hover:text-red-900 font-medium hover:underline transition-colors">▶ QM-02: Detalle y Bloqueo Lote 🔴</a>
+                    <a href="../projects/stitch_src/pantallas/visor_de_documentos_pdf_qm_03/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ QM-03: Visor Acta PDF</a>
+                </div>
+            </div>
+
+            <!-- Inteligencia / Analítica -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-emerald-500">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded">Analítica Avanzada</span>
+                    <span class="text-slate-400 font-mono text-xs">INV-01, AUD-01</span>
+                </div>
+                <h3 class="text-lg font-bold text-primary_container mb-2">Espacial y Trazabilidad</h3>
+                <p class="text-sm text-slate-500 mb-4 h-10">Canvas topológico del inventario e inmutabilidad de movimientos.</p>
+                <div class="space-y-2">
+                    <a href="../projects/stitch_src/pantallas/inventario_2d_topolog_a_inv_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ INV-01: Topología Canvas 2D</a>
+                    <a href="../projects/stitch_src/pantallas/auditor_a_e_inteligencia_aud_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ AUD-01: Auditoría (Timeline)</a>
+                    <a href="../projects/stitch_src/pantallas/administrador_de_etiquetado_sscc/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ SSCC-01: Etiquetado</a>
+                </div>
+            </div>
+
+            <!-- Terminal RF -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-l-amber_warn bg-amber-50/30">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded">Edge Computing</span>
+                    <span class="text-slate-400 font-mono text-xs">Terminal RF</span>
+                </div>
+                <h3 class="text-lg font-bold text-primary_container mb-2">Dispositivos Móviles</h3>
+                <p class="text-sm text-slate-500 mb-4 h-10">UIs de botones masivos y alto contraste para montacarguistas.</p>
+                <div class="space-y-2">
+                    <a href="../projects/stitch_src/pantallas/tarea_de_picking_rf_02/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ RF-02: Tarea Guiada Picking</a>
+                    <a href="../projects/stitch_src/pantallas/reporte_de_anomal_a_rf_rf_anom_01/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ RF-ANOM-01: Reporte Especial</a>
+                    <a href="../projects/stitch_src/pantallas/confirmaci_n_de_reporte_rf/code.html" class="block text-sm text-info_blue hover:text-primary_container font-medium hover:underline transition-colors">▶ RF-CONF: Confirmación Acciones</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+             <!-- Walkthroughs resumen interactivo -->
+             <div class="px-6 py-5 border-b border-slate-100 bg-slate-50">
+                 <h4 class="font-bold text-primary_container text-lg">Walkthroughs Funcionales</h4>
+                 <p class="text-sm text-slate-500">Haz clic en los perfiles para simular los flujos definidos.</p>
+             </div>
+             <div class="grid grid-cols-2 lg:grid-cols-5 gap-px bg-slate-100">
+                 <button onclick="openWalkthrough('operador')" class="bg-white p-4 text-center hover:bg-blue-50 transition-colors">
+                     <span class="text-2xl mb-2 block">👩‍🔧</span>
+                     <span class="font-semibold text-sm text-slate-700 block">Operador Edge</span>
+                     <span class="text-xs text-slate-400">Scanner RF</span>
+                 </button>
+                 <button onclick="openWalkthrough('supervisor')" class="bg-white p-4 text-center hover:bg-blue-50 transition-colors">
+                     <span class="text-2xl mb-2 block">👨‍💼</span>
+                     <span class="font-semibold text-sm text-slate-700 block">Supervisor</span>
+                     <span class="text-xs text-slate-400">Recepción / Expedición</span>
+                 </button>
+                 <button onclick="openWalkthrough('calidad')" class="bg-white p-4 text-center hover:bg-red-50 transition-colors border-b-2 border-transparent hover:border-secondary">
+                     <span class="text-2xl mb-2 block">🕵️</span>
+                     <span class="font-semibold text-sm text-slate-700 block text-secondary">Calidad (QM)</span>
+                     <span class="text-xs text-slate-400">Inspector NOM-251</span>
+                 </button>
+                 <button onclick="openWalkthrough('gerente')" class="bg-white p-4 text-center hover:bg-blue-50 transition-colors">
+                     <span class="text-2xl mb-2 block">👔</span>
+                     <span class="font-semibold text-sm text-slate-700 block">Gerente</span>
+                     <span class="text-xs text-slate-400">Torre de Control</span>
+                 </button>
+                 <button onclick="openWalkthrough('auditor')" class="bg-white p-4 text-center hover:bg-blue-50 transition-colors">
+                     <span class="text-2xl mb-2 block">⚖️</span>
+                     <span class="font-semibold text-sm text-slate-700 block">Auditor</span>
+                     <span class="text-xs text-slate-400">Trazabilidad</span>
+                 </button>
+             </div>
+        </div>
+    </main>
+
+    <!-- Overlay Walkthrough Interactive (Activity Card M3 Expressive) -->
+    <div id="modal-overlay" class="fixed inset-0 z-[100] bg-slate-900/60 transition-opacity duration-300 opacity-0 pointer-events-none flex items-center justify-center p-4">
+        
+        <article id="activity-card" class="activity-card liquid-glass-layer relative w-full max-w-lg p-8 overflow-hidden text-white flex-col hidden">
+            <!-- Botón Cerrar -->
+            <button onclick="closeWalkthrough()" class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors">✕</button>
+            
+            <!-- Metadatos de Actividad -->
+            <div class="flex justify-between items-start mb-6 w-full">
+                <div class="flex items-center gap-4">
+                    <div id="modal-icon" class="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center shadow-inner text-2xl">
+                        👩‍🔧
+                    </div>
+                    <div>
+                        <h3 id="modal-title" class="text-2xl font-semibold tracking-tight">Operador Edge</h3>
+                        <p id="modal-subtitle" class="text-sm text-blue-200">Terminal RF - Flujo de Picking</p>
+                    </div>
+                </div>
+                <span class="px-3 py-1 text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full isolate">1 Tarea Activa</span>
+            </div>
+
+            <!-- Descripción de pasos -->
+            <div class="mb-8 w-full bg-black/20 rounded-xl p-4 border border-white/10">
+                <p id="modal-desc" class="text-sm text-slate-200 leading-relaxed">Simula el recorrido guiado, desde el inicio de la tarea FEFO hasta la detección in-situ de un frasco roto.</p>
+            </div>
+
+            <!-- Deep-link / onContinue Action -->
+            <a id="modal-link" href="#" class="w-full text-center block py-4 px-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-medium transition-colors duration-150 transform hover:scale-[1.02]">
+                ▶ Iniciar Simulación
+            </a>
+        </article>
+    </div>
+
+    <script>
+        const walkthroughData = {
+            'operador': { title: 'Operador Edge', sub: 'Terminal RF - Flujo', icon: '👩‍🔧', desc: 'Abre la Terminal RF para iniciar tarea (RF-01), intenta realizar un picking (RF-02) y detona una alerta de calidad (RF-ANOM-01).', link: '../projects/stitch_src/pantallas/tarea_de_picking_rf_02/code.html' },
+            'supervisor': { title: 'Supervisor', sub: 'Gestión Inteligente', icon: '👨‍💼', desc: 'Empieza en Dashboard de KPIs (DASH-01), gestiona recepción de andén (REC-01/02) en Status 20, y libera expediciones (EXP-01).', link: '../projects/stitch_src/pantallas/dashboard_de_kpis_dash_01/code.html' },
+            'calidad': { title: 'Inspector Calidad', sub: 'Bloqueos NOM-251', icon: '🕵️', desc: 'Atiende alertas rojas, entra al listado de incidencias (ANOM-01), detalla la incidencia y aplica candados (QM-02) para emitir el acta PDF (QM-03).', link: '../projects/stitch_src/pantallas/lista_de_incidencias_de_anomal_a_qm_01/code.html' },
+            'gerente': { title: 'Gerente General', sub: 'Torre de Control Analítica', icon: '👔', desc: 'Resumen estratégico, visualización 2D (INV-01) con topología de saturación cromática para rastrear alertas logísticas.', link: '../projects/stitch_src/pantallas/inventario_2d_topolog_a_inv_01/code.html' },
+            'auditor': { title: 'Auditor de Confianza', sub: 'Trazabilidad Inmutable', icon: '⚖️', desc: 'Revisión del Audit Trail de operaciones críticas, verificando bloqueos y cambios de lote emitidos según el algoritmo (AUD-01).', link: '../projects/stitch_src/pantallas/auditor_a_e_inteligencia_aud_01/code.html' }
+        };
+
+        const overlay = document.getElementById('modal-overlay');
+        const card = document.getElementById('activity-card');
+
+        function updateModalState(role) {
+            if (role) {
+                const data = walkthroughData[role];
+                document.getElementById('modal-title').innerText = data.title;
+                document.getElementById('modal-subtitle').innerText = data.sub;
+                document.getElementById('modal-icon').innerText = data.icon;
+                document.getElementById('modal-desc').innerText = data.desc;
+                document.getElementById('modal-link').href = data.link;
+
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                card.classList.remove('hidden');
+                // Allow reflow
+                void card.offsetWidth;
+                card.classList.add('visible');
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                card.classList.remove('visible');
+                setTimeout(() => card.classList.add('hidden'), 350);
+            }
+        }
+
+        function openWalkthrough(role) {
+            if (document.startViewTransition) {
+                document.startViewTransition(() => updateModalState(role));
+            } else {
+                updateModalState(role);
+            }
+        }
+
+        function closeWalkthrough() {
+            if (document.startViewTransition) {
+                document.startViewTransition(() => updateModalState(null));
+            } else {
+                updateModalState(null);
+            }
+        }
+    </script>
+</body>
+</html>

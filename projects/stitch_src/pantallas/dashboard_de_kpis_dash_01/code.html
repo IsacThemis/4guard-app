@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DASH-01: KPI Dashboard | 4-GUARD WMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#532100",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#e0e0ff",
+              "surface-container-low": "#f1f4f6",
+              "secondary-container": "#e02928",
+              "outline": "#767683",
+              "primary-fixed-dim": "#bdc2ff",
+              "surface-container-high": "#e5e9eb",
+              "surface-container-highest": "#e0e3e5",
+              "surface-bright": "#f7fafc",
+              "on-tertiary-fixed": "#331200",
+              "on-error": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-dim": "#d7dadc",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#ebeef0",
+              "on-error-container": "#93000a",
+              "background": "#f7fafc",
+              "inverse-surface": "#2d3133",
+              "secondary-fixed-dim": "#ffb4ab",
+              "on-surface": "#181c1e",
+              "secondary-fixed": "#ffdad6",
+              "secondary": "#bb0112",
+              "on-primary-container": "#8690ee",
+              "surface": "#f7fafc",
+              "primary": "#000666",
+              "tertiary": "#321100",
+              "on-tertiary-fixed-variant": "#773200",
+              "on-secondary-container": "#fffbff",
+              "on-primary-fixed-variant": "#343d96",
+              "inverse-primary": "#bdc2ff",
+              "tertiary-fixed-dim": "#ffb68f",
+              "outline-variant": "#c6c5d4",
+              "error": "#ba1a1a",
+              "surface-tint": "#4c56af",
+              "on-secondary-fixed": "#410002",
+              "on-surface-variant": "#454652",
+              "on-secondary-fixed-variant": "#93000b",
+              "on-primary-fixed": "#000767",
+              "inverse-on-surface": "#eef1f3",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#f57009",
+              "on-background": "#181c1e",
+              "primary-container": "#1a237e",
+              "tertiary-fixed": "#ffdbca"
+            },
+            fontFamily: {
+              "headline": ["Work Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Work Sans', sans-serif; }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Work Sans', 'sans-serif']
+                    },
+                    colors: {
+                        surface: '#f7fafc',
+                        surface_container_low: '#f1f5f9',
+                        surface_container: '#e2e8f0',
+                        surface_container_high: '#cbd5e1',
+                        surface_container_lowest: '#ffffff',
+                        primary: '#000666',
+                        primary_container: '#1a237e',
+                        secondary: '#bb0112',
+                        tertiary_container: '#532100',
+                        on_tertiary_container: '#10b981',
+                        amber_warn: '#f59e0b',
+                        info_blue: '#3b82f6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f7fafc; color: #1e293b; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Work Sans', sans-serif; tracking: tight; }
+        .ghost-border { border: 1px solid rgba(148, 163, 184, 0.15); }
+        .glass-topbar { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+        .shadow-ambient { box-shadow: 0 10px 24px -6px rgba(30, 41, 59, 0.06); }
+        
+        :root {
+            --card-radius: 24px;
+            --glass-filter: url('#liquid-glass');
+        }
+        .liquid-glass-layer {
+            backdrop-filter: var(--glass-filter);
+            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+
+</head>
+<body class="bg-background text-on-surface antialiased">
+
+    <!-- Filtros SVG ocultos para Liquid Glass -->
+    <svg style="width: 0; height: 0; position: absolute;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-glass">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="BLURRED_BG" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="NOISE" />
+          <feDisplacementMap in="BLURRED_BG" in2="NOISE" scale="20" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
+          <feSpecularLighting in="NOISE" specularExponent="20" lighting-color="#ffffff" result="SPECULAR">
+            <fePointLight x="50" y="50" z="200" />
+          </feSpecularLighting>
+          <feComposite in="SPECULAR" in2="REFRACTED" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+      </defs>
+    </svg>
+
+<!-- SideNavBar Shell -->
+<aside class="fixed inset-y-0 left-0 z-50 flex flex-col docked left-0 h-full w-64 bg-[#1a237e] dark:bg-[#000666] shadow-2xl font-['Work_Sans'] font-bold tracking-tight">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 flex-shrink-0 bg-white p-1 rounded-sm">
+<img class="w-full h-full object-contain" data-alt="4-GUARD Industrial Security Vault Logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzTlI7L2EcJD1bd7av-qxfVLrNpkNVC7qQnXGjEf0erpxMeGkAxGQNALZtX0doCFaVIjiZNs_8ksqpnCbpRU4Vt0Lena-A0UCwBK6Hu0F4hZhLZFp2ogWFmT42idQt0_A2AwBc1Yl62HBNDzLs9oJxSsB_HRdI4_Jk88eeAUkPV1bSIvMkANi7KifuWtjH6enXDGIa3EHiQ240CScH2aPwsFCL0mzJ9kEdL8AWHTOg7_MYAw13mZjqVj1DayygL963GA2ZE7_uShxI"/>
+</div>
+<div>
+<div class="text-xl font-black text-white uppercase tracking-widest">4-GUARD</div>
+<div class="text-[10px] text-indigo-300 font-medium tracking-[0.2em] uppercase">Vault WMS</div>
+</div>
+</div>
+<nav class="mt-6 flex-1 px-4 space-y-1">
+<!-- Dashboard (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#000666] to-[#1a237e] text-white border-l-4 border-[#bb0112] scale-98 active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined filled-icon">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200 hover:text-white hover:bg-[#000666]/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200 hover:text-white hover:bg-[#000666]/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">reorder</span>
+<span>Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200 hover:text-white hover:bg-[#000666]/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>Shipments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-indigo-200 hover:text-white hover:bg-[#000666]/50 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="p-6 border-t border-indigo-800/30">
+<div class="flex items-center gap-2 text-[11px] text-white font-medium uppercase tracking-wider">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                System Status: Active
+            </div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 px-8 flex items-center justify-between z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-slate-200/15 dark:border-slate-800/15">
+<div class="flex items-center gap-8">
+<h1 class="text-lg font-bold text-[#1a237e] dark:text-white">4-GUARD WMS</h1>
+<div class="relative group">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-xl">search</span>
+</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border-none rounded text-sm focus:ring-2 focus:ring-[#1a237e] transition-all w-64 font-['Inter']" placeholder="Search Vault..." type="text"/>
+</div>
+<nav class="hidden lg:flex items-center gap-6 font-['Inter'] text-sm font-medium">
+<a class="text-[#1a237e] border-b-2 border-[#1a237e] py-5" href="#">Analytics</a>
+<a class="text-slate-500 hover:text-[#1a237e] py-5 transition-all" href="#">Logistics</a>
+<a class="text-slate-500 hover:text-[#1a237e] py-5 transition-all" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="bg-gradient-to-r from-primary to-primary-container text-white px-4 py-2 rounded-md text-sm font-semibold flex items-center gap-2 hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-lg">download</span>
+                Export to Excel
+            </button>
+<div class="flex items-center gap-4">
+<button class="relative text-slate-500 hover:text-[#bb0112] transition-colors">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+<span class="absolute -top-1 -right-1 w-4 h-4 bg-secondary text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white">3</span>
+</button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-200">
+<div class="text-right hidden sm:block">
+<div class="text-xs font-bold text-[#1a237e]">M. Schneider</div>
+<div class="text-[10px] text-slate-500 uppercase tracking-tighter font-semibold">Vault Manager</div>
+</div>
+<img class="w-8 h-8 rounded-full border border-slate-200" data-alt="Manager Profile Photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHydLq1_dq8bi7qaAglsm3rFurmQ-r_gOqreglkEG7QOxkxcZfRJq_gBxg_P0TEDwbeeyRiideswKsHbWaqbOmCN60gWasW-GJa3SciJliNamkaCCreoTHhic6hNDfEO-7bvgS1tyQ_DH23Waa60qzxOjHdYDt_dzPgEH-OuNDGI0z_szuzN5FXqA0btEFtp_OAy6i03OYiNrR-BtXSFeK38WjYSyozMXHtbF9K34_hWmHHgPlH7BTt0twvM8OkiyOVwGkiR4GSbG6"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-10 min-h-screen">
+<!-- Dashboard Header -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-[0.2em] mb-1 block">Live Intelligence Feed</span>
+<h2 class="text-4xl font-black text-primary-container tracking-tight font-['Work_Sans']">Warehouse Performance</h2>
+<p class="text-slate-500 text-sm mt-1">Operational Overview for Sector Alpha-09</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container-lowest p-4 px-6 rounded shadow-sm border-l-4 border-primary-container">
+<div class="text-[10px] uppercase font-bold text-slate-400">Total SSCC Items</div>
+<div class="text-2xl font-black text-primary-container">12,482</div>
+</div>
+<div class="bg-surface-container-lowest p-4 px-6 rounded shadow-sm border-l-4 border-on-tertiary-container">
+<div class="text-[10px] uppercase font-bold text-slate-400">Avg movements/h</div>
+<div class="text-2xl font-black text-primary">142.5</div>
+</div>
+</div>
+</div>
+<!-- Analytical Bento Grid -->
+<div class="grid grid-cols-12 gap-8">
+<!-- KPI 1: Global Saturation (3/12) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-lowest p-8 rounded flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-slate-200 text-6xl rotate-12">warehouse</span>
+</div>
+<h3 class="w-full text-xs font-black uppercase tracking-widest text-slate-400 mb-8 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                        Global Saturation
+                    </h3>
+<!-- SVG Gauge -->
+<div class="relative w-56 h-56 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container-high" cx="112" cy="112" fill="transparent" r="90" stroke="currentColor" stroke-width="16"></circle>
+<circle cx="112" cy="112" fill="transparent" r="90" stroke="url(#gradient-saturation)" stroke-dasharray="565" stroke-dashoffset="85" stroke-linecap="butt" stroke-width="18"></circle>
+<defs>
+<lineargradient id="gradient-saturation" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#bb0112"></stop>
+<stop offset="100%" stop-color="#532100"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="absolute flex flex-col items-center justify-center">
+<span class="text-6xl font-black text-primary tracking-tighter">85%</span>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-widest mt-1">Critical</span>
+</div>
+</div>
+<div class="mt-10 w-full p-4 bg-error-container/30 rounded border border-secondary/10">
+<div class="flex justify-between items-center text-xs">
+<span class="font-bold text-on-error-container">CAPACITY WARNING</span>
+<span class="material-symbols-outlined text-secondary text-sm">warning</span>
+</div>
+<p class="text-[11px] text-slate-600 mt-1 leading-relaxed">Vault nearing structural capacity. Expedite pending shipments to Sector B.</p>
+</div>
+</div>
+<!-- Active Alerts Card -->
+<div class="bg-primary-container p-6 rounded shadow-xl text-white">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xs font-black uppercase tracking-widest text-indigo-300">Vault Security Alerts</h3>
+<span class="px-2 py-0.5 bg-secondary rounded text-[9px] font-bold">3 CRITICAL</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 p-3 bg-white/5 rounded hover:bg-white/10 transition-colors border-l-4 border-secondary">
+<div class="text-secondary"><span class="material-symbols-outlined">dock</span></div>
+<div class="flex-1">
+<div class="text-[11px] font-bold uppercase tracking-tight">Truck &gt;3h in dock</div>
+<div class="text-[10px] text-indigo-300">Carrier: DHL Express | Dock #04</div>
+</div>
+</div>
+<div class="flex gap-4 p-3 bg-white/5 rounded hover:bg-white/10 transition-colors border-l-4 border-on-tertiary-container">
+<div class="text-on-tertiary-container"><span class="material-symbols-outlined">biotech</span></div>
+<div class="flex-1">
+<div class="text-[11px] font-bold uppercase tracking-tight">Lot in Quarantine</div>
+<div class="text-[10px] text-indigo-300">SKU: 4921-X-A | Lot #99021</div>
+</div>
+</div>
+<div class="flex gap-4 p-3 bg-white/5 rounded hover:bg-white/10 transition-colors border-l-4 border-sky-400">
+<div class="text-sky-400"><span class="material-symbols-outlined">scan_delete</span></div>
+<div class="flex-1">
+<div class="text-[11px] font-bold uppercase tracking-tight">Incomplete captures</div>
+<div class="text-[10px] text-indigo-300">Zone: Receiving 02 | 12 SSCCs missing</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- KPI 2 & 3: Performance Charts (8/12) -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-8">
+<!-- Performance Bar Chart -->
+<div class="bg-surface-container-lowest p-8 rounded shadow-sm">
+<div class="flex justify-between items-start mb-10">
+<div>
+<h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Operational Performance</h3>
+<div class="text-sm font-bold text-primary-container">Top Operators by Movements/Hour</div>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container text-[10px] font-bold text-slate-500 rounded">Today</span>
+<span class="px-3 py-1 text-[10px] font-bold text-slate-400 hover:text-primary transition-colors cursor-pointer">Last 7D</span>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Bar 1 -->
+<div class="group">
+<div class="flex justify-between text-[11px] font-bold mb-2">
+<span class="text-slate-700">Opr. Jimenez, Ricardo (Sector A)</span>
+<span class="text-primary-container">284 mvmt/h</span>
+</div>
+<div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-indigo-500 rounded-full w-[92%] transition-all duration-500"></div>
+</div>
+</div>
+<!-- Bar 2 -->
+<div class="group">
+<div class="flex justify-between text-[11px] font-bold mb-2">
+<span class="text-slate-700">Opr. Chen, Li (Sector D)</span>
+<span class="text-primary-container">241 mvmt/h</span>
+</div>
+<div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-indigo-500 rounded-full w-[78%] transition-all duration-500"></div>
+</div>
+</div>
+<!-- Bar 3 -->
+<div class="group">
+<div class="flex justify-between text-[11px] font-bold mb-2">
+<span class="text-slate-700">Opr. Kowalski, P. (Crossdock)</span>
+<span class="text-primary-container">195 mvmt/h</span>
+</div>
+<div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-indigo-500 rounded-full w-[64%] transition-all duration-500"></div>
+</div>
+</div>
+<!-- Bar 4 -->
+<div class="group">
+<div class="flex justify-between text-[11px] font-bold mb-2 text-slate-400">
+<span class="text-slate-400">Sector Average</span>
+<span class="text-slate-400">142 mvmt/h</span>
+</div>
+<div class="h-3 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-slate-200 rounded-full w-[46%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Line Chart for Reverses/Errors -->
+<div class="bg-surface-container-lowest p-8 rounded shadow-sm flex-1">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">Operational Health</h3>
+<div class="text-sm font-bold text-primary-container">7-Day Trend: Picking Errors vs. Reverses</div>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-1 bg-secondary rounded-full"></span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Errors</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-1 bg-on-tertiary-container rounded-full"></span>
+<span class="text-[10px] font-bold text-slate-500 uppercase">Reverses</span>
+</div>
+</div>
+</div>
+<!-- Simplified SVG Line Chart Visualization -->
+<div class="h-48 w-full relative">
+<svg class="w-full h-full preserve-3d" viewbox="0 0 1000 200">
+<!-- Grid Lines -->
+<line stroke="#f1f4f6" stroke-width="1" x1="0" x2="1000" y1="0" y2="0"></line>
+<line stroke="#f1f4f6" stroke-width="1" x1="0" x2="1000" y1="50" y2="50"></line>
+<line stroke="#f1f4f6" stroke-width="1" x1="0" x2="1000" y1="100" y2="100"></line>
+<line stroke="#f1f4f6" stroke-width="1" x1="0" x2="1000" y1="150" y2="150"></line>
+<line stroke="#f1f4f6" stroke-width="2" x1="0" x2="1000" y1="200" y2="200"></line>
+<!-- Error Line (Red) -->
+<path d="M0,150 L166,130 L332,160 L498,90 L664,110 L830,40 L1000,60" fill="none" stroke="#bb0112" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<!-- Reverses Line (Orange) -->
+<path d="M0,180 L166,170 L332,140 L498,160 L664,130 L830,120 L1000,110" fill="none" stroke="#f57009" stroke-dasharray="10,5" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<!-- Interaction Dots -->
+<circle cx="830" cy="40" fill="#bb0112" r="6"></circle>
+<circle cx="830" cy="120" fill="#f57009" r="6"></circle>
+</svg>
+<!-- X-Axis Labels -->
+<div class="flex justify-between mt-4 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+<div class="text-[10px] text-slate-500 italic">Historical data audited by System Log 4-G</div>
+<button class="text-[10px] font-bold text-primary hover:text-secondary transition-colors uppercase tracking-widest flex items-center gap-1">
+                            Download Raw Logs
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Inventory Heatmap Preview Section (Industrial Detail) -->
+<div class="mt-8 grid grid-cols-12 gap-8">
+<div class="col-span-12 bg-white p-6 rounded shadow-sm border border-slate-200/50">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Structural Snapshot: Rack Occupancy</h3>
+<div class="flex gap-4 items-center">
+<div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+<span class="w-3 h-3 bg-slate-100 border border-slate-200"></span> Empty
+                        </div>
+<div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+<span class="w-3 h-3 bg-indigo-200"></span> Low
+                        </div>
+<div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+<span class="w-3 h-3 bg-indigo-600"></span> Heavy
+                        </div>
+<div class="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+<span class="w-3 h-3 bg-secondary"></span> Critical
+                        </div>
+</div>
+</div>
+<!-- Mini Grid Matrix -->
+<div class="grid grid-cols-24 gap-1 h-12">
+<!-- Row of slots representing a rack line -->
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-secondary rounded-sm"></div>
+<div class="bg-indigo-800 rounded-sm"></div>
+<div class="bg-indigo-400 rounded-sm"></div>
+<div class="bg-slate-100 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-secondary rounded-sm"></div>
+<div class="bg-secondary rounded-sm"></div>
+<div class="bg-secondary rounded-sm"></div>
+<div class="bg-indigo-200 rounded-sm"></div>
+<div class="bg-slate-100 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-800 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-slate-100 rounded-sm"></div>
+<div class="bg-indigo-400 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-600 rounded-sm"></div>
+<div class="bg-indigo-800 rounded-sm"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 tracking-tighter uppercase">
+<span>Rack Line A0-L1</span>
+<span class="text-secondary">Alert: Structural stress detected in Block 3</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>
