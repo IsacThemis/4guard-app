@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   LayoutDashboard, 
   Package, 
@@ -14,12 +14,15 @@ import {
   X,
   User,
   Settings,
-  ChevronRight
+  ChevronRight,
+  Printer
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import AlertDrawer from "@/components/organisms/AlertDrawer";
 import AssistantBot from "@/components/organisms/AssistantBot";
+import GlobalSearchOverlay from "@/components/organisms/GlobalSearchOverlay";
 import { useStore } from "@/lib/store";
 
 function cn(...inputs: ClassValue[]) {
@@ -27,18 +30,32 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const navItems = [
-  { icon: LayoutDashboard, label: "Torre de Control", href: "/dashboard", active: true },
+  { icon: LayoutDashboard, label: "Torre de Control", href: "/" },
   { icon: Package, label: "Recepción", href: "/reception" },
   { icon: ClipboardCheck, label: "Calidad", href: "/quality" },
   { icon: Boxes, label: "Inventarios", href: "/inventory" },
   { icon: Truck, label: "Expedición", href: "/expedition" },
+  { icon: Printer, label: "Etiquetado", href: "/etiquetado" },
   { icon: ShieldCheck, label: "Auditoría", href: "/audit" },
 ];
 
 export default function Shell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isAlertDrawerOpen, setIsAlertDrawerOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user, alertsCount } = useStore();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div className="flex h-screen bg-background overflow-hidden font-inter">
@@ -59,33 +76,36 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors group relative",
-                item.active
-                  ? "bg-white/10 text-white"
-                  : "text-white/60 hover:bg-white/5 hover:text-white"
-              )}
-            >
-              <item.icon className="w-5 h-5 flex-shrink-0" />
-              {isSidebarOpen && (
-                <span className="font-medium text-sm">{item.label}</span>
-              )}
-              {item.active && isSidebarOpen && (
-                <div className="absolute right-3">
-                  <ChevronRight className="w-4 h-4 text-white/40" />
-                </div>
-              )}
-              {!isSidebarOpen && (
-                <div className="absolute left-full ml-4 px-2 py-1 bg-primary-container text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-xl">
-                  {item.label}
-                </div>
-              )}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors group relative",
+                  isActive
+                    ? "bg-white/10 text-white"
+                    : "text-white/60 hover:bg-white/5 hover:text-white"
+                )}
+              >
+                <item.icon className="w-5 h-5 flex-shrink-0" />
+                {isSidebarOpen && (
+                  <span className="font-medium text-sm">{item.label}</span>
+                )}
+                {isActive && isSidebarOpen && (
+                  <div className="absolute right-3">
+                    <ChevronRight className="w-4 h-4 text-white/40" />
+                  </div>
+                )}
+                {!isSidebarOpen && (
+                  <div className="absolute left-full ml-4 px-2 py-1 bg-primary-container text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none border border-white/10 shadow-xl">
+                    {item.label}
+                  </div>
+                )}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="p-4 border-t border-white/10">
@@ -103,13 +123,18 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         {/* Topbar */}
         <header className="h-16 flex items-center justify-between px-6 liquid-glass z-40 sticky top-0 shrink-0">
           <div className="flex items-center gap-4 flex-1 max-w-xl">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40" />
+            <div className="relative w-full group cursor-pointer" onClick={() => setIsSearchOpen(true)}>
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 group-hover:text-primary transition-colors" />
               <input
                 type="text"
+                readOnly
                 placeholder="Buscar SSCC, Lote o SKU..."
-                className="w-full bg-background/50 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary/20 outline-none placeholder:text-foreground/30 transition-all font-inter"
+                className="w-full bg-background/50 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary/20 outline-none placeholder:text-foreground/30 transition-all font-inter cursor-pointer hover:bg-background/80"
               />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
+                 <span className="text-[10px] font-black border rounded px-1.5 py-0.5">CTRL</span>
+                 <span className="text-[10px] font-black border rounded px-1.5 py-0.5">K</span>
+              </div>
             </div>
           </div>
 
@@ -153,6 +178,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       <AlertDrawer
         isOpen={isAlertDrawerOpen}
         onClose={() => setIsAlertDrawerOpen(false)}
+      />
+      <GlobalSearchOverlay 
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
       <AssistantBot />
     </div>

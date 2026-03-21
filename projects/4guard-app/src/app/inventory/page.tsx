@@ -15,7 +15,7 @@ import {
 import { clsx } from "clsx";
 import BayDetailDrawer from "@/components/organisms/BayDetailDrawer";
 import { useInventory, useOperationalKPIs } from "@/lib/hooks";
-import RackPerspective from "@/components/organisms/RackPerspective";
+import InventoryTopology2D from "@/components/organisms/InventoryTopology2D";
 
 export default function InventoryPage() {
   const [selectedBay, setSelectedBay] = useState<string | null>(null);
@@ -63,18 +63,18 @@ export default function InventoryPage() {
 
         {/* Layout Map & Alerts */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <Card className="lg:col-span-2 h-[600px] flex flex-col relative bg-surface-container overflow-hidden group/rack" noPadding>
+            <Card className="lg:col-span-2 h-[750px] flex flex-col relative bg-surface-container overflow-hidden group/rack" noPadding>
                 <div className="absolute top-4 left-6 flex items-center gap-2 not-italic z-30">
                     <div className="w-2 h-6 bg-primary rounded-full"></div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Virtual Twin: Alpha Sector</span>
-                    <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full ml-2">Isometric 2.5D</span>
+                    <span className="text-xs font-bold uppercase tracking-widest text-slate-900">Inventory Topology (INV-01)</span>
+                    <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full ml-2">2D Alpha Sector</span>
                 </div>
                 
-                <RackPerspective onSelectBay={handleOpenBay} />
+                <InventoryTopology2D onSelectBay={handleOpenBay} />
 
-                <div className="absolute bottom-6 right-6 z-30 bg-slate-900/90 text-white px-4 py-2 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl opacity-0 group-hover/rack:opacity-100 transition-opacity duration-500">
+                <div className="absolute bottom-6 right-6 z-30 bg-slate-900/90 text-white px-4 py-2 rounded-2xl backdrop-blur-md border border-white/10 shadow-2xl opacity-0 group-hover/rack:opacity-100 transition-opacity duration-500 max-w-xs">
                     <p className="text-[9px] font-inter font-medium leading-relaxed italic opacity-80">
-                        Navegue por el rack para ver el estatus en tiempo real de cada bahía.
+                        Visualización topográfica 2D optimizada para alta densidad de datos y respuesta rápida.
                     </p>
                 </div>
             </Card>

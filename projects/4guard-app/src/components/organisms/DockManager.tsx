@@ -4,9 +4,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Truck, Info, CheckCircle2, AlertTriangle, ArrowRight, GripVertical } from "lucide-react";
 import { clsx } from "clsx";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
-
 interface Transporter {
     id: string;
     name: string;
@@ -96,8 +93,7 @@ export default function DockManager() {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 draggable
-                                onDragStart={(e) => handleDragStart(e, t.id)}
-                                // @ts-ignore - Conflict between React DragEvent and Framer Motion DragEvent
+                                onDragStart={(e) => handleDragStart(e as unknown as React.DragEvent, t.id)}
                                 onDragEnd={() => setDraggingId(null)}
                                 className={clsx(
                                     "bg-white border-2 border-slate-100 p-4 rounded-2xl shadow-sm cursor-grab active:cursor-grabbing hover:border-primary/30 transition-all group relative overflow-hidden",

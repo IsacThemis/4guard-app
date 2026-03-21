@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import { clsx } from "clsx";
 import { TrendingUp, AlertCircle, Box, Clock, Download, Filter, Plus } from "lucide-react";
 import { useOperationalKPIs } from "@/lib/hooks";
+import { ActivityChart } from "@/components/organisms/ActivityChart";
 
 export default function Home() {
   const { data: kpis, isLoading } = useOperationalKPIs();
@@ -70,15 +71,19 @@ export default function Home() {
 
         {/* Dashboard Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <Card className="lg:col-span-2 h-[450px] flex flex-col items-center justify-center text-foreground/30 font-inter italic relative group overflow-hidden">
-            <div className="absolute top-4 left-6 flex items-center gap-2 not-italic">
-              <div className="w-2 h-2 rounded-full bg-primary"></div>
-              <span className="text-xs font-bold uppercase tracking-widest text-foreground/60">Monitor de Actividad (24h)</span>
+          <Card className="lg:col-span-2 h-[450px] flex flex-col p-0 relative group overflow-hidden">
+            <div className="p-6 border-b border-foreground/5 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                <span className="text-xs font-bold uppercase tracking-widest text-foreground/60 font-inter">Monitor de Actividad (24h)</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="text-[10px] bg-primary/5 text-primary px-2 py-1 rounded font-bold uppercase">En Vivo</span>
+              </div>
             </div>
-            <p className="z-10 bg-white/80 px-4 py-2 rounded-full border border-foreground/5 shadow-sm">
-              Visualización de Flujo Operativo en Tiempo Real
-            </p>
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary/5 to-transparent"></div>
+            <div className="flex-1 w-full">
+              <ActivityChart />
+            </div>
           </Card>
           
           <div className="space-y-6">
@@ -115,7 +120,7 @@ function KPICard({
   title: string; 
   value: string; 
   trend: string; 
-  icon: any; 
+  icon: React.ElementType; 
   color: "primary" | "secondary" | "accent";
   pulse?: boolean;
 }) {
