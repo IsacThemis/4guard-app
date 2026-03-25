@@ -1,23 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useStore } from "@/lib/store";
+
+const PUBLIC_ROUTES = ["/login"];
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { isAuthenticated } = useStore();
   const [isReady, setIsReady] = useState(false);
+
+  const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route));
 
   useEffect(() => {
     setIsReady(true);
   }, []);
 
   useEffect(() => {
-    if (isReady && !isAuthenticated) {
+    if (isReady && !isAuthenticated && !isPublicRoute) {
       router.push("/login");
     }
-  }, [isReady, isAuthenticated, router]);
+  }, [isReady, isAuthenticated, isPublicRoute, router]);
 
   if (!isReady) {
     return (
@@ -27,7 +32,12 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && !isPublicRoute) {
+    return null;
+  }
+
+  if (isAuthenticated && isPublicRoute) {
+    router.push("/");
     return null;
   }
 
