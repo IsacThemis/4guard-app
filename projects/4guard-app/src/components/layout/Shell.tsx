@@ -15,7 +15,8 @@ import {
   User,
   Settings,
   ChevronRight,
-  Printer
+  Printer,
+  Smartphone
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
@@ -39,6 +40,7 @@ const navItems = [
   { icon: Truck, label: "Expedición", href: "/expedition", roles: ["SUPERVISOR", "MANAGER"] },
   { icon: Printer, label: "Etiquetado", href: "/etiquetado", roles: ["SUPERVISOR", "MANAGER"] },
   { icon: ShieldCheck, label: "Auditoría", href: "/audit", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
+  { icon: Smartphone, label: "Terminal RF", href: "/rf", roles: ["OPERATOR", "SUPERVISOR", "MANAGER"] },
 ];
 
 export default function Shell({ children }: { children: React.ReactNode }) {

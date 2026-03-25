@@ -18,10 +18,10 @@ export const ROLES: Record<UserRole, RoleInfo> = {
 };
 
 export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
-  OPERATOR: ["/rf", "/rf/tareas", "/rf/picking", "/rf/anomalia"],
-  SUPERVISOR: ["/", "/reception", "/reception/scan", "/reception/buffer", "/quality", "/inventory", "/expedition", "/expedition/picking", "/etiquetado", "/audit"],
+  OPERATOR: ["/rf", "/rf/tareas", "/rf/picking", "/rf/anomalia", "/rf/anomalia/confirm"],
+  SUPERVISOR: ["/", "/reception", "/reception/scan", "/reception/buffer", "/quality", "/inventory", "/expedition", "/expedition/picking", "/etiquetado", "/audit", "/rf", "/rf/tareas", "/rf/picking", "/rf/anomalia"],
   INSPECTOR: ["/", "/quality", "/quality/incidencias", "/inventory", "/audit"],
-  MANAGER: ["/", "/reception", "/quality", "/inventory", "/expedition", "/etiquetado", "/audit"],
+  MANAGER: ["/", "/reception", "/quality", "/inventory", "/expedition", "/etiquetado", "/audit", "/rf", "/rf/tareas"],
   AUDITOR: ["/", "/audit"],
 };
 
