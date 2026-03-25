@@ -1,6 +1,7 @@
 import Shell from "@/components/layout/Shell";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import Link from "next/link";
 import { AlertCircle, FileCheck, Info, XCircle, FileWarning, Search } from "lucide-react";
 
 export default function QualityPage() {
@@ -24,6 +25,9 @@ export default function QualityPage() {
               />
             </div>
             <Button variant="outline">Filtros</Button>
+            <Link href="/quality/incidencias">
+              <Button variant="primary">Nueva Incidencia</Button>
+            </Link>
           </div>
         </div>
 
@@ -98,7 +102,9 @@ export default function QualityPage() {
                                         <div className="text-xs text-secondary font-medium">12h 45m</div>
                                     </td>
                                     <td className="p-4 text-right">
-                                        <Button variant="outline" size="sm">Evaluar</Button>
+                                        <Link href="/quality/incidencias/INC-2026-001">
+                                            <Button variant="outline" size="sm">Evaluar</Button>
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}
@@ -138,12 +144,16 @@ export default function QualityPage() {
                 </div>
 
                 <div className="mt-8 space-y-3">
-                    <Button variant="danger" className="w-full">
-                        <XCircle className="w-4 h-4 mr-2" /> Declarar Rechazo Total
-                    </Button>
-                    <Button variant="outline" className="w-full">
-                        <Info className="w-4 h-4 mr-2" /> Solicitar Re-muestreo
-                    </Button>
+                    <Link href="/quality/incidencias">
+                        <Button variant="danger" className="w-full">
+                            <XCircle className="w-4 h-4 mr-2" /> Declarar Rechazo Total
+                        </Button>
+                    </Link>
+                    <Link href="/quality/incidencias">
+                        <Button variant="outline" className="w-full">
+                            <Info className="w-4 h-4 mr-2" /> Solicitar Re-muestreo
+                        </Button>
+                    </Link>
                 </div>
             </Card>
         </div>
