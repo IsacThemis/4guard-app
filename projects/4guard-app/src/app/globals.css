@@ -312,8 +312,14 @@ html {
 }
 
 /* Borders */
-[data-theme="dark"] .border-slate-100,
+[data-theme="dark"] .border-slate-300,
+[data-theme="dark"] .border-slate-400,
 [data-theme="dark"] .border-slate-200 {
+  border-color: var(--color-border) !important;
+}
+
+/* Div borders */
+[data-theme="dark"] .divide-slate- > * {
   border-color: var(--color-border) !important;
 }
 
@@ -370,7 +376,14 @@ html {
 [data-theme="dark"] .text-slate-700,
 [data-theme="dark"] .text-slate-600,
 [data-theme="dark"] .text-slate-500,
-[data-theme="dark"] .text-slate-400 {
+[data-theme="dark"] .text-slate-400,
+[data-theme="dark"] .text-slate-300,
+[data-theme="dark"] .text-slate-200 {
+  color: var(--foreground) !important;
+}
+
+/* Gray text variants */
+[data-theme="dark"] .text-gray- {
   color: var(--foreground) !important;
 }
 

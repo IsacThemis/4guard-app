@@ -101,7 +101,7 @@ export default function ReceptionConsolePage() {
                   cx="50" cy="50" r="40" fill="none" 
                   stroke={globalQuadrature === 100 ? "#10b981" : "#f57009"} 
                   strokeWidth="8"
-                  strokeDasharray={`${globalQuadrature * 2.51} 251`}
+                  strokeDasharray={`${Math.min(globalQuadrature, 100) * 2.51} 251`}
                   strokeLinecap="round"
                 />
               </svg>
@@ -204,10 +204,10 @@ export default function ReceptionConsolePage() {
 
 function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: string; color: string }) {
   const colors: Record<string, string> = {
-    blue: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800",
-    slate: "text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-700",
-    amber: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800",
-    green: "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border-green-100 dark:border-green-800",
+    blue: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-100 dark:border-blue-800",
+    slate: "text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50 border-slate-100 dark:border-slate-600",
+    amber: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 border-amber-100 dark:border-amber-700",
+    green: "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-100 dark:border-green-800",
   };
 
   return (
@@ -216,7 +216,7 @@ function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType
         <Icon className="w-5 h-5" />
         <div>
           <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">{label}</p>
-          <p className="text-2xl font-black">{value}</p>
+          <p className="text-2xl font-black text-foreground">{value}</p>
         </div>
       </div>
     </Card>

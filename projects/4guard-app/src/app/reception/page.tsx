@@ -333,32 +333,32 @@ export default function ReceptionPage() {
                   </div>
 
                   <Card noPadding className="border-foreground/5 shadow-inner">
-                      <div className="p-6 border-b border-foreground/5 bg-slate-50/50 flex justify-between items-center">
-                        <h3 className="font-bold text-lg font-work-sans text-slate-800 flex items-center gap-2">
+                      <div className="p-6 border-b border-foreground/5 bg-[var(--surface-low)] flex justify-between items-center">
+                        <h3 className="font-bold text-lg font-work-sans text-foreground flex items-center gap-2">
                              <ClipboardList className="w-5 h-5 text-primary" /> Cruce Ciego Operativo (Folio 20)
                         </h3>
-                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        <div className="text-xs font-bold text-foreground/50 uppercase tracking-widest">
                             3 SKUs Esperados
                         </div>
                       </div>
                       <div className="overflow-x-auto">
                         <table className="w-full text-left">
                            <thead>
-                              <tr className="bg-white border-b border-foreground/5">
-                                 <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">SKU / Descripción</th>
-                                 <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Esperado</th>
-                                 <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Recibido</th>
-                                 <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Desviación</th>
+                              <tr className="bg-[var(--color-bg-primary)] border-b border-foreground/5">
+                                 <th className="px-6 py-4 text-[10px] font-bold text-foreground/50 uppercase tracking-widest">SKU / Descripción</th>
+                                 <th className="px-6 py-4 text-[10px] font-bold text-foreground/50 uppercase tracking-widest">Esperado</th>
+                                 <th className="px-6 py-4 text-[10px] font-bold text-foreground/50 uppercase tracking-widest">Recibido</th>
+                                 <th className="px-6 py-4 text-[10px] font-bold text-foreground/50 uppercase tracking-widest">Desviación</th>
                               </tr>
                            </thead>
-                           <tbody className="divide-y divide-slate-50">
+                           <tbody className="divide-y divide-foreground/5">
                                {lineItems.map((item, index) => (
-                                   <tr key={item.sku} className="hover:bg-slate-50/50 transition-colors">
+                                   <tr key={item.sku} className="hover:bg-[var(--surface-low)] transition-colors">
                                        <td className="px-6 py-4">
-                                            <div className="font-mono text-sm font-bold text-slate-800">{item.sku}</div>
-                                            <div className="text-xs text-slate-400">{item.name}</div>
+                                            <div className="font-mono text-sm font-bold text-foreground">{item.sku}</div>
+                                            <div className="text-xs text-foreground/50">{item.name}</div>
                                        </td>
-                                       <td className="px-6 py-4 font-bold text-slate-800">{item.expected} pz</td>
+                                       <td className="px-6 py-4 font-bold text-foreground">{item.expected} pz</td>
                                        <td className="px-6 py-4">
                                             <input 
                                                 type="number" 
@@ -368,7 +368,7 @@ export default function ReceptionPage() {
                                                     newItems[index].received = parseInt(e.target.value) || 0;
                                                     setLineItems(newItems);
                                                 }}
-                                                className="w-20 bg-white border border-slate-200 rounded-lg px-2 py-1.5 font-bold text-sm focus:border-primary outline-none"
+                                                className="w-20 bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-lg px-2 py-1.5 font-bold text-sm focus:border-primary outline-none text-foreground"
                                             />
                                        </td>
                                        <td className="px-6 py-4">
