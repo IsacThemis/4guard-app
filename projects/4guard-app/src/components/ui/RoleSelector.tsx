@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { UserRole, ROLES, useAppStore } from "@/store/useAppStore";
+import { useRouter, usePathname } from "next/navigation";
+import { UserRole, ROLES, ROLE_PERMISSIONS, useAppStore } from "@/store/useAppStore";
 import { ChevronDown, Shield, Check, Monitor, Smartphone } from "lucide-react";
 import { clsx } from "clsx";
 
@@ -13,11 +13,17 @@ export type ViewMode = "web" | "mobile";
 
 export default function RoleSelector() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("web");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { userRole, setUserRole } = useAppStore();
+
+  const isPathAllowed = (path: string, role: UserRole) => {
+    const allowedPaths = ROLE_PERMISSIONS[role];
+    return allowedPaths.some(allowed => path.startsWith(allowed) || (allowed === '/' && path === '/'));
+  };
 
   useEffect(() => {
     setIsHydrated(true);
@@ -35,6 +41,10 @@ export default function RoleSelector() {
     setUserRole(role);
     localStorage.setItem(STORAGE_KEY, role);
     setIsOpen(false);
+    
+    if (!isPathAllowed(pathname, role)) {
+      router.push("/");
+    }
   };
 
   const toggleViewMode = () => {
