@@ -52,6 +52,16 @@ export default function ReceptionPage() {
   const [currentStep, setCurrentStep] = useState(0);
   const [asnData, setAsnData] = useState<AsnFormData | null>(null);
   const [metadata, setMetadata] = useState<MetadataFormData | null>(null);
+  const [lineItems, setLineItems] = useState([
+    { sku: "NES-CLA-200", name: "Nescafé Clásico 200g", expected: 120, received: 120 },
+    { sku: "DOG-CHO-4KG", name: "Dog Chow Adulto 4kg", expected: 50, received: 48 },
+    { sku: "COK-LAT-355", name: "Coca Cola Lata 355ml", expected: 200, received: 200 },
+  ]);
+
+  const totalExpected = lineItems.reduce((acc, item) => acc + item.expected, 0);
+  const totalReceived = lineItems.reduce((acc, item) => acc + item.received, 0);
+  const isQuadratureComplete = totalExpected === totalReceived;
+  const missingCount = totalExpected - totalReceived;
 
   const { register: registerMeta, handleSubmit: handleMetaSubmit, formState: { errors: metaErrors } } = useForm<MetadataFormData>({
     resolver: zodResolver(metadataSchema),
@@ -339,11 +349,7 @@ export default function ReceptionPage() {
                               </tr>
                            </thead>
                            <tbody className="divide-y divide-slate-50">
-                               {[
-                                   { sku: "NES-CLA-200", name: "Nescafé Clásico 200g", expected: 120, received: 120 },
-                                   { sku: "DOG-CHO-4KG", name: "Dog Chow Adulto 4kg", expected: 50, received: 48 },
-                                   { sku: "COK-LAT-355", name: "Coca Cola Lata 355ml", expected: 200, received: 200 },
-                               ].map((item) => (
+                               {lineItems.map((item, index) => (
                                    <tr key={item.sku} className="hover:bg-slate-50/50 transition-colors">
                                        <td className="px-6 py-4">
                                             <div className="font-mono text-sm font-bold text-slate-800">{item.sku}</div>
@@ -353,7 +359,12 @@ export default function ReceptionPage() {
                                        <td className="px-6 py-4">
                                             <input 
                                                 type="number" 
-                                                defaultValue={item.received}
+                                                value={item.received}
+                                                onChange={(e) => {
+                                                    const newItems = [...lineItems];
+                                                    newItems[index].received = parseInt(e.target.value) || 0;
+                                                    setLineItems(newItems);
+                                                }}
                                                 className="w-20 bg-white border border-slate-200 rounded-lg px-2 py-1.5 font-bold text-sm focus:border-primary outline-none"
                                             />
                                        </td>
@@ -373,10 +384,34 @@ export default function ReceptionPage() {
                   </Card>
 
                   <div className="flex justify-end gap-4 pt-4">
+                    <div className="flex-1">
+                        <div className="flex items-center gap-4 mb-2">
+                            <div className="h-2 flex-1 bg-slate-100 rounded-full overflow-hidden">
+                                <div 
+                                    className={clsx("h-full rounded-full transition-all", isQuadratureComplete ? "bg-green-500" : "bg-amber-500")}
+                                    style={{ width: `${(totalReceived / totalExpected) * 100}%` }}
+                                />
+                            </div>
+                            <span className="text-sm font-bold">
+                                {totalReceived} / {totalExpected} ({Math.round((totalReceived / totalExpected) * 100)}%)
+                            </span>
+                        </div>
+                        {!isQuadratureComplete && (
+                            <p className="text-xs text-red-500 font-medium">
+                                Faltan {missingCount} pallets para completar la recepción
+                            </p>
+                        )}
+                    </div>
                     <Button variant="outline" className="h-12 border-secondary/20 text-secondary hover:bg-secondary/5">
                         Registrar Anomalia
                     </Button>
-                    <Button variant="primary" className="h-12 px-12" onClick={() => setCurrentStep(3)}>
+                    <Button 
+                        variant="primary" 
+                        className={clsx("h-12 px-12", !isQuadratureComplete && "opacity-50 cursor-not-allowed")}
+                        disabled={!isQuadratureComplete}
+                        onClick={() => isQuadratureComplete && setCurrentStep(3)}
+                        title={!isQuadratureComplete ? `Faltan ${missingCount} pallets para cerrar` : ""}
+                    >
                         Completar Recepción Física
                     </Button>
                   </div>
