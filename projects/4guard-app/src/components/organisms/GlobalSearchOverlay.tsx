@@ -16,17 +16,27 @@ import {
 } from "lucide-react";
 import { clsx } from "clsx";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/store/useAppStore";
+import { UserRole } from "@/store/useAppStore";
 
 interface GlobalSearchOverlayProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
-const QUICK_ACTIONS = [
-    { id: "new-anomaly", label: "Reportar Anomalía", icon: ShieldAlert, href: "/rf/anomalia" },
-    { id: "scan-sscc", label: "Escanear SSCC", icon: ScanLine, href: "/reception/scan" },
-    { id: "inventory-top", label: "Ver Topografía", icon: Boxes, href: "/inventory" },
-    { id: "picking-waves", label: "Gestionar Oleadas", icon: Truck, href: "/expedition" },
+interface QuickAction {
+    id: string;
+    label: string;
+    icon: React.ElementType;
+    href: string;
+    roles: UserRole[];
+}
+
+const QUICK_ACTIONS: QuickAction[] = [
+    { id: "scan-sscc", label: "Escanear SSCC", icon: ScanLine, href: "/reception/scan", roles: ["SUPERVISOR", "MANAGER"] },
+    { id: "picking-waves", label: "Gestionar Oleadas", icon: Truck, href: "/expedition", roles: ["SUPERVISOR", "MANAGER"] },
+    { id: "inventory-top", label: "Ver Topografía", icon: Boxes, href: "/inventory", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
+    { id: "new-anomaly", label: "Reportar Anomalía", icon: ShieldAlert, href: "/rf/anomalia", roles: ["OPERATOR"] },
 ];
 
 const RECENT_SEARCHES = [
@@ -39,6 +49,9 @@ export default function GlobalSearchOverlay({ isOpen, onClose }: GlobalSearchOve
     const [query, setQuery] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
+    const { userRole } = useAppStore();
+
+    const filteredActions = QUICK_ACTIONS.filter(action => action.roles.includes(userRole));
 
     useEffect(() => {
         if (isOpen) {
@@ -108,7 +121,7 @@ export default function GlobalSearchOverlay({ isOpen, onClose }: GlobalSearchOve
                                             Acciones Directas
                                         </h3>
                                         <div className="grid grid-cols-2 gap-2">
-                                            {QUICK_ACTIONS.map(action => (
+                                            {filteredActions.map(action => (
                                                 <button
                                                     key={action.id}
                                                     onClick={() => handleNavigate(action.href)}
