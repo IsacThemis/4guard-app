@@ -31,9 +31,9 @@
   --color-blue-800: #1e40af;
   --color-blue-900: #1e3a8a;
 
-  /* The Vault - Premium Palette (Light Mode) */
-  --primary: #1a237e;
-  --primary-container: #312e81;
+  /* The Vault - Premium Palette (Light Mode) - Blue Theme */
+  --primary: #000666;
+  --primary-container: #000554;
   --secondary: #bb0112;
   --accent: #f97316;
   --success: #059669;
@@ -63,9 +63,9 @@
 
 /* Layer 3: Dark Mode Overrides (Only semantic tokens) */
 [data-theme="dark"] {
-  /* The Vault - Dark Mode - Better contrast */
-  --primary: #818cf8;
-  --primary-container: #4f46e5;
+  /* The Vault - Dark Mode - Blue Theme */
+  --primary: #3b82f6;
+  --primary-container: #1d4ed8;
   --secondary: #f87171;
   --accent: #fb923c;
   --success: #34d399;
