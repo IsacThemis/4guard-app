@@ -133,9 +133,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col relative overflow-hidden h-full">
+      <div className="flex-1 flex flex-col relative h-full">
         {/* Topbar */}
-        <header className="h-16 flex items-center justify-between px-6 liquid-glass-enhanced z-50 sticky top-0 shrink-0">
+        <header className="h-16 flex items-center justify-between px-6 liquid-glass-enhanced z-[100] sticky top-0 shrink-0">
           <div className="flex items-center gap-4 flex-1 max-w-xl">
             <div className="relative w-full group cursor-pointer" onClick={() => setIsSearchOpen(true)}>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 group-hover:text-primary transition-colors" />
@@ -143,7 +143,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                 type="text"
                 readOnly
                 placeholder="Buscar SSCC, Lote o SKU..."
-                className="w-full bg-background/50 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary/20 outline-none placeholder:text-foreground/30 transition-all font-inter cursor-pointer hover:bg-background/80"
+                className="w-full bg-[var(--surface-container)] border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-primary/20 outline-none placeholder:text-foreground/30 transition-all font-inter cursor-pointer hover:bg-[var(--surface-high)]"
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
                  <span className="text-[10px] font-black border rounded px-1.5 py-0.5">CTRL</span>
@@ -193,7 +193,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-8 relative dot-grid bg-background scroll-smooth">
+        <main className="flex-1 overflow-y-auto p-8 relative dot-grid bg-background scroll-smooth z-10">
           {children}
         </main>
       </div>

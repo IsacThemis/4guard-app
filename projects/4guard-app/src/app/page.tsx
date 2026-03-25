@@ -404,7 +404,7 @@ function KPICard({
           </div>
           <div className={clsx(
             "px-2 py-1 rounded-full text-[10px] font-bold font-inter tabular-nums",
-            trend.startsWith('+') ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
+            trend.startsWith('+') ? 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/30' : 'text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/30'
           )}>
             {trend}
           </div>

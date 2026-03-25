@@ -21,11 +21,11 @@ export default function Button({
   ...props 
 }: ButtonProps) {
   const variants = {
-    primary: "bg-primary text-white hover:bg-[#000555] active:scale-[0.98] shadow-sm",
-    secondary: "bg-primary-container text-white hover:bg-[#151d6d] active:scale-[0.98]",
-    ghost: "bg-transparent text-foreground/70 hover:bg-foreground/5 active:bg-foreground/10",
-    danger: "bg-secondary text-white hover:bg-[#a00110] active:scale-[0.98] shadow-sm",
-    outline: "bg-transparent border border-foreground/15 text-foreground/70 hover:bg-foreground/5 active:bg-foreground/10",
+    primary: "bg-primary text-white hover:opacity-90 active:scale-[0.98] shadow-sm",
+    secondary: "bg-primary-container text-white hover:opacity-90 active:scale-[0.98]",
+    ghost: "bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--surface-high)] active:bg-[var(--surface-container)]",
+    danger: "bg-secondary text-white hover:opacity-90 active:scale-[0.98] shadow-sm",
+    outline: "bg-transparent border border-[var(--color-border)] text-[var(--color-text-primary)] hover:bg-[var(--surface-high)] active:bg-[var(--surface-container)]",
   };
 
   const sizes = {

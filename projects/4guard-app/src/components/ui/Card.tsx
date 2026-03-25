@@ -20,10 +20,10 @@ export default function Card({
   ...props 
 }: CardProps) {
   const variants = {
-    default: "bg-white border-foreground/5 shadow-sm",
+    default: "bg-[var(--color-bg-primary)] border-[var(--color-border)] shadow-sm",
     glass: "liquid-glass border-white/20 shadow-xl",
     primary: "bg-primary-container text-white border-white/10",
-    surface: "bg-surface-container border-foreground/5",
+    surface: "bg-[var(--surface-container)] border-[var(--color-border)]",
   };
 
   return (

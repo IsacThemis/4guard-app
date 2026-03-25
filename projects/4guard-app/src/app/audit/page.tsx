@@ -115,7 +115,7 @@ function KPICard({ title, value, icon: Icon, color, pulse }: { title: string, va
   return (
     <Card className={`hover:-translate-y-1 transition-transform border border-transparent ${colorClasses[color]} ${pulse ? 'pulse-critical' : ''}`}>
       <div className="flex justify-between flex-row-reverse items-start mb-2">
-        <div className={`p-2 rounded-lg ${color === 'secondary' ? 'bg-white/20' : 'bg-white/50'} shadow-sm`}>
+        <div className={`p-2 rounded-lg ${color === 'secondary' ? 'bg-white/20' : 'bg-white/50 dark:bg-white/10'} shadow-sm`}>
           <Icon className="w-6 h-6 text-current" />
         </div>
       </div>
