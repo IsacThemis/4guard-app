@@ -7,6 +7,8 @@ import * as z from "zod";
 import Shell from "@/components/layout/Shell";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import RoleGuard from "@/components/auth/RoleGuard";
+import { UserRole } from "@/store/useAppStore";
 import { 
   Search, 
   Box, 
@@ -82,6 +84,7 @@ export default function ReceptionPage() {
   };
 
   return (
+    <RoleGuard allowedRoles={["SUPERVISOR", "MANAGER"]}>
     <Shell>
       <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
         
@@ -446,6 +449,7 @@ export default function ReceptionPage() {
 
       </div>
     </Shell>
+    </RoleGuard>
   );
 }
 

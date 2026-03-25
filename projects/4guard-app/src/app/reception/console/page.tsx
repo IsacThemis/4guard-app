@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Shell from "@/components/layout/Shell";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import RoleGuard from "@/components/auth/RoleGuard";
 import { 
   Truck,
   Package,
@@ -65,6 +66,7 @@ export default function ReceptionConsolePage() {
   const globalQuadrature = totalExpected > 0 ? Math.round((totalScanned / totalExpected) * 100) : 0;
 
   return (
+    <RoleGuard allowedRoles={["SUPERVISOR", "MANAGER"]}>
     <Shell>
       <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
@@ -196,6 +198,7 @@ export default function ReceptionConsolePage() {
         </Card>
       </div>
     </Shell>
+    </RoleGuard>
   );
 }
 
