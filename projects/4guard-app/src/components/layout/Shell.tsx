@@ -24,19 +24,21 @@ import AlertDrawer from "@/components/organisms/AlertDrawer";
 import AssistantBot from "@/components/organisms/AssistantBot";
 import GlobalSearchOverlay from "@/components/organisms/GlobalSearchOverlay";
 import { useStore } from "@/lib/store";
+import { useAppStore, ROLE_PERMISSIONS } from "@/store/useAppStore";
+import RoleSelector from "@/components/ui/RoleSelector";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 const navItems = [
-  { icon: LayoutDashboard, label: "Torre de Control", href: "/" },
-  { icon: Package, label: "Recepción", href: "/reception" },
-  { icon: ClipboardCheck, label: "Calidad", href: "/quality" },
-  { icon: Boxes, label: "Inventarios", href: "/inventory" },
-  { icon: Truck, label: "Expedición", href: "/expedition" },
-  { icon: Printer, label: "Etiquetado", href: "/etiquetado" },
-  { icon: ShieldCheck, label: "Auditoría", href: "/audit" },
+  { icon: LayoutDashboard, label: "Torre de Control", href: "/", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
+  { icon: Package, label: "Recepción", href: "/reception", roles: ["SUPERVISOR", "MANAGER"] },
+  { icon: ClipboardCheck, label: "Calidad", href: "/quality", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR"] },
+  { icon: Boxes, label: "Inventarios", href: "/inventory", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
+  { icon: Truck, label: "Expedición", href: "/expedition", roles: ["SUPERVISOR", "MANAGER"] },
+  { icon: Printer, label: "Etiquetado", href: "/etiquetado", roles: ["SUPERVISOR", "MANAGER"] },
+  { icon: ShieldCheck, label: "Auditoría", href: "/audit", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
 ];
 
 export default function Shell({ children }: { children: React.ReactNode }) {
@@ -45,6 +47,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [isAlertDrawerOpen, setIsAlertDrawerOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { user, alertsCount } = useStore();
+  const { userRole } = useAppStore();
+  
+  const filteredNavItems = navItems.filter(item => item.roles.includes(userRole));
+  const allowedPaths = ROLE_PERMISSIONS[userRole];
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -76,7 +82,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map((item) => {
+          {filteredNavItems.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
             return (
               <a
@@ -139,6 +145,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4 ml-auto">
+            <RoleSelector />
             <button
               onClick={() => setIsAlertDrawerOpen(true)}
               className="relative p-2 rounded-full hover:bg-foreground/5 transition-colors group"
