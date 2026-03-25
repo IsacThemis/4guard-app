@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useStore } from "@/lib/store";
 
@@ -14,13 +14,17 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsReady(true);
   }, []);
 
-  useEffect(() => {
-    if (isReady && !isAuthenticated && !isPublicRoute) {
-      router.push("/login");
+  useLayoutEffect(() => {
+    if (isReady) {
+      if (!isAuthenticated && !isPublicRoute) {
+        router.push("/login");
+      } else if (isAuthenticated && isPublicRoute) {
+        router.push("/");
+      }
     }
   }, [isReady, isAuthenticated, isPublicRoute, router]);
 
@@ -37,7 +41,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   }
 
   if (isAuthenticated && isPublicRoute) {
-    router.push("/");
     return null;
   }
 
