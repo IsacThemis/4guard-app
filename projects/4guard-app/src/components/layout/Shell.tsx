@@ -18,7 +18,8 @@ import {
   Printer,
   Smartphone,
   Monitor,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  LogOut
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
@@ -176,8 +177,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               </div>
             </div>
 
-            <button className="p-2 rounded-lg hover:bg-foreground/5 transition-colors text-foreground/60 hover:text-primary">
-              <Settings className="w-5 h-5" />
+            <button 
+              className="p-2 rounded-lg hover:bg-foreground/5 transition-colors text-foreground/60 hover:text-primary"
+              onClick={() => {
+                useStore.getState().setAuthenticated(false);
+                window.location.href = "/login";
+              }}
+              title="Cerrar sesión"
+            >
+              <LogOut className="w-5 h-5" />
             </button>
           </div>
         </header>
