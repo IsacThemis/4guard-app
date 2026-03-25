@@ -17,7 +17,8 @@ import {
   ChevronRight,
   Printer,
   Smartphone,
-  Monitor
+  Monitor,
+  Settings as SettingsIcon
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
@@ -43,6 +44,7 @@ const navItems = [
   { icon: Printer, label: "Etiquetado", href: "/etiquetado", roles: ["SUPERVISOR", "MANAGER"] },
   { icon: ShieldCheck, label: "Auditoría", href: "/audit", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
   { icon: Smartphone, label: "Terminal RF", href: "/rf", roles: ["OPERATOR"] },
+  { icon: SettingsIcon, label: "Configuración", href: "/settings", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR", "OPERATOR"] },
 ];
 
 export default function Shell({ children }: { children: React.ReactNode }) {
