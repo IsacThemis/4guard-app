@@ -1,20 +1,90 @@
 @import "tailwindcss";
 
+/* ============================================
+   PHASE 1: DESIGN TOKENS (3-Layer Architecture)
+   ============================================ */
+
+/* Layer 1: Primitive Tokens (Never change across themes) */
 :root {
-  --background: #f7fafc;
-  --foreground: #181c1e;
-  
-  /* The Vault - Premium Palette */
+  /* Grayscale */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+
+  /* Brand Colors */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+
+  /* The Vault - Premium Palette (Light Mode) */
   --primary: #000666;
   --primary-container: #1a237e;
-  --secondary: #bb0112; /* Critical Alert */
-  --accent: #ef6c00;    /* Process/Amber */
-  
-  /* Tonal Layering */
+  --secondary: #bb0112;
+  --accent: #ef6c00;
+
+  /* Tonal Layering (Light Mode) */
   --surface-low: #f1f4f6;
   --surface-container: #ebeef0;
   --surface-high: #e5e9eb;
   --surface-highest: #e0e3e5;
+
+  /* Background & Foreground */
+  --background: #f7fafc;
+  --foreground: #181c1e;
+
+  /* Semantic Aliases - Light */
+  --color-bg-primary: var(--background);
+  --color-bg-secondary: var(--surface-low);
+  --color-bg-tertiary: var(--surface-container);
+  --color-text-primary: var(--foreground);
+  --color-text-secondary: var(--color-slate-500);
+  --color-text-muted: var(--color-slate-400);
+  --color-border: var(--color-slate-200);
+  --color-border-subtle: var(--color-slate-100);
+}
+
+/* Layer 3: Dark Mode Overrides (Only semantic tokens) */
+[data-theme="dark"] {
+  /* The Vault - Dark Mode */
+  --primary: #3b82f6;
+  --primary-container: #1e40af;
+  --secondary: #ef4444;
+  --accent: #f59e0b;
+
+  /* Tonal Layering (Dark Mode) */
+  --surface-low: #1e293b;
+  --surface-container: #0f172a;
+  --surface-high: #334155;
+  --surface-highest: #475569;
+
+  /* Background & Foreground (Dark) */
+  --background: #020617;
+  --foreground: #f1f5f9;
+
+  /* Semantic Aliases - Dark */
+  --color-bg-primary: var(--background);
+  --color-bg-secondary: var(--surface-low);
+  --color-bg-tertiary: var(--surface-container);
+  --color-text-primary: var(--foreground);
+  --color-text-secondary: var(--color-slate-400);
+  --color-text-muted: var(--color-slate-600);
+  --color-border: var(--color-slate-700);
+  --color-border-subtle: var(--color-slate-800);
 }
 
 @theme inline {
@@ -30,6 +100,15 @@
   --color-surface-high: var(--surface-high);
   --color-surface-highest: var(--surface-highest);
 
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-secondary: var(--color-bg-secondary);
+  --color-bg-tertiary: var(--color-bg-tertiary);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+
   --font-work-sans: var(--font-work-sans);
   --font-inter: var(--font-inter);
 }
@@ -40,6 +119,7 @@ body {
   font-family: var(--font-inter), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -48,13 +128,80 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.025em;
 }
 
-/* Liquid Glass Utility */
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+/* ============================================
+   PHASE 2: LIQUID GLASS EFFECT
+   ============================================ */
+
+/* SVG Filter for Liquid Glass (Hidden) */
+.liquid-glass-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
 }
+
+/* Basic Liquid Glass */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Enhanced Liquid Glass with Refraction */
+.liquid-glass-enhanced {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: url(#liquid-glass-blur);
+  -webkit-backdrop-filter: url(#liquid-glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+
+/* Dark Mode Liquid Glass */
+[data-theme="dark"] .liquid-glass {
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .liquid-glass-enhanced {
+  background: rgba(15, 23, 42, 0.65);
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   PHASE 1: ANIMATIONS
+   ============================================ */
 
 /* Anomaly Pulse Animation */
 @keyframes anomaly-pulse {
@@ -71,4 +218,77 @@ h1, h2, h3, h4, h5, h6 {
 .dot-grid {
   background-image: radial-gradient(#d1d5db 0.5px, transparent 0.5px);
   background-size: 20px 20px;
+}
+
+[data-theme="dark"] .dot-grid {
+  background-image: radial-gradient(#334155 0.5px, transparent 0.5px);
+}
+
+/* View Transition API */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* Custom View Transitions for Elements */
+::view-transition-old(kpi-card),
+::view-transition-new(kpi-card) {
+  animation-duration: 0.4s;
+}
+
+::view-transition-old(kpi-card) {
+  animation-name: scale-out;
+}
+
+::view-transition-new(kpi-card) {
+  animation-name: scale-in;
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scale-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.05); }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduce Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

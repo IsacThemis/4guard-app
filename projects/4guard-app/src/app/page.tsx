@@ -3,6 +3,7 @@
 import Shell from "@/components/layout/Shell";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import { FadeIn, SlideIn, StaggerContainer, StaggerItem, SpringCard, AnimatedNumber, ProgressBar } from "@/components/ui/Animation";
 import { clsx } from "clsx";
 import { TrendingUp, AlertCircle, Box, Clock, Download, Filter, Plus, ShieldCheck, Package, ClipboardList, FileSearch, CheckCircle, XCircle, Truck, Warehouse } from "lucide-react";
 import { useOperationalKPIs } from "@/lib/hooks";
@@ -45,8 +46,10 @@ export default function Home() {
 
   return (
     <Shell>
-      <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <DashboardHeader config={config} />
+      <div className="max-w-7xl mx-auto space-y-8">
+        <FadeIn>
+          <DashboardHeader config={config} />
+        </FadeIn>
 
         {userRole === "SUPERVISOR" && <SupervisorDashboard kpis={kpis} isLoading={isLoading} />}
         {userRole === "MANAGER" && <ManagerDashboard kpis={kpis} isLoading={isLoading} />}
@@ -87,12 +90,14 @@ function DashboardHeader({ config }: { config: { title: string; subtitle: string
 function SupervisorDashboard({ kpis, isLoading }: { kpis?: any; isLoading: boolean }) {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KPICard title="Saturación Almacén" value={isLoading ? "..." : kpis?.inventoryOcupation || "0%"} trend="+2.1%" icon={Box} color="primary" />
-        <KPICard title="Alertas Críticas" value={isLoading ? "..." : (kpis?.qualityTotal?.toString().padStart(2, '0') || "00")} trend="-1" icon={AlertCircle} color="secondary" pulse />
-        <KPICard title="Eficiencia Recepción" value="94.2%" trend="+5.4%" icon={TrendingUp} color="accent" />
-        <KPICard title="Expedición Hoy" value={isLoading ? "..." : kpis?.expeditionToday?.toString() || "0"} trend="+12" icon={Clock} color="primary" />
-      </div>
+      <StaggerContainer staggerDelay={0.1}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerItem><KPICard title="Saturación Almacén" value={isLoading ? "..." : kpis?.inventoryOcupation || "0%"} trend="+2.1%" icon={Box} color="primary" /></StaggerItem>
+          <StaggerItem><KPICard title="Alertas Críticas" value={isLoading ? "..." : (kpis?.qualityTotal?.toString().padStart(2, '0') || "00")} trend="-1" icon={AlertCircle} color="secondary" pulse /></StaggerItem>
+          <StaggerItem><KPICard title="Eficiencia Recepción" value="94.2%" trend="+5.4%" icon={TrendingUp} color="accent" /></StaggerItem>
+          <StaggerItem><KPICard title="Expedición Hoy" value={isLoading ? "..." : kpis?.expeditionToday?.toString() || "0"} trend="+12" icon={Clock} color="primary" /></StaggerItem>
+        </div>
+      </StaggerContainer>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <Card className="lg:col-span-2 h-[450px] flex flex-col p-0 relative group overflow-hidden">
@@ -385,26 +390,28 @@ function KPICard({
   };
 
   return (
-    <Card className={clsx(
-      "hover:shadow-lg transition-all cursor-pointer",
-      pulse && "pulse-critical bg-white/80"
+    <SpringCard className={clsx(
+      "hover:shadow-lg transition-shadow",
+      pulse && "pulse-critical"
     )}>
-      <div className="flex justify-between items-start mb-6">
-        <div className={clsx(
-          "p-2.5 rounded-xl transition-all duration-300",
-          colorClasses[color]
-        )}>
-          <Icon className="w-6 h-6" />
+      <Card className="h-full">
+        <div className="flex justify-between items-start mb-6">
+          <div className={clsx(
+            "p-2.5 rounded-xl transition-all duration-300",
+            colorClasses[color]
+          )}>
+            <Icon className="w-6 h-6" />
+          </div>
+          <div className={clsx(
+            "px-2 py-1 rounded-full text-[10px] font-bold font-inter tabular-nums",
+            trend.startsWith('+') ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
+          )}>
+            {trend}
+          </div>
         </div>
-        <div className={clsx(
-          "px-2 py-1 rounded-full text-[10px] font-bold font-inter tabular-nums",
-          trend.startsWith('+') ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
-        )}>
-          {trend}
-        </div>
-      </div>
-      <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-[0.2em] mb-1">{title}</p>
-      <h3 className="text-3xl text-foreground font-work-sans tabular-nums tracking-tight">{value}</h3>
-    </Card>
+        <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-[0.2em] mb-1">{title}</p>
+        <h3 className="text-3xl text-foreground font-work-sans tabular-nums tracking-tight">{value}</h3>
+      </Card>
+    </SpringCard>
   );
 }
