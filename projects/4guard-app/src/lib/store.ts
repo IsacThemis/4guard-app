@@ -13,7 +13,7 @@ export const useStore = create<WMSState>((set) => ({
   alertsCount: 3,
   incrementAlerts: () => set((state) => ({ alertsCount: state.alertsCount + 1 })),
   resetAlerts: () => set({ alertsCount: 0 }),
-  isAuthenticated: true,
-  user: { name: "Carlos Ruíz", role: "Supervisor de Turno" },
+  isAuthenticated: false,
+  user: null,
   setAuthenticated: (status, user) => set({ isAuthenticated: status, user: user || null }),
 }));
