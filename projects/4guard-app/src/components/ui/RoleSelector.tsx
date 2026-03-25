@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { UserRole, ROLES, useAppStore } from "@/store/useAppStore";
 import { ChevronDown, Shield, Check, Monitor, Smartphone } from "lucide-react";
 import { clsx } from "clsx";
@@ -11,6 +12,7 @@ const VIEW_MODE_KEY = "4guard-view-mode";
 export type ViewMode = "web" | "mobile";
 
 export default function RoleSelector() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("web");
@@ -39,7 +41,11 @@ export default function RoleSelector() {
     const newMode = viewMode === "web" ? "mobile" : "web";
     setViewMode(newMode);
     localStorage.setItem(VIEW_MODE_KEY, newMode);
-    window.location.href = newMode === "mobile" ? "/rf" : "/";
+    if (newMode === "mobile") {
+      router.push("/rf/tareas");
+    } else {
+      router.push("/");
+    }
   };
 
   useEffect(() => {
