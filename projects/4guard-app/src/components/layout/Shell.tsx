@@ -19,7 +19,8 @@ import {
   Smartphone,
   Monitor,
   Settings as SettingsIcon,
-  LogOut
+  LogOut,
+  BookOpen
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
@@ -38,6 +39,7 @@ function cn(...inputs: ClassValue[]) {
 
 const navItems = [
   { icon: LayoutDashboard, label: "Torre de Control", href: "/", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
+  { icon: BookOpen, label: "Catálogo", href: "/catalog", roles: ["MANAGER"] },
   { icon: Package, label: "Nueva Recepción", href: "/reception", roles: ["SUPERVISOR", "MANAGER"] },
   { icon: Monitor, label: "Consola Recepción", href: "/reception/console", roles: ["SUPERVISOR", "MANAGER"] },
   { icon: ClipboardCheck, label: "Calidad", href: "/quality", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR"] },

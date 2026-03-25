@@ -21,7 +21,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   OPERATOR: ["/rf", "/rf/tareas", "/rf/picking", "/rf/anomalia", "/rf/anomalia/confirm", "/settings"],
   SUPERVISOR: ["/", "/reception", "/reception/console", "/reception/scan", "/reception/buffer", "/quality", "/inventory", "/expedition", "/expedition/picking", "/etiquetado", "/audit", "/settings"],
   INSPECTOR: ["/", "/quality", "/quality/incidencias", "/inventory", "/audit", "/settings"],
-  MANAGER: ["/", "/reception", "/reception/console", "/quality", "/inventory", "/expedition", "/etiquetado", "/audit", "/settings"],
+  MANAGER: ["/", "/catalog", "/reception", "/reception/console", "/quality", "/inventory", "/expedition", "/etiquetado", "/audit", "/settings"],
   AUDITOR: ["/", "/audit", "/settings"],
 };
 
