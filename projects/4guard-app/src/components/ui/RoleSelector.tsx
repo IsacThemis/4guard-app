@@ -61,22 +61,25 @@ export default function RoleSelector() {
   if (!isHydrated) return null;
 
   const currentRole = ROLES[userRole];
+  const isOperator = userRole === "OPERATOR";
 
   return (
     <div className="flex items-center gap-2">
-      <button
-        onClick={toggleViewMode}
-        className={clsx(
-          "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all text-xs font-medium",
-          viewMode === "mobile" 
-            ? "bg-primary text-white" 
-            : "bg-surface-high hover:bg-surface-container border border-foreground/10 text-foreground"
-        )}
-        title={viewMode === "mobile" ? "Ver versión móvil" : "Ver versión web"}
-      >
-        {viewMode === "mobile" ? <Smartphone className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
-        <span className="hidden sm:inline">{viewMode === "mobile" ? "Móvil" : "Web"}</span>
-      </button>
+      {isOperator && (
+        <button
+          onClick={toggleViewMode}
+          className={clsx(
+            "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all text-xs font-medium",
+            viewMode === "mobile" 
+              ? "bg-primary text-white" 
+              : "bg-surface-high hover:bg-surface-container border border-foreground/10 text-foreground"
+          )}
+          title={viewMode === "mobile" ? "Ver versión móvil" : "Ver versión web"}
+        >
+          {viewMode === "mobile" ? <Smartphone className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
+          <span className="hidden sm:inline">{viewMode === "mobile" ? "Móvil" : "Web"}</span>
+        </button>
+      )}
 
       <div className="relative" ref={dropdownRef}>
         <button
