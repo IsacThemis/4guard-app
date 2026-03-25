@@ -135,7 +135,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <div className="flex-1 flex flex-col relative overflow-hidden h-full">
         {/* Topbar */}
-        <header className="h-16 flex items-center justify-between px-6 liquid-glass-enhanced z-40 sticky top-0 shrink-0">
+        <header className="h-16 flex items-center justify-between px-6 liquid-glass-enhanced z-50 sticky top-0 shrink-0">
           <div className="flex items-center gap-4 flex-1 max-w-xl">
             <div className="relative w-full group cursor-pointer" onClick={() => setIsSearchOpen(true)}>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 group-hover:text-primary transition-colors" />
