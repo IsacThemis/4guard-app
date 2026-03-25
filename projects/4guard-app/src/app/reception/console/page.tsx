@@ -46,13 +46,33 @@ export default function ReceptionConsolePage() {
   const getStatusInfo = (status: number) => {
     switch (status) {
       case 10:
-        return { label: "Status 10", color: "bg-slate-400", text: "text-slate-600", desc: "Pendiente de Escaneo" };
+        return { 
+          label: "Pendiente", 
+          color: "bg-slate-100 text-slate-600 border-slate-200",
+          dotColor: "bg-slate-400",
+          desc: "Pendiente de Escaneo" 
+        };
       case 20:
-        return { label: "Status 20", color: "bg-amber-500", text: "text-amber-600", desc: "En Proceso (Bolsa)" };
+        return { 
+          label: "En Proceso", 
+          color: "bg-amber-50 text-amber-700 border-amber-200",
+          dotColor: "bg-amber-500",
+          desc: "En Proceso (Bolsa)" 
+        };
       case 30:
-        return { label: "Status 30", color: "bg-green-500", text: "text-green-600", desc: "Cerrado/Liberado" };
+        return { 
+          label: "Cerrado", 
+          color: "bg-green-50 text-green-700 border-green-200",
+          dotColor: "bg-green-500",
+          desc: "Cerrado/Liberado" 
+        };
       default:
-        return { label: "Unknown", color: "bg-gray-400", text: "text-gray-600", desc: "" };
+        return { 
+          label: "Unknown", 
+          color: "bg-gray-50 text-gray-600 border-gray-200",
+          dotColor: "bg-gray-400",
+          desc: "" 
+        };
     }
   };
 
@@ -123,14 +143,14 @@ export default function ReceptionConsolePage() {
         </div>
 
         <Card noPadding className="overflow-hidden">
-          <div className="p-4 border-b border-foreground/5 flex items-center justify-between bg-[var(--surface-low)]">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-foreground/60">Recepciones en Proceso</h3>
-            <div className="relative w-64">
+          <div className="p-5 border-b border-foreground/5 flex items-center justify-between bg-[var(--surface-low)]">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/70">Recepciones en Proceso</h3>
+            <div className="relative w-72">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30" />
               <input
                 type="text"
                 placeholder="Buscar por ASN o placas..."
-                className="w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-lg py-2 pl-9 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                className="w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-lg py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
               />
             </div>
           </div>
@@ -139,14 +159,14 @@ export default function ReceptionConsolePage() {
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-[var(--surface-low)] border-b border-foreground/5">
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">ASN</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Transportista</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Placas</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Andén</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Hora</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Estado</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Cuadratura</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Acción</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">ASN</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Transportista</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Placas</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Andén</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Hora</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Estado</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Cuadratura</th>
+                  <th className="px-6 py-4 text-xs font-semibold text-foreground/50 uppercase tracking-wider">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-foreground/5">
@@ -155,37 +175,38 @@ export default function ReceptionConsolePage() {
                   const quadrature = getQuadrature(unit);
                   return (
                     <tr key={unit.id} className="hover:bg-[var(--surface-low)] transition-colors">
-                      <td className="px-6 py-4">
-                        <span className="font-mono font-bold text-primary">{unit.asn}</span>
+                      <td className="px-6 py-5">
+                        <span className="font-mono font-bold text-primary text-sm">{unit.asn}</span>
                       </td>
-                      <td className="px-6 py-4 text-sm">{unit.carrier}</td>
-                      <td className="px-6 py-4">
-                        <span className="font-mono text-sm bg-[var(--surface-container)] px-2 py-1 rounded">{unit.plates}</span>
+                      <td className="px-6 py-5 text-sm text-foreground/80">{unit.carrier}</td>
+                      <td className="px-6 py-5">
+                        <span className="font-mono text-sm bg-[var(--surface-container)] px-3 py-1.5 rounded-lg">{unit.plates}</span>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="text-sm font-medium">{unit.dock}</span>
+                      <td className="px-6 py-5">
+                        <span className="text-sm font-medium text-foreground/80">{unit.dock}</span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-foreground/60">{unit.arrivalTime}</td>
-                      <td className="px-6 py-4">
-                        <span className={clsx("px-2 py-1 rounded-full text-[10px] font-bold uppercase", statusInfo.color, statusInfo.text)}>
+                      <td className="px-6 py-5 text-sm text-foreground/60">{unit.arrivalTime}</td>
+                      <td className="px-6 py-5">
+                        <span className={clsx("inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold border", statusInfo.color)}>
+                          <span className={clsx("w-2 h-2 rounded-full", statusInfo.dotColor)} />
                           {statusInfo.label}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-16 h-2 bg-[var(--surface-container)] rounded-full overflow-hidden">
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-20 h-2 bg-[var(--surface-container)] rounded-full overflow-hidden">
                             <div 
-                              className={clsx("h-full rounded-full", quadrature === 100 ? "bg-green-500" : "bg-amber-500")}
+                              className={clsx("h-full rounded-full transition-all", quadrature === 100 ? "bg-green-500" : "bg-amber-500")}
                               style={{ width: `${quadrature}%` }}
                             />
                           </div>
-                          <span className="text-xs font-bold">{quadrature}%</span>
+                          <span className="text-sm font-bold text-foreground/70">{quadrature}%</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-5">
                         <Link href={unit.status === 10 ? "/reception" : "/reception/buffer"}>
-                          <Button variant="ghost" size="sm" className="h-8">
-                            Ver <ArrowRight className="w-3 h-3 ml-1" />
+                          <Button variant="ghost" size="sm" className="h-9">
+                            Ver <ArrowRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
                       </td>
@@ -204,19 +225,21 @@ export default function ReceptionConsolePage() {
 
 function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: string; color: string }) {
   const colors: Record<string, string> = {
-    blue: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border-blue-100 dark:border-blue-800",
-    slate: "text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50 border-slate-100 dark:border-slate-600",
-    amber: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 border-amber-100 dark:border-amber-700",
-    green: "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 border-green-100 dark:border-green-800",
+    blue: "text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800",
+    slate: "text-slate-600 dark:text-slate-300 bg-slate-50/50 dark:bg-slate-700/30 border-slate-100 dark:border-slate-600",
+    amber: "text-amber-600 dark:text-amber-400 bg-amber-50/50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-700",
+    green: "text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-green-900/20 border-green-100 dark:border-green-800",
   };
 
   return (
-    <Card className={clsx("p-4 border", colors[color])}>
-      <div className="flex items-center gap-3">
-        <Icon className="w-5 h-5" />
+    <Card className={clsx("p-5 border", colors[color])}>
+      <div className="flex items-center gap-4">
+        <div className="p-2.5 rounded-xl bg-white/50 dark:bg-white/5">
+          <Icon className="w-5 h-5" />
+        </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">{label}</p>
-          <p className="text-2xl font-black text-foreground">{value}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider opacity-70">{label}</p>
+          <p className="text-2xl font-bold text-foreground">{value}</p>
         </div>
       </div>
     </Card>
