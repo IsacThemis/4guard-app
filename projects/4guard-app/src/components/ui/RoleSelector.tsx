@@ -106,7 +106,7 @@ export default function RoleSelector() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-56 bg-[var(--surface-low)] rounded-lg shadow-xl border border-[var(--color-border)] z-[200] overflow-hidden">
+          <div className="fixed right-6 mt-2 w-56 bg-[var(--surface-low)] rounded-lg shadow-xl border border-[var(--color-border)] z-[9999] overflow-hidden">
             <div className="p-2 border-b border-foreground/5">
               <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-wider">Seleccionar Rol</p>
             </div>

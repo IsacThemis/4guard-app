@@ -183,20 +183,22 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Dark Mode Liquid Glass */
 [data-theme="dark"] .liquid-glass {
-  background: rgba(15, 23, 42, 0.7);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.75);
+  border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 [data-theme="dark"] .liquid-glass-enhanced {
-  background: rgba(15, 23, 42, 0.65);
-  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(15, 23, 42, 0.8);
+  border-color: rgba(255, 255, 255, 0.12);
   box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
     inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 /* ============================================
@@ -356,4 +358,63 @@ html {
 [data-theme="dark"] .shadow-md,
 [data-theme="dark"] .shadow-lg {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ============================================
+   DARK MODE TEXT COLORS - Force light text
+   ============================================ */
+
+/* All grayscale text becomes light in dark mode */
+[data-theme="dark"] .text-slate-900,
+[data-theme="dark"] .text-slate-800,
+[data-theme="dark"] .text-slate-700,
+[data-theme="dark"] .text-slate-600,
+[data-theme="dark"] .text-slate-500,
+[data-theme="dark"] .text-slate-400 {
+  color: var(--foreground) !important;
+}
+
+/* Muted text becomes lighter */
+[data-theme="dark"] .text-\[\#\],
+[data-theme="dark"] .text-gray- {
+  color: var(--color-text-primary) !important;
+}
+
+/* Border colors */
+[data-theme="dark"] .border-slate-300,
+[data-theme="dark"] .border-slate-400 {
+  border-color: var(--color-border) !important;
+}
+
+/* Fill colors for icons */
+[data-theme="dark"] .fill-slate- {
+  fill: var(--foreground);
+}
+
+/* ============================================
+   BUTTON SIZES - Prevent text crowding
+   ============================================ */
+
+button, 
+.button,
+[type="button"],
+[type="submit"] {
+  min-height: 36px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+button.sm,
+.btn-sm,
+[type="button"].sm {
+  min-height: 32px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+button.lg,
+.btn-lg {
+  min-height: 44px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
