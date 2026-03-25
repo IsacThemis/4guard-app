@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Work_Sans, Inter } from "next/font/google";
+import { Work_Sans, Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
@@ -10,6 +10,11 @@ const workSans = Work_Sans({
 
 const inter = Inter({
   variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const firaCode = Fira_Code({
+  variable: "--font-fira-code",
   subsets: ["latin"],
 });
 
@@ -26,7 +31,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${workSans.variable} ${inter.variable} h-full antialiased`}
+      className={`${workSans.variable} ${inter.variable} ${firaCode.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-inter">
         <Providers>{children}</Providers>

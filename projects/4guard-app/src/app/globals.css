@@ -32,10 +32,13 @@
   --color-blue-900: #1e3a8a;
 
   /* The Vault - Premium Palette (Light Mode) */
-  --primary: #000666;
-  --primary-container: #1a237e;
+  --primary: #1a237e;
+  --primary-container: #312e81;
   --secondary: #bb0112;
-  --accent: #ef6c00;
+  --accent: #f97316;
+  --success: #059669;
+  --warning: #d97706;
+  --error: #dc2626;
 
   /* Tonal Layering (Light Mode) */
   --surface-low: #f1f4f6;
@@ -60,13 +63,16 @@
 
 /* Layer 3: Dark Mode Overrides (Only semantic tokens) */
 [data-theme="dark"] {
-  /* The Vault - Dark Mode */
-  --primary: #3b82f6;
-  --primary-container: #1e40af;
-  --secondary: #ef4444;
-  --accent: #f59e0b;
+  /* The Vault - Dark Mode - Better contrast */
+  --primary: #818cf8;
+  --primary-container: #4f46e5;
+  --secondary: #f87171;
+  --accent: #fb923c;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
 
-  /* Tonal Layering (Dark Mode) */
+  /* Tonal Layering (Dark Mode) - Improved visibility */
   --surface-low: #1e293b;
   --surface-container: #0f172a;
   --surface-high: #334155;
@@ -74,16 +80,16 @@
 
   /* Background & Foreground (Dark) */
   --background: #020617;
-  --foreground: #f1f5f9;
+  --foreground: #f8fafc;
 
   /* Semantic Aliases - Dark */
   --color-bg-primary: var(--background);
   --color-bg-secondary: var(--surface-low);
   --color-bg-tertiary: var(--surface-container);
-  --color-text-primary: var(--foreground);
-  --color-text-secondary: var(--color-slate-400);
-  --color-text-muted: var(--color-slate-600);
-  --color-border: var(--color-slate-700);
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-border: #334155;
   --color-border-subtle: var(--color-slate-800);
 }
 
@@ -94,6 +100,9 @@
   --color-primary-container: var(--primary-container);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
   
   --color-surface-low: var(--surface-low);
   --color-surface-container: var(--surface-container);
@@ -111,6 +120,7 @@
 
   --font-work-sans: var(--font-work-sans);
   --font-inter: var(--font-inter);
+  --font-fira-code: var(--font-fira-code);
 }
 
 body {
@@ -395,8 +405,25 @@ html {
 
 /* Border colors */
 [data-theme="dark"] .border-slate-300,
-[data-theme="dark"] .border-slate-400 {
+[data-theme="dark"] .border-slate-400,
+[data-theme="dark"] .border-slate-200 {
   border-color: var(--color-border) !important;
+}
+
+/* Input backgrounds in dark mode */
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background-color: var(--surface-container) !important;
+  border-color: var(--color-border) !important;
+  color: var(--foreground) !important;
+}
+
+/* Card improvements for dark mode */
+[data-theme="dark"] .card,
+[data-theme="dark"] .rounded-xl,
+[data-theme="dark"] .rounded-lg {
+  background-color: var(--surface-low) !important;
 }
 
 /* Fill colors for icons */
