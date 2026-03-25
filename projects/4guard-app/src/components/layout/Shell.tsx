@@ -76,7 +76,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       {/* Sidebar */}
       <aside
         className={cn(
-          "bg-[var(--primary-container)] text-white transition-all duration-300 ease-in-out flex flex-col z-[60] liquid-glass",
+          "bg-primary-container text-white transition-all duration-300 ease-in-out flex flex-col z-[60] border-r border-white/10",
           isSidebarOpen ? "w-64" : "w-20"
         )}
       >
