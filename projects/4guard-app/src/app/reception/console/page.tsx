@@ -123,14 +123,14 @@ export default function ReceptionConsolePage() {
         </div>
 
         <Card noPadding className="overflow-hidden">
-          <div className="p-4 border-b border-foreground/5 flex items-center justify-between bg-slate-50/50">
+          <div className="p-4 border-b border-foreground/5 flex items-center justify-between bg-[var(--surface-low)]">
             <h3 className="text-xs font-bold uppercase tracking-widest text-foreground/60">Recepciones en Proceso</h3>
             <div className="relative w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/30" />
               <input
                 type="text"
                 placeholder="Buscar por ASN o placas..."
-                className="w-full bg-white border border-foreground/10 rounded-lg py-2 pl-9 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                className="w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-lg py-2 pl-9 pr-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none"
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function ReceptionConsolePage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-white border-b border-foreground/5">
+                <tr className="bg-[var(--surface-low)] border-b border-foreground/5">
                   <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">ASN</th>
                   <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Transportista</th>
                   <th className="px-6 py-4 text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Placas</th>
@@ -154,13 +154,13 @@ export default function ReceptionConsolePage() {
                   const statusInfo = getStatusInfo(unit.status);
                   const quadrature = getQuadrature(unit);
                   return (
-                    <tr key={unit.id} className="hover:bg-slate-50/50 transition-colors">
+                    <tr key={unit.id} className="hover:bg-[var(--surface-low)] transition-colors">
                       <td className="px-6 py-4">
                         <span className="font-mono font-bold text-primary">{unit.asn}</span>
                       </td>
                       <td className="px-6 py-4 text-sm">{unit.carrier}</td>
                       <td className="px-6 py-4">
-                        <span className="font-mono text-sm bg-slate-100 px-2 py-1 rounded">{unit.plates}</span>
+                        <span className="font-mono text-sm bg-[var(--surface-container)] px-2 py-1 rounded">{unit.plates}</span>
                       </td>
                       <td className="px-6 py-4">
                         <span className="text-sm font-medium">{unit.dock}</span>
@@ -173,7 +173,7 @@ export default function ReceptionConsolePage() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div className="w-16 h-2 bg-[var(--surface-container)] rounded-full overflow-hidden">
                             <div 
                               className={clsx("h-full rounded-full", quadrature === 100 ? "bg-green-500" : "bg-amber-500")}
                               style={{ width: `${quadrature}%` }}
@@ -204,10 +204,10 @@ export default function ReceptionConsolePage() {
 
 function StatCard({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: string; color: string }) {
   const colors: Record<string, string> = {
-    blue: "text-blue-600 bg-blue-50 border-blue-100",
-    slate: "text-slate-600 bg-slate-50 border-slate-100",
-    amber: "text-amber-600 bg-amber-50 border-amber-100",
-    green: "text-green-600 bg-green-50 border-green-100",
+    blue: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800",
+    slate: "text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-700",
+    amber: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 border-amber-100 dark:border-amber-800",
+    green: "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border-green-100 dark:border-green-800",
   };
 
   return (

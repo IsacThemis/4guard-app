@@ -39,15 +39,18 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
   return (
     <motion.button
       onClick={toggleTheme}
-      className={`relative w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden ${className}`}
+      className={`relative w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden border ${className}`}
       style={{
         backgroundColor: "var(--surface-container)",
-        border: "1px solid var(--color-border)",
+        borderColor: "var(--color-border)",
       }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       initial={false}
-      animate={{ backgroundColor: theme === "dark" ? "var(--surface-high)" : "var(--surface-container)" }}
+      animate={{ 
+        backgroundColor: theme === "dark" ? "var(--surface-high)" : "var(--surface-container)",
+        borderColor: "var(--color-border)",
+      }}
       transition={{ duration: 0.2 }}
     >
       <AnimatePresence mode="wait">

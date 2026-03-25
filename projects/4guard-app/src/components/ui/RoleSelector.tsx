@@ -82,7 +82,7 @@ export default function RoleSelector() {
             "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all text-xs font-medium",
             viewMode === "mobile" 
               ? "bg-primary text-white" 
-              : "bg-surface-high hover:bg-surface-container border border-foreground/10 text-foreground"
+              : "bg-[var(--surface-high)] hover:bg-[var(--surface-container)] border border-[var(--color-border)] text-foreground"
           )}
           title={viewMode === "mobile" ? "Ver versión móvil" : "Ver versión web"}
         >
@@ -96,7 +96,7 @@ export default function RoleSelector() {
           onClick={() => setIsOpen(!isOpen)}
           className={clsx(
             "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all",
-            "bg-surface-high hover:bg-surface-container border border-foreground/10",
+            "bg-[var(--surface-high)] hover:bg-[var(--surface-container)] border border-[var(--color-border)]",
             "text-xs font-medium"
           )}
         >
@@ -106,7 +106,7 @@ export default function RoleSelector() {
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-56 bg-surface-lowest rounded-lg shadow-xl border border-foreground/10 z-50 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-56 bg-[var(--surface-low)] rounded-lg shadow-xl border border-[var(--color-border)] z-[200] overflow-hidden">
             <div className="p-2 border-b border-foreground/5">
               <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-wider">Seleccionar Rol</p>
             </div>

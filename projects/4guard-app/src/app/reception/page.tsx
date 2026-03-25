@@ -95,7 +95,7 @@ export default function ReceptionPage() {
             <p className="text-foreground/50 mt-2 font-inter text-lg">Módulo de Ingreso Seguro (REC-01)</p>
           </div>
           <div className="flex items-center gap-3">
-             <div className="px-4 py-2 bg-white border border-foreground/5 rounded-lg flex items-center gap-2 font-inter text-sm shadow-sm">
+             <div className="px-4 py-2 bg-[var(--color-bg-primary)] border border-foreground/5 rounded-lg flex items-center gap-2 font-inter text-sm shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 <span className="text-foreground/70 font-bold uppercase tracking-widest text-[10px]">WMS Sync Activo</span>
              </div>
@@ -133,8 +133,8 @@ export default function ReceptionPage() {
                             type="text" 
                             placeholder="ABC-1234"
                             className={clsx(
-                              "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase",
-                              metaErrors.licensePlate ? "border-red-500" : "border-foreground/10"
+                              "w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase",
+                              metaErrors.licensePlate ? "border-red-500" : "border-[var(--color-border)]"
                             )}
                           />
                           <Car className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30" />
@@ -153,8 +153,8 @@ export default function ReceptionPage() {
                         <select 
                           {...registerMeta("carrier")}
                           className={clsx(
-                            "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-medium transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 appearance-none",
-                            metaErrors.carrier ? "border-red-500" : "border-foreground/10"
+                            "w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-xl px-4 py-4 text-foreground font-medium transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 appearance-none",
+                            metaErrors.carrier ? "border-red-500" : "border-[var(--color-border)]"
                           )}
                         >
                           <option value="">Seleccionar transportista...</option>
@@ -175,8 +175,8 @@ export default function ReceptionPage() {
                             type="text" 
                             placeholder="JUAN PÉREZ LÓPEZ"
                             className={clsx(
-                              "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-medium transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20",
-                              metaErrors.driverName ? "border-red-500" : "border-foreground/10"
+                              "w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-xl px-4 py-4 text-foreground font-medium transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20",
+                              metaErrors.driverName ? "border-red-500" : "border-[var(--color-border)]"
                             )}
                           />
                           <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30" />
@@ -198,8 +198,8 @@ export default function ReceptionPage() {
                             type="text" 
                             placeholder="SEAL-00000000"
                             className={clsx(
-                              "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase",
-                              metaErrors.securitySeal ? "border-red-500" : "border-foreground/10"
+                              "w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase",
+                              metaErrors.securitySeal ? "border-red-500" : "border-[var(--color-border)]"
                             )}
                           />
                           <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30" />
@@ -282,8 +282,8 @@ export default function ReceptionPage() {
                                 type="text" 
                                 placeholder="Ej. ASN-2026-0014" 
                                 className={clsx(
-                                    "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20",
-                                    errors.asnNumber ? "border-red-500" : "border-foreground/10"
+                                    "w-full bg-[var(--color-bg-primary)] border border-[var(--color-border)] rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20",
+                                    errors.asnNumber ? "border-red-500" : "border-[var(--color-border)]"
                                 )}
                               />
                               {errors.asnNumber && (
@@ -299,13 +299,13 @@ export default function ReceptionPage() {
                       </form>
                   </Card>
 
-                  <Card className="flex flex-col items-center justify-center text-center p-12 border-dashed border-foreground/20 hover:border-primary/50 transition-all group cursor-pointer bg-white shadow-sm overflow-hidden relative">
+                  <Card className="flex flex-col items-center justify-center text-center p-12 border-dashed border-foreground/20 hover:border-primary/50 transition-all group cursor-pointer bg-[var(--color-bg-primary)] shadow-sm overflow-hidden relative">
                       <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
-                      <div className="w-24 h-24 rounded-2xl bg-slate-50 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-sm border border-slate-100">
+                      <div className="w-24 h-24 rounded-2xl bg-[var(--surface-container)] flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-transform shadow-sm border border-[var(--color-border)]">
                           <ScanIcon className="w-12 h-12 text-primary" />
                       </div>
-                      <h3 className="text-2xl font-bold font-work-sans text-slate-800 mb-3">Escaneo Rápido</h3>
-                      <p className="text-slate-500 font-inter text-sm max-w-xs mx-auto leading-relaxed">
+                      <h3 className="text-2xl font-bold font-work-sans text-foreground mb-3">Escaneo Rápido</h3>
+                      <p className="text-foreground/60 font-inter text-sm max-w-xs mx-auto leading-relaxed">
                           Utilice la terminal RF para escanear el código QR del manifiesto de arribo.
                       </p>
                       <div className="mt-8 flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
