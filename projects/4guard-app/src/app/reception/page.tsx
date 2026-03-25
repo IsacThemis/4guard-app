@@ -18,12 +18,25 @@ import {
   Truck,
   QrCode,
   PackageCheck,
-  ClipboardList
+  ClipboardList,
+  Shield,
+  Car,
+  User,
+  Lock
 } from "lucide-react";
 import { clsx } from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 // --- Validation Schemas ---
+
+const metadataSchema = z.object({
+  licensePlate: z.string().min(5, "Placas requeridas"),
+  carrier: z.string().min(1, "Transportista requerido"),
+  driverName: z.string().min(3, "Nombre del chofer requerido"),
+  securitySeal: z.string().min(8, "Sello de seguridad (8 dígitos)"),
+});
+
+type MetadataFormData = z.infer<typeof metadataSchema>;
 
 const asnSchema = z.object({
   asnNumber: z.string()
@@ -36,12 +49,22 @@ type AsnFormData = z.infer<typeof asnSchema>;
 // --- Components ---
 
 export default function ReceptionPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [asnData, setAsnData] = useState<AsnFormData | null>(null);
+  const [metadata, setMetadata] = useState<MetadataFormData | null>(null);
+
+  const { register: registerMeta, handleSubmit: handleMetaSubmit, formState: { errors: metaErrors } } = useForm<MetadataFormData>({
+    resolver: zodResolver(metadataSchema),
+  });
 
   const { register, handleSubmit, formState: { errors } } = useForm<AsnFormData>({
     resolver: zodResolver(asnSchema),
   });
+
+  const onMetadataSubmit = (data: MetadataFormData) => {
+    setMetadata(data);
+    setCurrentStep(1);
+  };
 
   const onAsnSubmit = (data: AsnFormData) => {
     setAsnData(data);
@@ -69,6 +92,7 @@ export default function ReceptionPage() {
         {/* Dynamic Stepper */}
         <Card noPadding className="overflow-hidden shadow-xl border-foreground/5">
           <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-foreground/5">
+            <StepItem step={0} currentStep={currentStep} label="Metadatos" desc="Seguridad y Registro" icon={Shield} />
             <StepItem step={1} currentStep={currentStep} label="Folio 10 (Ingreso)" desc="Validación Documental" icon={FileText} />
             <StepItem step={2} currentStep={currentStep} label="Folio 20 (Física)" desc="Cruce Ciego Operativo" icon={Box} />
             <StepItem step={3} currentStep={currentStep} label="Folio 30 (Cierre)" desc="Asignación LPN" icon={CheckCircle2} />
@@ -77,6 +101,160 @@ export default function ReceptionPage() {
 
         {/* Step Content */}
         <div className="min-h-[400px]">
+          {currentStep === 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-right-4 duration-500">
+              <div className="lg:col-span-2">
+                <Card className="flex flex-col border-primary/20 bg-primary/5 p-8">
+                  <h3 className="text-xl font-bold font-work-sans mb-6 flex items-center text-primary">
+                    <Shield className="w-6 h-6 mr-4" /> Metadatos de Arribo
+                  </h3>
+                  <form onSubmit={handleMetaSubmit(onMetadataSubmit)} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-[10px] font-bold text-foreground/50 uppercase tracking-[0.2em] mb-3">
+                          Placas (License Plate) <span className="text-secondary">*</span>
+                        </label>
+                        <div className="relative">
+                          <input 
+                            {...registerMeta("licensePlate")}
+                            type="text" 
+                            placeholder="ABC-1234"
+                            className={clsx(
+                              "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase",
+                              metaErrors.licensePlate ? "border-red-500" : "border-foreground/10"
+                            )}
+                          />
+                          <Car className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30" />
+                        </div>
+                        {metaErrors.licensePlate && (
+                          <p className="text-red-500 text-xs font-bold mt-2 flex items-center gap-1">
+                            <AlertTriangle className="w-3 h-3" /> {metaErrors.licensePlate.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-foreground/50 uppercase tracking-[0.2em] mb-3">
+                          Empresa Transportista
+                        </label>
+                        <select 
+                          {...registerMeta("carrier")}
+                          className={clsx(
+                            "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-medium transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 appearance-none",
+                            metaErrors.carrier ? "border-red-500" : "border-foreground/10"
+                          )}
+                        >
+                          <option value="">Seleccionar transportista...</option>
+                          <option>Logística Federal S.A.</option>
+                          <option>Transportes Atlas</option>
+                          <option>Red Cargo Express</option>
+                          <option>External Carrier</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-foreground/50 uppercase tracking-[0.2em] mb-3">
+                          Nombre del Chofer <span className="text-secondary">*</span>
+                        </label>
+                        <div className="relative">
+                          <input 
+                            {...registerMeta("driverName")}
+                            type="text" 
+                            placeholder="JUAN PÉREZ LÓPEZ"
+                            className={clsx(
+                              "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-medium transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20",
+                              metaErrors.driverName ? "border-red-500" : "border-foreground/10"
+                            )}
+                          />
+                          <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30" />
+                        </div>
+                        {metaErrors.driverName && (
+                          <p className="text-red-500 text-xs font-bold mt-2 flex items-center gap-1">
+                            <AlertTriangle className="w-3 h-3" /> {metaErrors.driverName.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold text-foreground/50 uppercase tracking-[0.2em] mb-3">
+                          Sellos de Seguridad <span className="text-secondary">*</span>
+                        </label>
+                        <div className="relative">
+                          <input 
+                            {...registerMeta("securitySeal")}
+                            type="text" 
+                            placeholder="SEAL-00000000"
+                            className={clsx(
+                              "w-full bg-white border rounded-xl px-4 py-4 text-foreground font-mono text-lg transition-all shadow-inner focus:outline-none focus:ring-2 focus:ring-primary/20 uppercase",
+                              metaErrors.securitySeal ? "border-red-500" : "border-foreground/10"
+                            )}
+                          />
+                          <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/30" />
+                        </div>
+                        {metaErrors.securitySeal && (
+                          <p className="text-red-500 text-xs font-bold mt-2 flex items-center gap-1">
+                            <AlertTriangle className="w-3 h-3" /> {metaErrors.securitySeal.message}
+                          </p>
+                        )}
+                        <p className="text-[10px] text-foreground/40 mt-2">Ingrese los 8 dígitos del sello principal.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4">
+                      <Button variant="outline" type="button" className="h-12">
+                        Pausar Recepción
+                      </Button>
+                      <Button variant="primary" className="h-12 px-12" type="submit">
+                        Guardar y Continuar
+                        <ChevronRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </div>
+                  </form>
+                </Card>
+              </div>
+
+              <div className="space-y-6">
+                <Card className="p-6 bg-primary-container text-white">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Shield className="w-5 h-5" />
+                    <h4 className="text-sm font-bold uppercase tracking-wider">Protocolo de Bóveda</h4>
+                  </div>
+                  <ul className="space-y-4 text-sm">
+                    <li className="flex gap-3">
+                      <span className="font-black text-primary-fixed">01</span>
+                      <div>
+                        <p className="font-bold text-xs uppercase">Verify Plates</p>
+                        <p className="text-white/60 text-xs">Coteje físicamente las placas del tracto y la caja.</p>
+                      </div>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="font-black text-primary-fixed">02</span>
+                      <div>
+                        <p className="font-bold text-xs uppercase">Official ID Check</p>
+                        <p className="text-white/60 text-xs">Escanee identificación oficial del chofer.</p>
+                      </div>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="font-black text-primary-fixed">03</span>
+                      <div>
+                        <p className="font-bold text-xs uppercase">Inspect Seals</p>
+                        <p className="text-white/60 text-xs">Verifique integridad de sellos.</p>
+                      </div>
+                    </li>
+                  </ul>
+                </Card>
+
+                <Card className="p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className="text-xs font-bold uppercase text-foreground/60">Sincronizado</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-foreground/40">ID: REC-VLT-00912-A</span>
+                </Card>
+              </div>
+            </div>
+          )}
+
           {currentStep === 1 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <Card className="flex flex-col justify-center border-primary/20 bg-primary/5 p-8">
@@ -124,7 +302,7 @@ export default function ReceptionPage() {
               </div>
           )}
 
-          {currentStep === 2 && (
+          {currentStep === 3 && (
               <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
                   <div className="flex justify-between items-center">
                     <Button variant="ghost" onClick={() => setCurrentStep(1)} className="text-slate-400 font-bold text-xs">
