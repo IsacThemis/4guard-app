@@ -292,3 +292,68 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================
+   DARK MODE GLOBAL OVERRIDES
+   Force common patterns to use design tokens
+   ============================================ */
+
+/* Common white backgrounds */
+[data-theme="dark"] .bg-white {
+  background-color: var(--color-bg-primary) !important;
+}
+
+/* Cards and surfaces */
+[data-theme="dark"] .bg-slate-50,
+[data-theme="dark"] .bg-slate-100 {
+  background-color: var(--surface-low) !important;
+}
+
+/* Borders */
+[data-theme="dark"] .border-slate-100,
+[data-theme="dark"] .border-slate-200 {
+  border-color: var(--color-border) !important;
+}
+
+/* Text on white backgrounds */
+[data-theme="dark"] .text-slate-800,
+[data-theme="dark"] .text-slate-700,
+[data-theme="dark"] .text-slate-600 {
+  color: var(--foreground) !important;
+}
+
+[data-theme="dark"] .text-slate-500,
+[data-theme="dark"] .text-slate-400 {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Hover states */
+[data-theme="dark"] .hover\:bg-slate-50:hover {
+  background-color: var(--surface-low) !important;
+}
+
+/* Search inputs */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"] {
+  background-color: var(--surface-container) !important;
+  border-color: var(--color-border) !important;
+  color: var(--foreground) !important;
+}
+
+/* Tables */
+[data-theme="dark"] table tr {
+  background-color: var(--color-bg-primary);
+}
+
+[data-theme="dark"] thead tr {
+  background-color: var(--surface-low) !important;
+}
+
+/* Shadows for dark mode */
+[data-theme="dark"] .shadow-sm,
+[data-theme="dark"] .shadow-md,
+[data-theme="dark"] .shadow-lg {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15) !important;
+}

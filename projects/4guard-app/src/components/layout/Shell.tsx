@@ -72,11 +72,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden font-inter">
+    <div className="flex h-screen bg-background overflow-hidden font-inter relative">
       {/* Sidebar */}
       <aside
         className={cn(
-          "bg-primary-container text-white transition-all duration-300 ease-in-out flex flex-col z-50",
+          "bg-primary-container text-white transition-all duration-300 ease-in-out flex flex-col z-[60]",
           isSidebarOpen ? "w-64" : "w-20"
         )}
       >
@@ -133,9 +133,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col relative h-full">
+      <div className="flex-1 flex flex-col relative h-full overflow-visible">
         {/* Topbar */}
-        <header className="h-16 flex items-center justify-between px-6 liquid-glass-enhanced z-[100] sticky top-0 shrink-0">
+        <header className="h-16 flex items-center justify-between px-6 liquid-glass-enhanced z-[100] sticky top-0 shrink-0 overflow-visible">
           <div className="flex items-center gap-4 flex-1 max-w-xl">
             <div className="relative w-full group cursor-pointer" onClick={() => setIsSearchOpen(true)}>
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 group-hover:text-primary transition-colors" />
@@ -193,7 +193,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-8 relative dot-grid bg-background scroll-smooth z-10">
+        <main className="flex-1 overflow-y-auto p-8 relative dot-grid bg-background scroll-smooth z-0">
           {children}
         </main>
       </div>
