@@ -16,7 +16,8 @@ import {
   Settings,
   ChevronRight,
   Printer,
-  Smartphone
+  Smartphone,
+  Monitor
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx, type ClassValue } from "clsx";
@@ -34,7 +35,8 @@ function cn(...inputs: ClassValue[]) {
 
 const navItems = [
   { icon: LayoutDashboard, label: "Torre de Control", href: "/", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
-  { icon: Package, label: "Recepción", href: "/reception", roles: ["SUPERVISOR", "MANAGER"] },
+  { icon: Package, label: "Nueva Recepción", href: "/reception", roles: ["SUPERVISOR", "MANAGER"] },
+  { icon: Monitor, label: "Consola Recepción", href: "/reception/console", roles: ["SUPERVISOR", "MANAGER"] },
   { icon: ClipboardCheck, label: "Calidad", href: "/quality", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR"] },
   { icon: Boxes, label: "Inventarios", href: "/inventory", roles: ["SUPERVISOR", "MANAGER", "INSPECTOR", "AUDITOR"] },
   { icon: Truck, label: "Expedición", href: "/expedition", roles: ["SUPERVISOR", "MANAGER"] },

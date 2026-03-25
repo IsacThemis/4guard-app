@@ -302,11 +302,11 @@ export default function ReceptionPage() {
               </div>
           )}
 
-          {currentStep === 3 && (
+          {currentStep === 2 && (
               <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
                   <div className="flex justify-between items-center">
                     <Button variant="ghost" onClick={() => setCurrentStep(1)} className="text-slate-400 font-bold text-xs">
-                        <ArrowLeft className="w-4 h-4 mr-2" /> Volver a Validación
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Volver a Folio 10
                     </Button>
                     <div className="flex items-center gap-4">
                         <div className="text-right">
@@ -322,7 +322,7 @@ export default function ReceptionPage() {
                   <Card noPadding className="border-foreground/5 shadow-inner">
                       <div className="p-6 border-b border-foreground/5 bg-slate-50/50 flex justify-between items-center">
                         <h3 className="font-bold text-lg font-work-sans text-slate-800 flex items-center gap-2">
-                             <ClipboardList className="w-5 h-5 text-primary" /> Cruce Ciego Operativo
+                             <ClipboardList className="w-5 h-5 text-primary" /> Cruce Ciego Operativo (Folio 20)
                         </h3>
                         <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                             3 SKUs Esperados
@@ -389,7 +389,7 @@ export default function ReceptionPage() {
                     <PackageCheck className="w-16 h-16 text-green-600" />
                   </div>
                   <div className="text-center max-w-md">
-                    <h2 className="text-3xl font-work-sans font-bold text-slate-900 mb-4">Recepción Exitosa</h2>
+                    <h2 className="text-3xl font-work-sans font-bold text-slate-900 mb-4">Recepción Exitosa (Folio 30)</h2>
                     <p className="text-slate-500 leading-relaxed font-inter">
                         Se han generado <strong>24 etiquetas LPN</strong> para el almacenamiento. Folio 30 cerrado en SAP S/4HANA.
                     </p>
@@ -399,7 +399,7 @@ export default function ReceptionPage() {
                         Imprimir Todo
                     </Button>
                     <Button variant="primary" className="h-14 font-bold uppercase tracking-widest text-xs" onClick={() => {
-                        setCurrentStep(1);
+                        setCurrentStep(0);
                         setAsnData(null);
                     }}>
                         Nueva Recepción
