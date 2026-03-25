@@ -9,7 +9,7 @@ const PUBLIC_ROUTES = ["/login"];
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { isAuthenticated } = useStore();
+  const isAuthenticated = useStore((state) => state.isAuthenticated);
   const [isReady, setIsReady] = useState(false);
 
   const isPublicRoute = PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(route));
@@ -29,11 +29,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   }, [isReady, isAuthenticated, isPublicRoute, router]);
 
   if (!isReady) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#000515]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <>{children}</>;
   }
 
   if (!isAuthenticated && !isPublicRoute) {
